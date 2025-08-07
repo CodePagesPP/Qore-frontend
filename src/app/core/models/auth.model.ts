@@ -6,3 +6,17 @@ export interface AuthRequest {
 export interface AuthResponse {
   token: string;
 }
+
+export interface RegisterRequest {
+  email: string;
+  password: string;
+  name: string;
+  lastName: string;
+  phoneNumber: string;
+  birthday: string;
+  sex: string;
+  country: string;
+  city: string;
+  address: string;
+  dni: string;
+}

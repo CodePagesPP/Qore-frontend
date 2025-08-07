@@ -1,1 +1,134 @@
-<p>register.component works!</p>
+<div class="login-container">
+  <form (ngSubmit)="onSubmit()" class="login-form" #registerForm="ngForm">
+    <h2>Regístrate!</h2>
+
+    <div class="form-group">
+      <label for="name">Nombre</label>
+      <input
+        type="name"
+        id="name"
+        [(ngModel)]="credentials.name"
+        name="name"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="lastName">Apellido</label>
+      <input
+        type="lastName"
+        id="lastName"
+        [(ngModel)]="credentials.lastName"
+        name="lastName"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="phoneNumber">Numero Telefonico</label>
+      <input
+        type="tel"
+        id="phoneNumber"
+        [(ngModel)]="credentials.phoneNumber"
+        name="phoneNumber"
+        pattern="[0-9]{9}"
+        (keypress)="allowOnlyNumbers($event)"
+        #phoneNumber="ngModel"
+        required
+      />
+      <div *ngIf="phoneNumber.invalid && phoneNumber.touched">El numero telefonico debe tener exactamente 9 dígitos</div>
+    </div>
+
+    <div class="form-group">
+      <label for="birthday">Fecha de Nacimiento</label>
+      <input
+        type="date"
+        id="birthday"
+        [(ngModel)]="credentials.birthday"
+        name="birthday"
+        (ngModelChange)="validateBirthday()"
+        required
+      />
+      <p *ngIf="birthdayError">{{ birthdayError }}</p>
+    </div>
+
+    <div class="form-group">
+      <label for="sex">Sexo</label>
+      <select required name="sex" id="sex" [(ngModel)]="credentials.sex">
+        <option disabled selected value="">Selecciona tu sexo</option>
+        <option value="Masculino">Masculino</option>
+        <option value="Femenino">Femenino</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="country">Pais</label>
+      <select required name="country" id="country" [(ngModel)]="credentials.country">
+        <option disabled selected value="">Selecciona tu pais</option>
+        <option value="Perú">Perú</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="city">Ciudad</label>
+      <select required name="city" id="city" [(ngModel)]="credentials.city">
+        <option disabled selected value="">Selecciona tu ciudad</option>
+        <option value="Trujillo">Trujillo</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="address">Direccion</label>
+      <input
+        type="address"
+        id="address"
+        [(ngModel)]="credentials.address"
+        name="address"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="dni">DNI</label>
+      <input
+        type="tel"
+        id="dni"
+        [(ngModel)]="credentials.dni"
+        name="dni"
+        pattern="[0-9]{8}"
+        (keypress)="allowOnlyNumbers($event)"
+        #dni="ngModel"
+        required
+      />
+      <div *ngIf="dni.invalid && dni.touched">El DNI debe tener exactamente 8 dígitos</div>
+      <div *ngIf="dniError">{{ dniError }}</div>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Correo electrónico</label>
+      <input
+        type="email"
+        id="email"
+        [(ngModel)]="credentials.email"
+        name="email"
+        required
+      />
+      <div *ngIf="emailError">{{ emailError }}</div>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Contraseña</label>
+      <input
+        type="password"
+        id="password"
+        [(ngModel)]="credentials.password"
+        name="password"
+        required
+      />
+    </div>
+
+    <button type="submit" [disabled]="registerForm.invalid">Entrar</button>
+
+    <p class="error" *ngIf="error">{{ error }}</p>
+  </form>
+</div>
