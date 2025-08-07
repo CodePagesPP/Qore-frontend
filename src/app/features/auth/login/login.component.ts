@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { AuthRequest } from '../../../core/models/auth.model';
 import { AuthService } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
@@ -15,16 +15,17 @@ export class LoginComponent {
   credentials: AuthRequest = { email: '', password: '' };
   error: string | null = null;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private cdRef: ChangeDetectorRef) {}
 
-  onSubmit(): void {
+   onSubmit(): void {
     this.authService.login(this.credentials).subscribe({
       next: (res) => {
         localStorage.setItem('token', res.token);
-        this.router.navigate(['/dashboard']); 
+        this.router.navigate(['/dashboard']);
       },
       error: (err) => {
-        this.error = 'Credenciales incorrectas';
+        this.error = err.message; 
+        this.cdRef.detectChanges();
       },
     });
   }

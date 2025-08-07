@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthRequest, RegisterRequest } from '../../../core/models/auth.model';
 import { AuthService } from '../../../core/services/auth.service';
@@ -32,7 +32,7 @@ export class RegisterComponent {
   emailError: string = '';
   dniError: string = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private cdRef: ChangeDetectorRef) {}
 
   onSubmit(): void {
     this.authService.register(this.credentials).subscribe({
@@ -41,20 +41,9 @@ export class RegisterComponent {
         this.router.navigate(['/login']); 
       },
       error: (err) => {
-        console.log('Error recibido:', err);
-        const message = err.error?.message || '';
-
-        this.emailError = '';
-        this.dniError = '';
-        this.error = '';
-
-        if (message.includes('dni')) {
-          this.dniError = message;
-        } else if (message.includes('email')) {
-          this.emailError = message;
-        } else {
-          this.error = 'No se pudo registrar al usuario.';
-        }
+        console.log('Error recibido:', err.error.message);
+        this.error = err.error.message;
+        this.cdRef.detectChanges();
       }
     })
   }

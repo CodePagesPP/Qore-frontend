@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { AuthRequest, AuthResponse, RegisterRequest } from '../models/auth.model';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -12,9 +12,19 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  login(credentials: AuthRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, credentials);
-  }
+ login(credentials: AuthRequest): Observable<AuthResponse> {
+  return this.http.post<AuthResponse>(`${this.apiUrl}/login`, credentials).pipe(
+    catchError((error) => {
+      let errorMsg = 'Ocurrió un error inesperado';
+
+      
+      if (error.error && error.error.message) {
+        errorMsg = error.error.message;
+      }
+      return throwError(() => new Error(errorMsg));
+    })
+  );
+}
 
   isAuthenticated(): boolean {
     return !!localStorage.getItem('token');
