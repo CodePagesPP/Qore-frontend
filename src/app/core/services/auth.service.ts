@@ -27,8 +27,14 @@ export class AuthService {
 }
 
   isAuthenticated(): boolean {
-    return !!localStorage.getItem('token');
+  
+  if (typeof window !== 'undefined') {
+    const token = localStorage.getItem('token');
+    return !!token;
   }
+
+  return false;
+}
 
   register(credentials: RegisterRequest): Observable<any> {
     return this.http.post(`${this.admin}/registerClient`, credentials)
