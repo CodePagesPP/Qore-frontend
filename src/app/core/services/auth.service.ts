@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
-import { AuthRequest, AuthResponse, RegisterRequest } from '../models/auth.model';
-import { catchError, Observable, throwError } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AuthRequest, AuthResponse, RegisterRequest, User } from '../models/auth.model';
+import { catchError, map, Observable, throwError } from 'rxjs';
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private apiUrl = `${environment.apiUrl}/auth`;
-  private admin = `${environment.apiUrl}/admin`;
+  private adminUrl = `${environment.apiUrl}/admin`;
+  private tokenKey = 'token'
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
  login(credentials: AuthRequest): Observable<AuthResponse> {
   return this.http.post<AuthResponse>(`${this.apiUrl}/login`, credentials).pipe(
@@ -29,7 +31,7 @@ export class AuthService {
   isAuthenticated(): boolean {
   
   if (typeof window !== 'undefined') {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem(this.tokenKey);
     return !!token;
   }
 
@@ -37,6 +39,31 @@ export class AuthService {
 }
 
   register(credentials: RegisterRequest): Observable<any> {
-    return this.http.post(`${this.admin}/registerClient`, credentials)
+    return this.http.post(`${this.adminUrl}/registerClient`, credentials)
   }
+
+  logout(): void{
+  localStorage.removeItem(this.tokenKey);
+  this.router.navigate(['/login']);
+}
+
+private getToken(): string | null{
+  if(typeof window!== 'undefined'){
+    return localStorage.getItem(this.tokenKey);
+  }else{
+    return null;
+  }
+}
+
+getUserInfo(): Observable<User> {
+  const token = this.getToken();  // Obtiene el token del localStorage
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  
+  return this.http.get<User>(`${this.adminUrl}/profile`, { headers }).pipe(
+    map((response: User) => {
+      
+      return response;  // Devuelves el objeto modificado
+    })
+  );
+}
 }

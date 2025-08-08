@@ -1,0 +1,66 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp">
+<div class="container">
+    <aside #sideMenu>
+        <div class="top">
+            <div class="logo">
+                <img src="mi-logo.png" alt="logo"/>
+                <h1>QORE</h1>
+            </div>
+            <div class="close" id="close-btn" #closeBtn>
+                <span class="material-icons-sharp">close</span>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <a routerLink="/dashboard-admin/register-advisor" class="active">
+                <span class="material-icons-sharp">grid_view</span>
+                <h3>Dashboard</h3>
+            </a>
+            <a routerLink="/dashboard-admin/all-students" class="active">
+                <span class="material-icons-sharp">groups</span>
+                <h3>Clientes</h3>
+            </a>
+            <a routerLink="/dashboard-admin/all-advisors"  class="active"
+            [class.disabled]="showTestWarning" 
+            [attr.disabled]="showTestWarning ? false : null">
+                <span class="material-icons-sharp">groups</span>
+                <h3>Personal</h3>
+            </a>
+            <a routerLink="/dashboard-admin/profile-admin" class="active">
+                <span class="material-icons-sharp">settings</span>
+                <h3>Configuracion</h3>
+            </a>
+            <a (click)="logout()" >
+                <span class="material-icons-sharp">logout</span>
+                <h3>Cerrar Sesion</h3>
+            </a>
+        </div>
+    </aside>
+
+
+    
+    <main>
+        <router-outlet></router-outlet>
+    </main> 
+
+
+
+
+    <div class="right">
+        <div class="top">
+            <button id="menu-btn" #menuBtn>
+                <span class="material-icons-sharp">menu</span>
+            </button>
+            <div class="theme-toggler" #themeToggler>
+                <span class="material-icons-sharp active">light_mode</span>
+                <span class="material-icons-sharp">dark_mode</span>
+            </div>
+            <div class="profile" *ngIf="user">
+                <div class="info" >
+                    <p>Bienvenido, <b>{{user.name}}</b></p>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
