@@ -20,6 +20,11 @@ export const routes: Routes = [
         path: 'dashboard',
         title: 'Dashboard',
         loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent)
+      },
+      {
+        path: 'clients',
+        title: 'Clientes',
+        loadComponent: () => import('./features/layout/crud-clients/crud-clients').then(m => m.CrudClients)
       }
     ]
   },
