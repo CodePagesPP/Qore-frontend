@@ -1,0 +1,14 @@
+<div class="blog-card" *ngFor="let client of clients">
+    <div class="meta">
+      <div class="photo" [style.background-image]=""></div>
+    </div>
+    <div class="description">
+      <h1>ID: {{ client.id }}</h1>
+      <h2>{{ client.name }} {{client.lastName}}</h2>
+      <p> Correo: {{client.email}}</p>
+      <p> Rol: {{ client.role.name }}</p>
+      <p class="read-more">
+        <a routerLink="/dashboard-admin/student-profile/{{client.id}}">Ver Perfil</a>
+      </p>
+    </div>
+  </div>

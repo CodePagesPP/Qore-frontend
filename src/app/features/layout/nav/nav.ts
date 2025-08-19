@@ -7,7 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-nav',
-  imports: [CommonModule, RouterLink, ReactiveFormsModule, FormsModule, RouterOutlet, RouterLinkActive],
+  imports: [CommonModule, RouterLink, ReactiveFormsModule, FormsModule, RouterOutlet],
   templateUrl: './nav.html',
   styleUrl: './nav.css'
 })

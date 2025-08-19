@@ -33,3 +33,26 @@ export interface User{
   address: string;
   dni: string;
 }
+
+export interface Client{
+  id: number;
+  email: string;
+  role: Role;
+  name: string;
+  lastName: string;
+  phoneNumber: string;
+  birthday: string;
+  sex: string;
+  country: string;
+  city: string;
+  address: string;
+  dni: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface Role{
+  id: number;
+  name: string;
+  description?: string;
+}
