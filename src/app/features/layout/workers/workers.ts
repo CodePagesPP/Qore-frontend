@@ -14,14 +14,22 @@ export class Workers implements OnInit{
   managers: Manager[] = [];
   instructors: Instructor[] = [];
   disciplines: Discipline[] = [];
+  personal: { [key: string]: any[] } = {};
 
   constructor(private workersService: WorkersService) {}
 
   ngOnInit() {
-    this.loadStaff();
-    this.loadManagers();
-    this.loadInstructors();
-    this.loadDisciplines();
+    this.loadPersonal();
+  }
+
+  loadPersonal() {
+    this.workersService.getPersonal().subscribe({
+      next: (data) => {
+        this.personal = data;
+        console.log(this.personal)
+      },
+      error: (err) => console.error(err)
+    });
   }
 
 

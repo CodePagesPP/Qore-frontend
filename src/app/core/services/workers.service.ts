@@ -17,6 +17,12 @@ export class WorkersService {
 
   constructor(private http: HttpClient) {}
 
+  getPersonal(): Observable<{ [key: string]: any[] }> {
+  const token = localStorage.getItem(this.tokenKey);
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  return this.http.get<{ [key: string]: any[] }>(`${environment.apiUrl}/admin/listPersonal`, { headers });
+}
+
   getStaff (): Observable<Staff[]> {
     const token = localStorage.getItem(this.tokenKey);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
