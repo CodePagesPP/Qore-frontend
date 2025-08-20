@@ -1,30 +1,23 @@
-/* You can add global styles to this file, and also import other style files */
-/* You can add global styles to this file, and also import other style files */
-@import url('https://fonts.googleapis.com/css2?family=Jacquard+24&family=Montserrat+Alternates:ital,wght@1,500;1,600;1,700;1,800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@font-face {
+    font-family: "Coco";
+    src: url("../public/font/Cocogoose-Pro-Light-trial.ttf");
+}
+
 body {
 
-    font-family: poppins, sans-serif;
+    font-family: 'Coco';
 
-    background: var(--blue-color);
+    background: var(--principal-latte);
     user-select: none;
     overflow-x: hidden;
-    color: var(--color-light);
+    color: var(--color-white);
 }
 :root{
-    --box-shadow: 0 2rem 3rem rgb(0, 0, 0);
-
-    --blue-color: #141850;
-    --orange-color: #d86213;
-    --color-dark: black;
-    --color-light: white;
-
-    --card-pading: 1.8rem;
-    --padding-1: 1.2rem;
-
-    --card-border-radius: 2rem;
-    --border-radius-1: 0.4rem;
-    --border-radius-2: 0.8rem;
-    --border-radius-3: 1.2rem;
+    --principal-white: #EDE9E3;
+    --principal-piel: #E7D7C9;
+    --principal-rose: #D4B2A7;
+    --principal-stone: #CDC6C3;
+    --principal-latte: #A38F85;
 }
 
 
@@ -38,14 +31,6 @@ body {
     text-decoration: none;
     list-style: none;
     box-sizing: border-box;
-}
-.dark-theme-variables{
-    --blue-color: #181a1ee0;
-    --orange-color: #ffffff;
-    --color-dark: #edeffd;
-    --color-dark-variant: #a3bdcc;
-    --color-light: rgb(12, 10, 10);
-    --box-shadow: 0 2rem 3rem rgba(255, 255, 255, 0.185);
 }
 
 .right .theme-toggler {

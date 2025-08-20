@@ -1,0 +1,38 @@
+<h2>Staff</h2>
+<div class="blog-card" *ngFor="let staff of staffs">
+    <div class="meta">
+      <div class="photo" [style.background-image]=""></div>
+    </div>
+    <div class="description">
+      <h1>ID: {{ staff.id }}</h1>
+      <h2>{{ staff.name }} {{staff.lastName}}</h2>
+      <p> Area: {{staff.area}}</p>
+      <p> Rol: {{ staff.role.name }}</p>
+    </div>
+  </div>
+
+<h2>Managers</h2>
+  <div class="blog-card" *ngFor="let manager of managers">
+    <div class="meta">
+      <div class="photo" [style.background-image]=""></div>
+    </div>
+    <div class="description">
+      <h1>ID: {{ manager.id }}</h1>
+      <h2>{{ manager.name }} {{manager.lastName}}</h2>
+      <p> Email: {{manager.email}}</p>
+      <p> Rol: {{ manager.role.name }}</p>
+    </div>
+  </div>
+
+<h2>Instructors</h2>
+    <div class="blog-card" *ngFor="let instructor of instructors">
+        <div class="meta">
+        <div class="photo" [style.background-image]=""></div>
+        </div>
+        <div class="description">
+        <h1>ID: {{ instructor.id }}</h1>
+        <h2>{{ instructor.name }} {{ instructor.lastName }}</h2>
+        <p> Disciplinas: {{ getDisciplineNames(instructor.disciplineId) }}</p>
+        <p> Rol: {{ instructor.role.name }}</p>
+        </div>
+    </div>

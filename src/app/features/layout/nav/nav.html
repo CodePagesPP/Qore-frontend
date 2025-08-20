@@ -3,8 +3,7 @@
     <aside #sideMenu>
         <div class="top">
             <div class="logo">
-                <img src="mi-logo.png" alt="logo"/>
-                <h1>QORE</h1>
+                <img src="assets/logoQore.png" alt="logo"/>
             </div>
             <div class="close" id="close-btn" #closeBtn>
                 <span class="material-icons-sharp">close</span>
@@ -20,9 +19,7 @@
                 <span class="material-icons-sharp">groups</span>
                 <h3>Clientes</h3>
             </a>
-            <a routerLink="/dashboard-admin/all-advisors"  class="active"
-            [class.disabled]="showTestWarning" 
-            [attr.disabled]="showTestWarning ? false : null">
+            <a routerLink="/workers"  class="active">
                 <span class="material-icons-sharp">groups</span>
                 <h3>Personal</h3>
             </a>
@@ -51,12 +48,8 @@
             <button id="menu-btn" #menuBtn>
                 <span class="material-icons-sharp">menu</span>
             </button>
-            <div class="theme-toggler" #themeToggler>
-                <span class="material-icons-sharp active">light_mode</span>
-                <span class="material-icons-sharp">dark_mode</span>
-            </div>
             <div class="profile" *ngIf="user">
-                <div class="info" >
+                <div class="info">
                     <p>Bienvenido, <b>{{user.name}}</b></p>
                 </div>
                 
