@@ -1,11 +1,11 @@
 @font-face {
-    font-family: "Coco";
-    src: url("../public/font/Cocogoose-Pro-Light-trial.ttf");
+    font-family: "Mont";
+    src: url("../public/font/Mont-Regular.ttf");
 }
 
 body {
 
-    font-family: 'Coco';
+    font-family: 'Mont';
 
     background: var(--principal-latte);
     user-select: none;
