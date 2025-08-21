@@ -6,7 +6,7 @@ import { Nav } from './features/layout/nav/nav';
 export const routes: Routes = [
     {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'home',
     pathMatch: 'full'
   },
 
@@ -44,7 +44,12 @@ export const routes: Routes = [
     canActivate: [authenticatedGuard]
   },
   {
+    path: 'home',
+    loadComponent: () => import('./features/landing/landing').then(m => m.Landing),
+    canActivate: [authenticatedGuard]
+  },
+  {
     path: '**',
-    redirectTo: 'login'
+    redirectTo: 'home'
   }
 ];
