@@ -1,14 +1,50 @@
-<div class="blog-card" *ngFor="let client of clients">
-    <div class="meta">
-      <div class="photo" [style.background-image]=""></div>
-    </div>
-    <div class="description">
-      <h1>ID: {{ client.id }}</h1>
-      <h2>{{ client.name }} {{client.lastName}}</h2>
-      <p> Correo: {{client.email}}</p>
-      <p> Rol: {{ client.role.name }}</p>
-      <p class="read-more">
-        <a routerLink="/dashboard-admin/student-profile/{{client.id}}">Ver Perfil</a>
-      </p>
+<button class="add-btn" (click)="openAddModal()">➕ Nuevo Cliente</button>
+
+ <div class="clients-table-container">
+  <table class="clients-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Rol</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let client of clients">
+        <td>{{ client.id }}</td>
+        <td>{{ client.name }} {{ client.lastName }}</td>
+        <td>{{ client.email }}</td>
+        <td>{{ client.role.name }}</td>
+        <td class="actions">
+          <span class="icon" (click)="openEditModal(client)"><i class="fa-solid fa-pen-to-square"></i></span>
+          <span class="icon delete" (click)="deleteClient(client.dni)"><i class="fa-solid fa-trash"></i></span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+    <div class="modal" [class.show]="isModalOpen">
+    <div class="modal-content">
+      <span class="close" (click)="closeModal()">&times;</span>
+
+      <h2 *ngIf="!editingClient">Registrar Cliente</h2>
+      <h2 *ngIf="editingClient">Editar Cliente</h2>
+
+      <form (ngSubmit)="onSubmit()">
+        <input type="text" placeholder="Nombre" [(ngModel)]="formData.name" name="name" required>
+        <input type="text" placeholder="Apellido" [(ngModel)]="formData.lastName" name="lastName" required>
+        <input type="email" placeholder="Correo" [(ngModel)]="formData.email" name="email" required>
+        <input type="text" placeholder="DNI" [(ngModel)]="formData.dni" name="dni">
+        <input type="password" placeholder="Contraseña" [(ngModel)]="formData.password" name="password" required>
+        <input type="text" placeholder="Número de Telefono" [(ngModel)]="formData.phoneNumber" name="phoneNumber" required>
+        <input type="text" placeholder="Sexo" [(ngModel)]="formData.sex" name="sex" required>
+        <input type="text" placeholder="País" [(ngModel)]="formData.country" name="country">
+        <input type="text" placeholder="Dirección" [(ngModel)]="formData.address" name="address">
+
+        <button type="submit">{{ editingClient ? 'Actualizar' : 'Registrar' }}</button>
+      </form>
     </div>
   </div>
