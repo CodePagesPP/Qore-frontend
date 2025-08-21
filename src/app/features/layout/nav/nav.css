@@ -1,5 +1,5 @@
 .container {
-    display: grid;
+    display: flex;
     width: 96%;
     margin: 0 auto;
     gap: 1.8rem;
@@ -48,90 +48,6 @@ small {
     overflow: hidden;
 }
 
-.solicitudes {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem; 
-    justify-content: center;
-    margin: 1rem auto;
-  
-    .solicitation-card {
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      padding: 1rem;
-      width: 400px; 
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-  
-      .info {
-        display: flex;
-        align-items: center;
-        gap: 0.8rem; 
-  
-        .profile-image {
-          width: 60px;
-          height: 60px;
-          border-radius: 50%;
-          object-fit: cover;
-        }
-  
-        .text {
-          display: flex;
-          flex-direction: column;
-          text-align: left;
-  
-          p {
-            margin: 0.3rem 0;
-            font-size: 0.9rem;
-            color: #333;
-          }
-        }
-      }
-
-      .solicitation-card.accepted {
-        background-color: #e0ffe0; /* Fondo verde claro */
-        opacity: 0.7; /* Opcional: Para resaltar que está aceptada */
-      }
-  
-      .buttons {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem; 
-  
-        button {
-          padding: 0.5rem 1rem;
-          font-size: 0.8rem;
-          font-weight: bold;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
-          transition: background-color 0.3s ease;
-  
-          &:first-of-type {
-            background-color: #4caf50; 
-            color: #fff;
-  
-            &:hover {
-              background-color: #43a047;
-            }
-          }
-  
-          &:last-of-type {
-            background-color: #f44336; 
-            color: #fff;
-  
-            &:hover {
-              background-color: #e53935;
-            }
-          }
-        }
-      }
-    }
-  }
-  
-
 .text-muted {
     color: rgb(70, 67, 67);
 }
@@ -161,7 +77,12 @@ b {
 }
 
 aside {
-    height: 100vh;
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 280px;   /* ajusta al tamaño que quieras */
+  height: 100vh;  /* ocupa todo el alto de la pantalla */
+  padding: 1rem;
 }
 
 aside .top {
@@ -211,12 +132,16 @@ aside .sidebar a {
 aside .sidebar a span {
     font-size: 1.6rem;
     transition: all 300ms ease;
+    margin-left: calc(1rem - 3px);
+    color: var(--principal-white);
 }
 
 aside .sidebar a:last-child {
+    gap: 1rem;
     position: absolute;
-    bottom: 2rem;
+    bottom: 10rem;
     width: 100%;
+    cursor: pointer;
 }
 
 aside .sidebar a.active:hover {
@@ -242,16 +167,14 @@ aside .sidebar a.active span {
     margin-left: calc(1rem - 3px);
 }
 
-aside .sidebar a:hover {
-    color: var(--color-light);
-}
-
 aside .sidebar a:hover span {
-    margin-left: 1rem;
+    margin-left: 2rem;
 }
 
 main {
-    margin: 1.4rem;
+    margin: 5rem;
+    margin-left: 0;
+    flex: 1;
 }
 
 main .date {

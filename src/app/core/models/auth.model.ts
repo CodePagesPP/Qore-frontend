@@ -21,6 +21,25 @@ export interface RegisterRequest {
   dni: string;
 }
 
+export interface workerRegisterRequest {
+  email: string;
+  password: string;
+  name: string;
+  lastName: string;
+  phoneNumber: string;
+  birthday: string;
+  sex: string;
+  country: string;
+  city: string;
+  address: string;
+  dni: string;
+  roleId: number;
+  area?: string;
+  disciplineId?: number[]
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface User{
   email: string;
   name: string;

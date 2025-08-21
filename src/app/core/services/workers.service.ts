@@ -2,52 +2,54 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-import { Discipline, Instructor, Manager, Staff } from '../models/auth.model';
+import { Discipline, Instructor, Manager, Role, Staff, workerRegisterRequest } from '../models/auth.model';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class WorkersService {
-  private staffAPIurl = `${environment.apiUrl}/staff`;
-  private managerAPIurl = `${environment.apiUrl}/manager`;
-  private instructorAPIurl = `${environment.apiUrl}/instructor`;
+  private adminUrl = `${environment.apiUrl}/admin`;
+  private roleAPIurl = `${environment.apiUrl}/rol`;
   private disciplineAPIurl = `${environment.apiUrl}/disciplines`;
   private tokenKey = 'token';
 
   constructor(private http: HttpClient) {}
 
-  getStaff (): Observable<Staff[]> {
-    const token = localStorage.getItem(this.tokenKey);
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get<Staff[]>(`${this.staffAPIurl}/listStaff`, {headers}).pipe(
-      map((staffs:Staff[]) => {
-        return staffs.map(staff => {
-          return staff;
-        });
-      })
-    );
+  getPersonal(): Observable<{ [key: string]: any[] }> {
+  const token = localStorage.getItem(this.tokenKey);
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  return this.http.get<{ [key: string]: any[] }>(`${environment.apiUrl}/admin/listPersonal`, { headers });
   }
 
-  getManager (): Observable<Manager[]> {
-    const token = localStorage.getItem(this.tokenKey);
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get<Manager[]>(`${this.managerAPIurl}/listManager`, {headers}).pipe(
-      map((managers:Manager[]) => {
-        return managers.map(manager => {
-          return manager;
-        });
-      })
-    );
-  }
+  private getAuthHeaders(): HttpHeaders {
+      const token = localStorage.getItem(this.tokenKey);
+      return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    }
 
-  getInstructor (): Observable<Instructor[]> {
+    registerStaff(dto: workerRegisterRequest): Observable<workerRegisterRequest> {
+      return this.http.post<workerRegisterRequest>(`${this.adminUrl}/registerStaff`, dto, { headers: this.getAuthHeaders() });
+    }
+
+    registerManager(dto: workerRegisterRequest): Observable<workerRegisterRequest> {
+      return this.http.post<workerRegisterRequest>(`${this.adminUrl}/registerManager`, dto, { headers: this.getAuthHeaders() });
+    }
+
+    registerInstructor(dto: workerRegisterRequest): Observable<workerRegisterRequest> {
+      return this.http.post<workerRegisterRequest>(`${this.adminUrl}/registerInstructor`, dto, { headers: this.getAuthHeaders() });
+    }
+
+    registerWorker(dto: workerRegisterRequest): Observable<workerRegisterRequest> {
+      return this.http.post<workerRegisterRequest>(`${this.adminUrl}/registerWorker`, dto, { headers: this.getAuthHeaders() });
+    }
+
+  getRolesNoClient (): Observable<Role[]> {
     const token = localStorage.getItem(this.tokenKey);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get<Instructor[]>(`${this.instructorAPIurl}/listInstructor`, {headers}).pipe(
-      map((instructors:Instructor[]) => {
-        return instructors.map(instructor => {
-          return instructor;
+    return this.http.get<Role[]>(`${this.roleAPIurl}/listRoleNoClient`, {headers}).pipe(
+      map((roles:Role[]) => {
+        return roles.map(role => {
+          return role;
         });
       })
     );
@@ -64,4 +66,6 @@ export class WorkersService {
       })
     );
   }
+
+
 }

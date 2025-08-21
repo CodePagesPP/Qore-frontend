@@ -1,0 +1,277 @@
+<section class="hero">
+  <nav class="navbar">
+    <div class="logo"><img src="assets/logoQore.png" alt=""></div>
+    <ul class="nav-links">
+      <li><a href="#">About Us</a></li>
+      <li><a href="#">Our Programs</a></li>
+      <li><a href="#">Testimonials</a></li>
+      <li><a href="#">Blog</a></li>
+      <li><a href="#">Faq</a></li>
+    </ul>
+    <a href="#" class="btn-join">Join Us</a>
+  </nav>
+
+  <div class="hero-content">
+    <div class="text-content">
+      <h1>Stay Home<br>Stay Healthy</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+         Suspendisse varius enim in eros elementum tristique eros,
+         tristique eros, tristique eros.</p>
+      <div class="buttons">
+        <a href="#" class="btn-started">Get Started</a>
+        <a href="#" class="btn-video">▶ Watch Video</a>
+      </div>
+    </div>
+
+    <div class="image-content">
+      <img src="assets/logo-portada.png" alt="Yoga pose">
+      <div class="shape"></div>
+    </div>
+  </div>
+</section>
+
+<section class="about">
+  <div class="about-container">
+    
+    <!-- Imagenes -->
+    <div class="about-images">
+      <div class="img-card img1"><img src="assets/section-about-us/about-us-1.jpg" alt="Meditation"></div>
+      <div class="img-card img2"><img src="assets/section-about-us/about-us-2.jpg" alt="Yoga pose"></div>
+      <div class="img-card img3"><img src="assets/section-about-us/about-us-3.jpg" alt="Beach yoga"></div>
+    </div>
+
+    <!-- Texto -->
+    <div class="about-text">
+      <h5>About Us</h5>
+      <h2>Healthy Mind Lives In A Healthy Body</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+         Suspendisse varius enim in eros elementum tristique. Duis cursus,
+         mi quis viverra ornare, eros dolor interdum nulla, ut commodo
+         diam libero vitae erat. Aenean faucibus nibh et justo cursus id
+         rutrum lorem imperdiet. Nunc ut sem vitae risus tristique posuere.</p>
+
+      <div class="about-buttons">
+        <a href="#" class="btn-primary">Join Us Today</a>
+        <a href="#" class="btn-secondary">Learn More</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="mission">
+  <div class="mission-container">
+    
+  
+    <div class="mission-text">
+      <h5>Mission</h5>
+      <h2>Our Mission? Lets Make Earth Healthy</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+         Suspendisse varius enim in eros elementum tristique. Duis cursus,
+         mi quis viverra ornare, eros dolor interdum nulla, ut commodo
+         diam libero vitae erat. Aenean faucibus nib.</p>
+
+      <div class="mission-buttons">
+        <a href="#" class="btn-primary">Join Us Today</a>
+        <a href="#" class="btn-secondary">Learn More</a>
+      </div>
+    </div>
+
+
+    <div class="mission-image">
+      <img src="assets/section-mission/mission-image.jpg" alt="Our Mission">
+    </div>
+
+  </div>
+</section>
+
+<section class="programs">
+  <div class="programs-header">
+    <p class="subtitle">Our Programs</p>
+    <h2>Health Programs Offers</h2>
+    <p class="description">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor.
+    </p>
+  </div>
+
+  <div class="programs-cards">
+    <div class="card">
+      <div class="icon"><img src="assets/section-programs/icon-1.svg" alt=""></div>
+      <h3>Cardio Strength</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.</p>
+      <a href="#" class="btn">Learn More</a>
+    </div>
+
+    <div class="card">
+      <div class="icon"><img src="assets/section-programs/icon-2.svg" alt=""></div>
+      <h3>Yoga Plus</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, psum dolor sit amet.</p>
+      <a href="#" class="btn">Learn More</a>
+    </div>
+
+    <div class="card">
+      <div class="icon"><img src="assets/section-programs/icon-3.svg" alt=""></div>
+      <h3>Training Videos</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.</p>
+      <a href="#" class="btn">Learn More</a>
+    </div>
+  </div>
+</section>
+
+
+<section class="testimonials">
+  <div class="testimonials-container">
+
+    <div class="testimonials-info">
+      <p class="subtitle">What our clients say</p>
+      <h2>Testimonials</h2>
+      <p class="description">
+        We care deeply about our clients and their experiences. Here’s what some of them had to say:
+      </p>
+      <div class="buttons">
+        <a class="btn-primary" href="#">Join Us Today</a>
+        <a class="btn-secondary" href="#">Learn More</a>
+      </div>
+    </div>
+
+    <div class="testimonials-slider">
+      <div class="slider-wrapper">
+        <div 
+          class="slide" 
+          *ngFor="let testimonial of testimonials; let i = index" 
+          [class.active]="i === currentIndex"
+        >
+          <p>{{ testimonial.text }}</p>
+          <div class="author">
+      
+            <div>
+              <h4>{{ testimonial.name }}</h4>
+              <span>{{ testimonial.role }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="slider-btn prev" (click)="prevSlide()">&#10094;</button>
+      <button class="slider-btn next" (click)="nextSlide()">&#10095;</button>
+    </div>
+
+  </div>
+</section>
+
+
+<section class="articles">
+  <div class="articles-header">
+    <div>
+      <span class="subtitle">News & Articles</span>
+      <h2>Healthy Tips And Tricks</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.</p>
+    </div>
+    <button class="all-posts">All Posts</button>
+  </div>
+
+  <div class="articles-grid">
+    <article class="card-article">
+      <img src="assets/section-article/article-1.jpg" alt="">
+      <div class="card-body">
+        <h3>5 Great Web Design Resources and Developer Tools</h3>
+        <p>Soluta qui tempora corrupti veniam. Quam natus magni dolor cupiditate. Et et laborum. Et et laborum.</p>
+      </div>
+    </article>
+
+    <article class="card-article">
+      <img src="assets/section-article/article-2.jpg" alt="">
+      <div class="card-body">
+        <h3>What Will Website Be Like In 100 Years From Now?</h3>
+        <p>Aut neque enim sunt. Ullam harum perspiciatis maiores repudiandae consequatur iure. Sint nobis et</p>
+      </div>
+    </article>
+
+    <article class="card-article">
+      <img src="assets/section-article/article-2.jpg" alt="">
+      <div class="card-body">
+        <h3>5 Principles Of Effective Web Design and Development</h3>
+        <p>Qui earum explicabo magni velit quae quam reiciendis nihil tenetur. Quia quisquam iusto</p>
+      </div>
+    </article>
+
+    <article class="card-article">
+      <img src="assets/section-article/article3.jpeg" alt="">
+      <div class="card-body">
+        <h3>How to improve Web Design Process and Development</h3>
+        <p>Soluta qui tempora corrupti veniam. Quam natus magni dolor cupiditate. Et et laborum. Et et laborum.</p>
+      </div>
+    </article>
+
+    <article class="card-article">
+      <img src="assets/section-article/article-4.jpg" alt="">
+      <div class="card-body">
+        <h3>Designers Who Changed the Web Design Industry</h3>
+        <p>Aut neque enim sunt. Ullam harum perspiciatis maiores repudiandae consequatur iure. Sint nobis et</p>
+      </div>
+    </article>
+
+    <article class="card-article">
+      <img src="assets/section-article/article-5.jpg" alt="">
+      <div class="card-body">
+        <h3>7 of the Best Examples of Beautiful Blog Design</h3>
+        <p>Qui earum explicabo magni velit quae quam reiciendis nihil tenetur. Quia quisquam iusto</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="faq">
+  <div class="faq-header">
+    <span class="subtitle">FAQ</span>
+    <h2>Frequently Asked Questions</h2>
+    <p>
+      Feel free to ask questions at
+      <a href="mailto:hello@yogaplus.com">hello@yogaplus.com</a>
+    </p>
+  </div>
+
+  <div class="faq-grid">
+  <div class="faq-item" *ngFor="let faq of faqs; let i = index" [class.active]="faq.open">
+    <button class="faq-question" (click)="toggleFaq(i)">
+      <span>{{ faq.question }}</span>
+      <span class="icon">{{ faq.open ? '×' : '+' }}</span>
+    </button>
+    <div class="faq-answer">
+      <p>{{ faq.answer }}</p>
+    </div>
+  </div>
+</div>
+</section>
+
+
+<section class="contact-section">
+  <div class="contact-container">
+    
+  
+    <div class="contact-info">
+      <h3>Contact</h3>
+      <h2>Join Us Today</h2>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+        varius enim in eros elementum tristique. Duis cursus, mi quis viverra
+        ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat.
+        Aenean faucibus nib.
+      </p>
+      <p class="email"><img src="https://cdn.prod.website-files.com/6082138c7011c807cd6b76d5/60835b4dbbf27d6ca1e81cf0_17446227851556277124%20(1).svg" loading="lazy" alt="" class="contact-link_icon"> hello@yogaplus.com</p>
+      <p class="phone"><img src="https://cdn.prod.website-files.com/6082138c7011c807cd6b76d5/60835b4d099cd2eaee222209_6891723191556274018%20(1).svg" loading="lazy" alt="" class="contact-link_icon"> +1345784454</p>
+    </div>
+
+  
+    <div class="contact-form">
+      <form>
+        <input type="text" placeholder="Full Name" required />
+        <input type="email" placeholder="Email" required />
+        <textarea placeholder="Your Message Here" required></textarea>
+        <button type="submit">Submit</button>
+        <p class="note">We will get back to you within 24-48 hours!</p>
+      </form>
+    </div>
+
+  </div>
+</section>

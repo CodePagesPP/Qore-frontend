@@ -1,98 +1,175 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Discipline, Instructor, Manager, Staff } from '../../../core/models/auth.model';
+import { Discipline, Instructor, Role, workerRegisterRequest } from '../../../core/models/auth.model';
 import { WorkersService } from '../../../core/services/workers.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-workers',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './workers.html',
-  styleUrl: './workers.css'
+  styleUrl: './workers.css',
 })
-export class Workers implements OnInit{
-  staffs: Staff[] = [];
-  managers: Manager[] = [];
-  instructors: Instructor[] = [];
+export class Workers implements OnInit {
+  showModal = false;
+  roles: Role[] = [];
+  newWorker: any = {};
+  formData: Partial<workerRegisterRequest> = {
+    email: '',
+    password: '',
+    name: '',
+    lastName: '',
+    phoneNumber: '',
+    birthday: '',
+    sex: '',
+    country: '',
+    city: '',
+    address: '',
+    dni: '',
+    disciplineId: [],
+    area: '',
+    roleId: undefined,
+  };
+
   disciplines: Discipline[] = [];
+  personal: { [key: string]: any[] } = {};
 
   constructor(private workersService: WorkersService) {}
 
   ngOnInit() {
-    this.loadStaff();
-    this.loadManagers();
-    this.loadInstructors();
+    this.loadPersonal();
+    this.loadRoles();
     this.loadDisciplines();
   }
 
-
-   loadStaff() {
-    this.workersService.getStaff().subscribe(
-      data => {
-        this.staffs = data;
-
-        this.staffs.forEach(staff => {
-          if(staff.id !== undefined) {
-          } else {
-              console.error('El ID del staff es undefined:', staff);
-            }
-        });
-      },
-      error => console.error(error)
-    )
-   }
-
-   loadManagers() {
-    this.workersService.getManager().subscribe(
-      data => {
-        this.managers = data;
-
-        this.managers.forEach(manager => {
-          if(manager.id !== undefined){
-          } else {
-            console.error('El ID del manager es undefined:', manager);
-          }
-        });
-      },
-       error => console.error(error)
-    );
+  openModal() {
+    this.showModal = true;
+    this.newWorker = {};
+    //this.selectedRole = '';
   }
 
-  loadInstructors() {
-    this.workersService.getInstructor().subscribe(
-      data => {
-        this.instructors = data;
+  closeModal() {
+    this.showModal = false;
+  }
 
-        this.instructors.forEach(instructor => {
-          if(instructor.id !== undefined){
-          } else {
-            console.error('El ID del instructor es undefined:', instructor);
-          }
-        });
+  registerWorker() {
+    const payload: workerRegisterRequest = {
+      ...this.formData,
+      disciplineId: this.formData.disciplineId
+        ? [Number(this.formData.disciplineId)]
+        : [],
+    } as workerRegisterRequest;
+
+    if (this.formData.roleId == 3) {
+      this.workersService.registerInstructor(payload).subscribe({
+        next: (res) => {
+          console.log('Trabajador registrado con éxito:', res);
+          this.closeModal();
+          this.loadPersonal();
+        },
+        error: (err) => {
+          console.error('Error al registrar trabajador:', err);
+        },
+      });
+    } else if (this.formData.roleId == 4) {
+      this.workersService.registerStaff(payload).subscribe({
+        next: (res) => {
+          console.log('Trabajador registrado con éxito:', res);
+          this.closeModal();
+          this.loadPersonal();
+        },
+        error: (err) => {
+          console.error('Error al registrar trabajador:', err);
+        },
+      });
+    } else if (this.formData.roleId == 5) {
+      this.workersService.registerManager(payload).subscribe({
+        next: (res) => {
+          console.log('Trabajador registrado con éxito:', res);
+          this.closeModal();
+          this.loadPersonal();
+        },
+        error: (err) => {
+          console.error('Error al registrar trabajador:', err);
+        },
+      });
+    } else {
+      this.workersService.registerWorker(payload).subscribe({
+        next: (res) => {
+          console.log('Trabajador registrado con éxito:', res);
+          this.closeModal();
+          this.loadPersonal();
+        },
+        error: (err) => {
+          console.error('Error al registrar trabajador:', err);
+        },
+      });
+    }
+  }
+
+  loadPersonal() {
+    this.workersService.getPersonal().subscribe({
+      next: (data) => {
+        this.personal = data;
+        console.log(this.personal);
       },
-       error => console.error(error)
-    );
+      error: (err) => console.error(err),
+    });
+  }
+
+  loadRoles() {
+    this.workersService.getRolesNoClient().subscribe({
+      next: (data) => {
+        this.roles = data;
+        console.log(this.roles);
+      },
+      error: (err) => console.error(err),
+    });
   }
 
   loadDisciplines() {
-    this.workersService.getDisciplines().subscribe(
-      data => {
+    this.workersService.getDisciplines().subscribe({
+      next: (data) => {
         this.disciplines = data;
-
-        this.disciplines.forEach(discipline => {
-          if(discipline.id !== undefined){
-          } else {
-            console.error('El ID de la disciplina es undefined:', discipline);
-          }
-        });
+        console.log(this.disciplines);
       },
-       error => console.error(error)
-    );
+      error: (err) => console.error(err),
+    });
   }
 
-  getDisciplineNames(ids: number[]): string {
-    return this.disciplines
-      .filter(d => ids.includes(d.id))
-      .map(d => d.name)
-      .join(', ')
+  allowOnlyNumbers(event: KeyboardEvent): void {
+    const charCode = event.key.charCodeAt(0);
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
+    }
+  }
+
+  birthdayError: string = '';
+  dniError: string = '';
+  validateBirthday(): void {
+    const birthday = this.formData.birthday;
+
+    if (!birthday) {
+      this.birthdayError = '';
+      return;
+    }
+    const actualDate = new Date();
+    const receivedDate = new Date(birthday);
+    if (receivedDate > actualDate) {
+      this.birthdayError = 'La fecha es inválida.';
+      return;
+    }
+    let age = actualDate.getFullYear() - receivedDate.getFullYear();
+    const monthDiference = actualDate.getMonth() - receivedDate.getMonth();
+    const dayDiference = actualDate.getDate() - receivedDate.getDate();
+
+    if (monthDiference < 0 || (monthDiference === 0 && dayDiference < 0)) {
+      age--;
+    }
+    if (age < 5) {
+      this.birthdayError = 'La edad mínima es de 5 años.';
+    } else {
+      this.birthdayError = '';
+    }
   }
 }

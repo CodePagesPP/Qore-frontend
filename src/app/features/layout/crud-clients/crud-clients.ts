@@ -1,20 +1,39 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Client } from '../../../core/models/auth.model';
+import { Client, RegisterRequest } from '../../../core/models/auth.model';
 import { AdminService } from '../../../core/services/admin.service';
+import { ClientService } from '../../../core/services/client.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-crud-clients',
-  imports: [RouterLink, CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './crud-clients.html',
   styleUrl: './crud-clients.css'
 })
 export class CrudClients implements OnInit{
   clients : Client[] = [];
+  isModalOpen = false;
+  editingClient: Client | null = null;
+
+  formData: Partial<RegisterRequest> = {
+    email: '',
+    password: '',
+    name: '',
+    lastName: '',
+    phoneNumber: '',
+    birthday: '',
+    sex: '',
+    country: '',
+    city: '',
+    address: '',
+    dni: ''
+  };
 
   constructor(
-   private clientService: AdminService
+   private adminService: AdminService,
+   private clientService: ClientService
  ) {}
  
  ngOnInit() {
@@ -23,7 +42,7 @@ export class CrudClients implements OnInit{
  
  
   loadClients() {
-   this.clientService.getAllActiveClients().subscribe(
+   this.adminService.getAllActiveClients().subscribe(
      data => {
        this.clients = data;
        
@@ -38,4 +57,51 @@ export class CrudClients implements OnInit{
      error => console.error(error)
    );
  }
+
+ openAddModal(): void {
+    this.editingClient = null;
+    this.formData = {};
+    this.isModalOpen = true;
+  }
+
+  openEditModal(client: Client): void {
+    this.editingClient = client;
+    this.formData = { ...client }; 
+    this.isModalOpen = true;
+  }
+
+  closeModal(): void {
+    this.isModalOpen = false;
+  }
+
+  onSubmit(): void {
+    if (this.editingClient) {
+      
+      this.clientService.updateClient(this.editingClient.dni, this.formData).subscribe({
+        next: () => {
+          this.loadClients();
+          this.closeModal();
+        },
+        error: (err) => console.error('Error actualizando cliente', err)
+      });
+    } else {
+    
+      this.clientService.registerClient(this.formData as RegisterRequest).subscribe({
+        next: () => {
+          this.loadClients();
+          this.closeModal();
+        },
+        error: (err) => console.error('Error registrando cliente', err)
+      });
+    }
+  }
+
+  deleteClient(id: string): void {
+    if (confirm('¿Seguro que deseas eliminar este cliente?')) {
+      this.clientService.deleteClient(id).subscribe({
+        next: () => this.loadClients(),
+        error: (err) => console.error('Error eliminando cliente', err)
+      });
+    }
+  }
 }
