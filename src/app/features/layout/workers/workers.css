@@ -259,3 +259,15 @@ select {
 .clients-table tr:hover {
   background-color: #f9f9f9;
 }
+
+.edit {
+  cursor: pointer;
+}
+
+.delete {
+  cursor: pointer;
+}
+
+.info {
+  cursor: pointer;
+}

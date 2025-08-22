@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Discipline, Instructor, Role, workerRegisterRequest } from '../../../core/models/auth.model';
+import { Discipline, Instructor, Role, workerRegisterRequest, workerUpdateRequest } from '../../../core/models/auth.model';
 import { WorkersService } from '../../../core/services/workers.service';
 import { FormsModule } from '@angular/forms';
 
@@ -12,8 +12,8 @@ import { FormsModule } from '@angular/forms';
 })
 export class Workers implements OnInit {
   showModal = false;
+  edicion: workerUpdateRequest | null = null;
   roles: Role[] = [];
-  newWorker: any = {};
   formData: Partial<workerRegisterRequest> = {
     email: '',
     password: '',
@@ -28,9 +28,9 @@ export class Workers implements OnInit {
     dni: '',
     disciplineId: [],
     area: '',
-    roleId: undefined,
+    role: { id: 0, name: '' }
   };
-
+  error: string | null = null;
   disciplines: Discipline[] = [];
   personal: { [key: string]: any[] } = {};
 
@@ -44,8 +44,30 @@ export class Workers implements OnInit {
 
   openModal() {
     this.showModal = true;
-    this.newWorker = {};
-    //this.selectedRole = '';
+    this.edicion = null;
+    this.formData = {
+    email: '',
+    password: '',
+    name: '',
+    lastName: '',
+    phoneNumber: '',
+    birthday: '',
+    sex: '',
+    country: '',
+    city: '',
+    address: '',
+    dni: '',
+    disciplineId: [],
+    area: '',
+    role: { id: 0, name: '' }
+  };
+  }
+
+  openEditModal(worker: workerRegisterRequest): void {
+    this.edicion = worker;
+    this.formData = {...worker};
+    this.showModal = true;
+    console.log('formData:', this.formData)
   }
 
   closeModal() {
@@ -60,50 +82,94 @@ export class Workers implements OnInit {
         : [],
     } as workerRegisterRequest;
 
-    if (this.formData.roleId == 3) {
+    
+    console.log(payload);
+
+    if (this.formData.role?.id == 3) {
       this.workersService.registerInstructor(payload).subscribe({
         next: (res) => {
           console.log('Trabajador registrado con éxito:', res);
+          this.error = null;
           this.closeModal();
           this.loadPersonal();
         },
         error: (err) => {
           console.error('Error al registrar trabajador:', err);
+          this.error = err.error.message || 'Error desconocido al registrar';
         },
       });
-    } else if (this.formData.roleId == 4) {
+    } else if (this.formData.role?.id == 4) {
       this.workersService.registerStaff(payload).subscribe({
         next: (res) => {
           console.log('Trabajador registrado con éxito:', res);
+          this.error = null;
           this.closeModal();
           this.loadPersonal();
         },
         error: (err) => {
           console.error('Error al registrar trabajador:', err);
+          this.error = err.error.message || 'Error desconocido al registrar';
         },
       });
-    } else if (this.formData.roleId == 5) {
+    } else if (this.formData.role?.id == 5) {
       this.workersService.registerManager(payload).subscribe({
         next: (res) => {
           console.log('Trabajador registrado con éxito:', res);
+          this.error = null;
           this.closeModal();
           this.loadPersonal();
         },
         error: (err) => {
           console.error('Error al registrar trabajador:', err);
+          this.error = err.error.message || 'Error desconocido al registrar';
         },
       });
     } else {
       this.workersService.registerWorker(payload).subscribe({
         next: (res) => {
           console.log('Trabajador registrado con éxito:', res);
+          this.error = null;
           this.closeModal();
           this.loadPersonal();
         },
         error: (err) => {
           console.error('Error al registrar trabajador:', err);
+          this.error = err.error.message || 'Error desconocido al registrar';
         },
       });
+    }
+  }
+
+  updateWorker() {
+    const payload: workerUpdateRequest = {
+      ...this.formData,
+      disciplineId: this.formData.disciplineId
+        ? [Number(this.formData.disciplineId)]
+        : [],
+    } as workerUpdateRequest;
+
+    console.log('payload:', payload);
+    if (this.formData.role?.id == 3) {
+      this.workersService.updateStaff(payload.dni, payload).subscribe({
+        next: (res) => {
+          console.log('Trabajador actualizado con éxito:', res);
+          this.error = null;
+          this.closeModal();
+          this.loadPersonal();
+        },
+        error: (err) => {
+          console.error('Error al actualizar trabajador:', err);
+          this.error = err.error.message || 'Error desconocido al actualizar';
+        },
+      });
+    }
+  }
+
+  onSubmit(): void {
+    if(this.edicion) {
+      this.updateWorker();
+    } else {
+      this.registerWorker();
     }
   }
 
@@ -111,7 +177,6 @@ export class Workers implements OnInit {
     this.workersService.getPersonal().subscribe({
       next: (data) => {
         this.personal = data;
-        console.log(this.personal);
       },
       error: (err) => console.error(err),
     });
@@ -121,7 +186,6 @@ export class Workers implements OnInit {
     this.workersService.getRolesNoClient().subscribe({
       next: (data) => {
         this.roles = data;
-        console.log(this.roles);
       },
       error: (err) => console.error(err),
     });
@@ -131,7 +195,6 @@ export class Workers implements OnInit {
     this.workersService.getDisciplines().subscribe({
       next: (data) => {
         this.disciplines = data;
-        console.log(this.disciplines);
       },
       error: (err) => console.error(err),
     });
