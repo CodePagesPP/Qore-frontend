@@ -144,7 +144,7 @@ export interface Staff {
 }
 
 export interface Discipline {
-  id: number;
+  id?: number;
   name: string;
   description: string;
 }

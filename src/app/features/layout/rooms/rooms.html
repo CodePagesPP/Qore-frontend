@@ -1,1 +1,49 @@
-<p>rooms works!</p>
+<div class="rooms-container">
+  <h2>Gestión de Salas</h2>
+
+ 
+  <button class="btn-primary" (click)="openModal()">➕ Nueva Sala</button>
+
+  
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let room of rooms">
+        <td>{{ room.id }}</td>
+        <td>{{ room.name }}</td>
+        <td>
+          <button (click)="openModal(room)"><i class="fa-solid fa-pen-to-square"></i></button>
+          <button (click)="deleteRoom(room.id!)"><i class="fa-solid fa-trash"></i></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<div class="modal-backdrop" *ngIf="isModalOpen">
+  <div class="modal">
+    <h3>{{ isEditing ? 'Editar Sala' : 'Registrar Sala' }}</h3>
+
+    <form (ngSubmit)="saveRoom()">
+      <input
+        type="text"
+        [(ngModel)]="currentRoom.name"
+        name="name"
+        placeholder="Nombre de la sala"
+        required
+      />
+
+      <div class="modal-actions">
+        <button type="submit" class="btn-primary">{{ isEditing ? 'Actualizar' : 'Crear' }}</button>
+        <button type="button" class="btn-secondary" (click)="closeModal()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>

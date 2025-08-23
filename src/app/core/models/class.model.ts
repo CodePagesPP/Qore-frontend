@@ -13,6 +13,6 @@ export interface ClassSession {
 }
 
 export interface Room{
-    id: number;
+    id?: number;
     name: string;
 }

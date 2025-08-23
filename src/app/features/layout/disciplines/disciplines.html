@@ -1,1 +1,58 @@
-<p>disciplines works!</p>
+<div class="disciplines-container">
+  <h2>Gestión de Disciplinas</h2>
+
+
+  <button class="btn-primary" (click)="openModal()">➕ Nueva Disciplina</button>
+
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let d of disciplines">
+        <td>{{ d.id }}</td>
+        <td>{{ d.name }}</td>
+        <td>{{ d.description }}</td>
+        <td>
+          <button (click)="openModal(d)"><i class="fa-solid fa-pen-to-square"></i></button>
+          <button (click)="deleteDiscipline(d.id!)"><i class="fa-solid fa-trash"></i></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<div class="modal-backdrop" *ngIf="isModalOpen">
+  <div class="modal">
+    <h3>{{ isEditing ? 'Editar Disciplina' : 'Registrar Disciplina' }}</h3>
+
+    <form (ngSubmit)="saveDiscipline()">
+      <input
+        type="text"
+        [(ngModel)]="currentDiscipline.name"
+        name="name"
+        placeholder="Nombre de la disciplina"
+        required
+      />
+
+      <textarea
+        [(ngModel)]="currentDiscipline.description"
+        name="description"
+        placeholder="Descripción"
+        rows="3"
+      ></textarea>
+
+      <div class="modal-actions">
+        <button type="submit" class="btn-primary">{{ isEditing ? 'Actualizar' : 'Crear' }}</button>
+        <button type="button" class="btn-secondary" (click)="closeModal()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>
