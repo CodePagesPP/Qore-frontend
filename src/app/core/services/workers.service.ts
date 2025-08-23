@@ -17,6 +17,9 @@ import {
 })
 export class WorkersService {
   private adminUrl = `${environment.apiUrl}/admin`;
+  private staffAPIurl = `${environment.apiUrl}/staff`;
+  private instructorAPIurl = `${environment.apiUrl}/instructor`;
+  private managerAPIurl = `${environment.apiUrl}/manager`;
   private roleAPIurl = `${environment.apiUrl}/rol`;
   private disciplineAPIurl = `${environment.apiUrl}/disciplines`;
   private tokenKey = 'token';
@@ -37,11 +40,13 @@ export class WorkersService {
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
+  getInstructors(): Observable<Instructor[]> {
+      return this.http.get<Instructor[]>(`${this.instructorAPIurl}/listInstructor`,{ headers: this.getAuthHeaders() });
+    }
+
   registerStaff(dto: workerRegisterRequest): Observable<workerRegisterRequest> {
     return this.http.post<workerRegisterRequest>(
-      `${this.adminUrl}/registerStaff`,
-      dto,
-      { headers: this.getAuthHeaders() }
+      `${this.adminUrl}/registerStaff`,dto,{ headers: this.getAuthHeaders() }
     );
   }
 
@@ -88,7 +93,29 @@ export class WorkersService {
     dto: workerUpdateRequest
   ) :Observable<workerUpdateRequest> {
     return this.http.put<workerUpdateRequest>(
-      `${this.adminUrl}/updateStaff/${dni}`,
+      `${this.staffAPIurl}/updateStaff/${dni}`,
+      dto,
+      { headers: this.getAuthHeaders() }
+    )
+  }
+
+  updateInstructor(
+    dni: string,
+    dto: workerUpdateRequest
+  ) :Observable<workerUpdateRequest> {
+    return this.http.put<workerUpdateRequest>(
+      `${this.instructorAPIurl}/updateInstructor/${dni}`,
+      dto,
+      { headers: this.getAuthHeaders() }
+    )
+  }
+
+  updateManager(
+    dni: string,
+    dto: workerUpdateRequest
+  ) :Observable<workerUpdateRequest> {
+    return this.http.put<workerUpdateRequest>(
+      `${this.managerAPIurl}/updateManager/${dni}`,
       dto,
       { headers: this.getAuthHeaders() }
     )

@@ -3,10 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { Discipline, Instructor, Role, workerRegisterRequest, workerUpdateRequest } from '../../../core/models/auth.model';
 import { WorkersService } from '../../../core/services/workers.service';
 import { FormsModule } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-workers',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NgSelectModule],
   templateUrl: './workers.html',
   styleUrl: './workers.css',
 })
@@ -63,107 +65,113 @@ export class Workers implements OnInit {
   };
   }
 
-  openEditModal(worker: workerRegisterRequest): void {
-    this.edicion = worker;
-    this.formData = {...worker};
-    this.showModal = true;
-    console.log('formData:', this.formData)
-  }
+  openEditModal(worker: any): void {
+  this.edicion = worker;
+
+  
+  const matchedRole = this.roles.find(r => r.name.toUpperCase() === worker.role.toUpperCase());
+
+  this.formData = {
+    ...worker,
+    role: matchedRole ? { id: matchedRole.id, name: matchedRole.name } : { id: 0, name: '' }
+  };
+
+  this.showModal = true;
+  
+}
 
   closeModal() {
     this.showModal = false;
   }
 
   registerWorker() {
-    const payload: workerRegisterRequest = {
-      ...this.formData,
-      disciplineId: this.formData.disciplineId
-        ? [Number(this.formData.disciplineId)]
-        : [],
-    } as workerRegisterRequest;
+  const payload: workerRegisterRequest = {
+    ...this.formData,
+    roleId: Number(this.formData.role?.id), 
+    disciplineId: Array.isArray(this.formData.disciplineId)
+      ? this.formData.disciplineId.map(Number)
+      : [Number(this.formData.disciplineId)],
+  } as unknown as workerRegisterRequest;
+ 
+  let request$: Observable<any>;
 
-    
-    console.log(payload);
-
-    if (this.formData.role?.id == 3) {
-      this.workersService.registerInstructor(payload).subscribe({
-        next: (res) => {
-          console.log('Trabajador registrado con éxito:', res);
-          this.error = null;
-          this.closeModal();
-          this.loadPersonal();
-        },
-        error: (err) => {
-          console.error('Error al registrar trabajador:', err);
-          this.error = err.error.message || 'Error desconocido al registrar';
-        },
-      });
-    } else if (this.formData.role?.id == 4) {
-      this.workersService.registerStaff(payload).subscribe({
-        next: (res) => {
-          console.log('Trabajador registrado con éxito:', res);
-          this.error = null;
-          this.closeModal();
-          this.loadPersonal();
-        },
-        error: (err) => {
-          console.error('Error al registrar trabajador:', err);
-          this.error = err.error.message || 'Error desconocido al registrar';
-        },
-      });
-    } else if (this.formData.role?.id == 5) {
-      this.workersService.registerManager(payload).subscribe({
-        next: (res) => {
-          console.log('Trabajador registrado con éxito:', res);
-          this.error = null;
-          this.closeModal();
-          this.loadPersonal();
-        },
-        error: (err) => {
-          console.error('Error al registrar trabajador:', err);
-          this.error = err.error.message || 'Error desconocido al registrar';
-        },
-      });
-    } else {
-      this.workersService.registerWorker(payload).subscribe({
-        next: (res) => {
-          console.log('Trabajador registrado con éxito:', res);
-          this.error = null;
-          this.closeModal();
-          this.loadPersonal();
-        },
-        error: (err) => {
-          console.error('Error al registrar trabajador:', err);
-          this.error = err.error.message || 'Error desconocido al registrar';
-        },
-      });
-    }
+  switch (this.formData.role?.id) {
+    case 3: 
+      request$ = this.workersService.registerInstructor(payload);
+      break;
+    case 4: 
+      request$ = this.workersService.registerStaff(payload);
+      break;
+    case 5: 
+      request$ = this.workersService.registerManager(payload);
+      break;
+    default: 
+      request$ = this.workersService.registerWorker(payload);
+      break;
   }
+
+  request$.subscribe({
+    next: (res) => {
+      console.log('Trabajador registrado con éxito:', res);
+      this.error = null;
+      this.closeModal();
+      this.loadPersonal();
+    },
+    error: (err) => {
+      console.error('Error al registrar trabajador:', err);
+      this.error = err.error.message || 'Error desconocido al registrar';
+    },
+  });
+}
 
   updateWorker() {
-    const payload: workerUpdateRequest = {
-      ...this.formData,
-      disciplineId: this.formData.disciplineId
+  const payload: workerUpdateRequest = {
+    ...this.formData,
+    role: {
+      ...this.formData.role,
+      id: Number(this.formData.role?.id) // forzar número
+    },
+    disciplineId: Array.isArray(this.formData.disciplineId)
+      ? this.formData.disciplineId.map((id: any) => Number(id)) // ✅ map correcto
+      : this.formData.disciplineId
         ? [Number(this.formData.disciplineId)]
         : [],
-    } as workerUpdateRequest;
+  } as workerUpdateRequest;
 
-    console.log('payload:', payload);
-    if (this.formData.role?.id == 3) {
-      this.workersService.updateStaff(payload.dni, payload).subscribe({
-        next: (res) => {
-          console.log('Trabajador actualizado con éxito:', res);
-          this.error = null;
-          this.closeModal();
-          this.loadPersonal();
-        },
-        error: (err) => {
-          console.error('Error al actualizar trabajador:', err);
-          this.error = err.error.message || 'Error desconocido al actualizar';
-        },
-      });
-    }
+  console.log('Payload para actualizar:', payload);
+
+  let request$: Observable<any>;
+
+  switch (this.formData.role?.id) {
+    case 3: // Instructor
+      request$ = this.workersService.updateInstructor(payload.dni, payload);
+      break;
+    case 4: // Staff
+      request$ = this.workersService.updateStaff(payload.dni, payload);
+      break;
+    case 5: // Manager
+      request$ = this.workersService.updateManager(payload.dni, payload);
+      break;
+    default: // Otros roles
+      request$ = this.workersService.updateWorker(payload.dni, payload);
+      break;
   }
+
+  request$.subscribe({
+    next: (res) => {
+      console.log('Trabajador actualizado con éxito:', res);
+      this.error = null;
+      this.closeModal();
+      this.loadPersonal();
+    },
+    error: (err) => {
+      console.error('Error al actualizar trabajador:', err);
+      this.error = err.error.message || 'Error desconocido al actualizar';
+    },
+  });
+}
+
+
 
   onSubmit(): void {
     if(this.edicion) {

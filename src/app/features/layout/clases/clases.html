@@ -1,0 +1,162 @@
+<div class="clases-container">
+  <div class="header">
+    <h2>Clases</h2>
+    <button class="btn primary" (click)="openCreate()">+ Crear clase</button>
+  </div>
+
+  <div class="table">
+    <div class="row header">
+      <div>Nombre</div>
+      <div>Disciplina</div>
+      <div>Instructor</div>
+      <div>Sala</div>
+      <div>Capacidad</div>
+      <div>Inicio</div>
+      <div>Hora</div>
+      <div class="actions">Acciones</div>
+    </div>
+
+    <div class="row" *ngFor="let c of clases">
+      <div>{{ c.name }}</div>
+      <div>{{ getDisciplineName(c.disciplineId) }}</div>
+<div>{{ getInstructorName(c.instructorId) }}</div>
+<div>{{ getRoomName(c.roomId) }}</div>
+      <div>{{ c.capacity }}</div>
+      <div>{{ c.startDate }}</div>
+      <div>{{ c.startTime }} - {{ c.endTime }}</div>
+      <div class="actions">
+        <button class="icon-btn" title="Editar" (click)="openEdit(c)">
+          <!-- lápiz -->
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+          </svg>
+        </button>
+        <button class="icon-btn danger" title="Eliminar" (click)="deleteClase(c.id)">
+          <!-- tacho -->
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+            <path d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+          </svg>
+        </button>
+        <button class="icon-btn" title="Registrar clientes" (click)="openClients(c)">
+          <!-- grupo -->
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+            <path d="M16 11c1.66 0 2.99-1.34 2.99-3A3 3 0 1 0 16 11zM8 11c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5C15 14.17 10.33 13 8 13zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5C23 14.57 18.33 13 16 13z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="backdrop" *ngIf="showClassModal" (click)="closeClassModal()" tabindex="-1"></div>
+<div class="modal" *ngIf="showClassModal" role="dialog" aria-modal="true" aria-label="Modal de clase">
+  <div class="modal__header">
+    <h3>{{ editing ? 'Editar clase' : 'Crear clase' }}</h3>
+    <button class="icon-btn" (click)="closeClassModal()" title="Cerrar" aria-label="Cerrar">✕</button>
+  </div>
+
+  <div class="modal__body">
+    <form (ngSubmit)="saveClass()">
+      <div class="grid">
+        <label>
+          <span>Nombre</span>
+          <input type="text" [(ngModel)]="form.name" name="name" required />
+        </label>
+
+        <label>
+          <span>Disciplina</span>
+          <select [(ngModel)]="form.disciplineId" name="disciplineId" required>
+            <option [ngValue]="0" disabled>Selecciona</option>
+            <option *ngFor="let d of disciplines" [ngValue]="d.id">{{ d.name }}</option>
+          </select>
+        </label>
+
+        <label>
+          <span>Instructor</span>
+          <select [(ngModel)]="form.instructorId" name="instructorId" required>
+            <option [ngValue]="0" disabled>Selecciona</option>
+            <option *ngFor="let i of instructors" [ngValue]="i.id">{{ i.name }}</option>
+          </select>
+        </label>
+
+        <label>
+          <span>Sala</span>
+          <select [(ngModel)]="form.roomId" name="roomId" required>
+            <option [ngValue]="0" disabled>Selecciona</option>
+            <option *ngFor="let r of rooms" [ngValue]="r.id">{{ r.name }}</option>
+          </select>
+        </label>
+
+        <label>
+          <span>Capacidad</span>
+          <input type="number" min="0" [(ngModel)]="form.capacity" name="capacity" required />
+        </label>
+
+        <label>
+          <span>Fecha inicio</span>
+          <input type="date" [(ngModel)]="form.startDate" name="startDate" required />
+        </label>
+
+        <label>
+          <span>Hora inicio</span>
+          <input type="time" [(ngModel)]="form.startTime" name="startTime" required />
+        </label>
+
+        <label>
+          <span>Hora fin</span>
+          <input type="time" [(ngModel)]="form.endTime" name="endTime" required />
+        </label>
+
+        <label class="checkline">
+          <input type="checkbox" [(ngModel)]="form.repeat" name="repeat" />
+          <span>Repetir</span>
+        </label>
+      </div>
+
+      <div class="modal__footer">
+        <button type="button" class="btn" (click)="closeClassModal()">Cancelar</button>
+        <button type="submit" class="btn primary">{{ editing ? 'Guardar cambios' : 'Crear' }}</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<div class="backdrop" *ngIf="showClientsModal" (click)="closeClientsModal()" tabindex="-1"></div>
+<div class="modal" *ngIf="showClientsModal" role="dialog" aria-modal="true" aria-label="Registrar clientes">
+  <div class="modal__header">
+    <h3>Registrar clientes (capacidad: {{ currentClass?.capacity }})</h3>
+    <button class="icon-btn" (click)="closeClientsModal()" title="Cerrar" aria-label="Cerrar">✕</button>
+  </div>
+
+  <div class="modal__body">
+    <div class="searchbar">
+      <input type="text" placeholder="Buscar cliente por nombre o email"
+             [(ngModel)]="clientSearch" (input)="filterClients()" />
+      <div class="pill">
+        Seleccionados: {{ selectedClientIds.size }} / {{ currentClass?.capacity || 0 }}
+      </div>
+    </div>
+
+    <div class="client-list">
+      <label class="client-item"
+             *ngFor="let cli of filteredClients"
+             [class.disabled]="!selectedClientIds.has(cli.id) && (selectedClientIds.size >= (currentClass?.capacity || 0))">
+        <input type="checkbox"
+               [checked]="selectedClientIds.has(cli.id)"
+               (change)="toggleClient(cli.id)"
+               [disabled]="!selectedClientIds.has(cli.id) && (selectedClientIds.size >= (currentClass?.capacity || 0))" />
+        <div class="client-info">
+          <strong>{{ cli.name}}</strong>
+          <small>{{ cli.email }}</small>
+        </div>
+      </label>
+    </div>
+  </div>
+
+  <div class="modal__footer">
+    <button class="btn" (click)="closeClientsModal()">Cancelar</button>
+    <button class="btn primary" (click)="saveClients()">Guardar</button>
+  </div>
+</div>

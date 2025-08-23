@@ -17,6 +17,11 @@ export class Nav {
   @ViewChild('closeBtn', { static: false }) closeBtn!: ElementRef;
   user: User | null = null;
   showTestWarning: boolean = false; 
+  showConfig = false;
+
+  toggleConfig() {
+    this.showConfig = !this.showConfig;
+  }
 
   constructor(
     

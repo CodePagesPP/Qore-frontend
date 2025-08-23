@@ -57,3 +57,75 @@ body {
     background: var(--orange-color);
     color: var(--color-light);
     border-radius: var(--border-radius-1)}
+
+
+ 
+.custom-ng-select {
+  width: 100%;
+  border-radius: 0.75rem; 
+  font-size: 0.95rem;
+}
+
+
+.custom-ng-select .ng-select-container {
+  border: 2px solid #d1d5db;
+  border-radius: 0.75rem;
+  min-height: 45px;
+  padding: 4px 10px;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+
+.custom-ng-select.ng-select-focused .ng-select-container {
+  border-color: #3b82f6; 
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+
+.custom-ng-select .ng-placeholder {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+
+.custom-ng-select .ng-dropdown-panel {
+  border-radius: 0.75rem;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+
+.custom-ng-select .ng-option:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+
+.custom-ng-select .ng-option-selected {
+  background: #e0f2fe;
+  color: #0369a1;
+  font-weight: 500;
+}
+
+
+.custom-ng-select .ng-value {
+  background: #3b82f6;
+  color: white;
+  border-radius: 9999px;
+  padding: 2px 10px;
+  margin: 2px;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+}
+
+
+.custom-ng-select .ng-value .ng-value-icon {
+  color: white;
+  margin-left: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.custom-ng-select .ng-value .ng-value-icon:hover {
+  color: #f87171; 
+}

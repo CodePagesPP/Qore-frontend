@@ -30,6 +30,26 @@ export const routes: Routes = [
         path: 'workers',
         title: 'Personal',
         loadComponent: () => import('./features/layout/workers/workers').then(m => m.Workers)
+      },
+      {
+        path: 'classes',
+        title: 'Clases',
+        loadComponent: () => import('./features/layout/clases/clases').then(m => m.Clases)
+      },
+      {
+        path: 'roles',
+        title: 'Roles',
+        loadComponent: () => import('./features/layout/roles/roles').then(m => m.Roles)
+      },
+      {
+        path: 'disciplines',
+        title: 'Disciplinas',
+        loadComponent: () => import('./features/layout/disciplines/disciplines').then(m => m.Disciplines)
+      },
+      {
+        path: 'rooms',
+        title: 'Salas',
+        loadComponent: () => import('./features/layout/rooms/rooms').then(m => m.Rooms)
       }
     ]
   },

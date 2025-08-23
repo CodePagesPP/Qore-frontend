@@ -19,14 +19,43 @@
                 <span class="material-icons-sharp">groups</span>
                 <h3>Clientes</h3>
             </a>
+            <a routerLink="/classes" class="active">
+                <span class="material-icons-sharp">co_present</span>
+                <h3>Clases</h3>
+            </a>
             <a routerLink="/workers"  class="active">
                 <span class="material-icons-sharp">contact_mail</span>
                 <h3>Colaboradores</h3>
             </a>
-            <a routerLink="/dashboard-admin/profile-admin" class="active">
+            <a class="menu-item active" (click)="toggleConfig()">
                 <span class="material-icons-sharp">settings</span>
-                <h3>Configuracion</h3>
+                <h3>Configuración</h3>
+                <span class="material-icons-sharp arrow">
+                    {{ showConfig ? 'expand_less' : 'expand_more' }}
+                </span>
             </a>
+
+            <ul *ngIf="showConfig" class="submenu">
+                <li>
+                    <a routerLink="/roles">
+                    <span class="material-icons-sharp">add_moderator</span>
+                    <h4>Roles</h4>
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/rooms">
+                    <span class="material-icons-sharp">meeting_rooms</span>
+                    <h4>Salas</h4>
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/disciplines">
+                    <span class="material-icons-sharp">tune</span>
+                    <h4>Disciplinas</h4>
+                    </a>
+                </li>
+            </ul>
+
             <a (click)="logout()" >
                 <span class="material-icons-sharp">logout</span>
                 <h3>Cerrar Sesion</h3>

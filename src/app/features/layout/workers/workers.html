@@ -15,15 +15,26 @@
       <div>
         <label for="role">Rol*</label>
         <select id="role" [(ngModel)]="formData.role!.id" name="roleId" required>
-          <option value="" disabled selected>Selecciona un rol</option>
-          <option *ngFor="let role of roles" value="{{role.id}}"> {{ role.name }}</option>
+          <option [ngValue]="null" disabled>Selecciona un rol</option>
+          <option *ngFor="let role of roles" [ngValue]="role.id">{{ role.name }}</option>
         </select>
       </div>
       <div *ngIf="formData.role?.id == 3">   
-        <label>Disciplina</label>
-        <select [(ngModel)]="formData.disciplineId" name="disciplineId">
-          <option *ngFor="let d of disciplines" [ngValue]="d.id">{{ d.name }}</option>
-        </select>
+        <label for="discipline" class="block text-sm font-semibold text-gray-700 mb-2">
+          Disciplinas*
+        </label>
+
+        <ng-select
+          class="custom-ng-select"
+          [items]="disciplines"
+          bindLabel="name"
+          bindValue="id"
+          [(ngModel)]="formData.disciplineId"
+          [multiple]="true"
+          placeholder="Selecciona disciplinas"
+          name="disciplineId"
+          required>
+        </ng-select>
       </div>
       <div *ngIf="formData.role?.id == 4">
         <label>Área</label>
@@ -41,7 +52,7 @@
         <label>Email*</label>
         <input type="email" [(ngModel)]="formData.email" name="email" required>
       </div>
-      <div>
+      <div *ngIf="!edicion">
         <label>Contraseña*</label>
         <input type="password" [(ngModel)]="formData.password" name="password" required>
       </div>
