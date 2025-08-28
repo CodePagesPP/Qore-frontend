@@ -154,3 +154,23 @@ export interface Role{
   name: string;
   description?: string;
 }
+
+export interface RoleE {
+  id: number;
+  name: string;
+  description: string;
+  permissions: Permission[];
+}
+
+export interface Permission {
+  id: number;
+  name: string;
+  description: string;
+}
+
+export interface RoleDTO {
+  id?: number;
+  name: string;
+  description: string;
+  permissionIds: number[];
+}

@@ -1,1 +1,56 @@
-<p>roles works!</p>
+<div class="roles-container">
+  <h2>Gestión de Roles</h2>
+  <button (click)="openModal()">➕ Nuevo Rol</button>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Permisos</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let role of roles">
+        <td>{{ role.name }}</td>
+        <td>{{ role.description }}</td>
+        <td>
+          <span *ngFor="let p of role.permissions">{{ p.name }} </span>
+        </td>
+        <td>
+          <button (click)="openModal(role)">✏️ Editar</button>
+          <button (click)="deleteRole(role.id)">🗑 Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal -->
+<div class="modal" [class.show]="isModalOpen">
+  <div class="modal-content">
+    <h3>{{ isEdit ? 'Editar Rol' : 'Nuevo Rol' }}</h3>
+
+    <label>Nombre</label>
+    <input type="text" [(ngModel)]="currentRole.name" />
+
+    <label>Descripción</label>
+    <input type="text" [(ngModel)]="currentRole.description" />
+
+    <label>Permisos</label>
+    <div class="permissions-list">
+      <div *ngFor="let p of permissions">
+        <input type="checkbox"
+               [checked]="currentRole.permissionIds.includes(p.id)"
+               (change)="togglePermission(p.id)" />
+        {{ p.name }}
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button (click)="saveRole()">💾 Guardar</button>
+      <button (click)="closeModal()">❌ Cancelar</button>
+    </div>
+  </div>
+</div>

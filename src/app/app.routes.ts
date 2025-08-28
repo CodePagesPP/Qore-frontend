@@ -50,6 +50,11 @@ export const routes: Routes = [
         path: 'rooms',
         title: 'Salas',
         loadComponent: () => import('./features/layout/rooms/rooms').then(m => m.Rooms)
+      },
+      {
+        path: 'plans',
+        title: 'Planes',
+        loadComponent: () => import('./features/layout/plans/plans').then(m => m.Plans)
       }
     ]
   },

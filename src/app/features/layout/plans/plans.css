@@ -1,4 +1,4 @@
-.roles-container {
+.plans-container {
   padding: 20px;
 }
 
@@ -37,10 +37,10 @@ button {
   background: #fff;
   padding: 20px;
   border-radius: 10px;
-  min-width: 400px;
+  min-width: 500px;
 }
 
-.permissions-list {
+.disciplines-list {
   max-height: 200px;
   overflow-y: auto;
   border: 1px solid #ddd;

@@ -5,6 +5,7 @@ import { WorkersService } from '../../../core/services/workers.service';
 import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { RolService } from '../../../core/services/rol.service';
 
 @Component({
   selector: 'app-workers',
@@ -36,7 +37,7 @@ export class Workers implements OnInit {
   disciplines: Discipline[] = [];
   personal: { [key: string]: any[] } = {};
 
-  constructor(private workersService: WorkersService) {}
+  constructor(private workersService: WorkersService, private rolService: RolService) {}
 
   ngOnInit() {
     this.loadPersonal();
@@ -191,7 +192,7 @@ export class Workers implements OnInit {
   }
 
   loadRoles() {
-    this.workersService.getRolesNoClient().subscribe({
+    this.rolService.getRolesNoClient().subscribe({
       next: (data) => {
         this.roles = data;
       },

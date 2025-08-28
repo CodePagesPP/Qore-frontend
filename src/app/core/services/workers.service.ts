@@ -5,9 +5,7 @@ import { map, Observable } from 'rxjs';
 import {
   Discipline,
   Instructor,
-  Manager,
   Role,
-  Staff,
   workerRegisterRequest,
   workerUpdateRequest,
 } from '../models/auth.model';
@@ -121,19 +119,7 @@ export class WorkersService {
     )
   }
 
-  getRolesNoClient(): Observable<Role[]> {
-    const token = localStorage.getItem(this.tokenKey);
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http
-      .get<Role[]>(`${this.roleAPIurl}/listRoleNoClient`, { headers })
-      .pipe(
-        map((roles: Role[]) => {
-          return roles.map((role) => {
-            return role;
-          });
-        })
-      );
-  }
+  
 
   getDisciplines(): Observable<Discipline[]> {
     const token = localStorage.getItem(this.tokenKey);
