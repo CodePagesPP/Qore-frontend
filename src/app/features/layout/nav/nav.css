@@ -186,7 +186,7 @@ aside .sidebar a:hover span {
 }
 
 main {
-    margin: 5rem;
+    margin-top: 2rem;
     margin-left: 0;
     flex: 1;
 }
