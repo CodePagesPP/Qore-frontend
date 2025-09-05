@@ -1,8 +1,7 @@
 <div class="rooms-container">
   <h2>Gestión de Salas</h2>
 
- 
-  <button class="btn-primary" (click)="openModal()">➕ Nueva Sala</button>
+  <button class="btn-open" (click)="openModal()"><i class="fa fa-plus-square"></i> Nueva Sala</button>
 
   
   <table>
@@ -17,9 +16,9 @@
       <tr *ngFor="let room of rooms">
         <td>{{ room.id }}</td>
         <td>{{ room.name }}</td>
-        <td>
-          <button (click)="openModal(room)"><i class="fa-solid fa-pen-to-square"></i></button>
-          <button (click)="deleteRoom(room.id!)"><i class="fa-solid fa-trash"></i></button>
+        <td class="actions">
+          <button class="icon edit" (click)="openModal(room)"><i class="fa-solid fa-pen-to-square"></i></button>
+          <button class="icon delete" (click)="deleteRoom(room.id!)"><i class="fa-solid fa-trash"></i></button>
         </td>
       </tr>
     </tbody>
@@ -29,7 +28,7 @@
 
 <div class="modal-backdrop" *ngIf="isModalOpen">
   <div class="modal">
-    <h3>{{ isEditing ? 'Editar Sala' : 'Registrar Sala' }}</h3>
+    <h2>{{ isEditing ? 'Editar Sala' : 'Registrar Sala' }}</h2>
 
     <form (ngSubmit)="saveRoom()">
       <input

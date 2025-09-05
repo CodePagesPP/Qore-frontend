@@ -2,7 +2,7 @@
   <h2>Gestión de Disciplinas</h2>
 
 
-  <button class="btn-primary" (click)="openModal()">➕ Nueva Disciplina</button>
+  <button class="btn-open" (click)="openModal()"><i class="fa fa-plus-square"></i> Nueva Disciplina</button>
 
 
   <table>
@@ -19,9 +19,9 @@
         <td>{{ d.id }}</td>
         <td>{{ d.name }}</td>
         <td>{{ d.description }}</td>
-        <td>
-          <button (click)="openModal(d)"><i class="fa-solid fa-pen-to-square"></i></button>
-          <button (click)="deleteDiscipline(d.id!)"><i class="fa-solid fa-trash"></i></button>
+        <td class="actions">
+          <button class="icon edit" (click)="openModal(d)"><i class="fa-solid fa-pen-to-square"></i></button>
+          <button class="icon delete" (click)="deleteDiscipline(d.id!)"><i class="fa-solid fa-trash"></i></button>
         </td>
       </tr>
     </tbody>
@@ -31,7 +31,7 @@
 
 <div class="modal-backdrop" *ngIf="isModalOpen">
   <div class="modal">
-    <h3>{{ isEditing ? 'Editar Disciplina' : 'Registrar Disciplina' }}</h3>
+    <h2>{{ isEditing ? 'Editar Disciplina' : 'Registrar Disciplina' }}</h2>
 
     <form (ngSubmit)="saveDiscipline()">
       <input
