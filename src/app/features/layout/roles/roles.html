@@ -1,6 +1,6 @@
 <div class="roles-container">
   <h2>Gestión de Roles</h2>
-  <button (click)="openModal()">➕ Nuevo Rol</button>
+  <button class="btn-open" (click)="openModal()"><i class="fa fa-plus-square"></i> Nuevo Rol</button>
 
   <table>
     <thead>
@@ -19,8 +19,10 @@
           <span *ngFor="let p of role.permissions">{{ p.name }} </span>
         </td>
         <td>
-          <button (click)="openModal(role)">✏️ Editar</button>
-          <button (click)="deleteRole(role.id)">🗑 Eliminar</button>
+          <div class="modal-actions">
+            <button class="icon" (click)="openModal(role)"><i class="fa-solid fa-pen-to-square"></i></button>
+            <button class="icon" (click)="deleteRole(role.id)"><i class="fa-solid fa-trash"></i></button>
+          </div>
         </td>
       </tr>
     </tbody>
@@ -30,27 +32,39 @@
 <!-- Modal -->
 <div class="modal" [class.show]="isModalOpen">
   <div class="modal-content">
-    <h3>{{ isEdit ? 'Editar Rol' : 'Nuevo Rol' }}</h3>
+    <h2>{{ isEdit ? 'Editar Rol' : 'Nuevo Rol' }}</h2>
 
-    <label>Nombre</label>
-    <input type="text" [(ngModel)]="currentRole.name" />
+    <form (ngSubmit)="saveRole()">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="role-name">Nombre</label>
+          <input type="text" id="role-name" [(ngModel)]="currentRole.name" name="name" required />
+        </div>
 
-    <label>Descripción</label>
-    <input type="text" [(ngModel)]="currentRole.description" />
-
-    <label>Permisos</label>
-    <div class="permissions-list">
-      <div *ngFor="let p of permissions">
-        <input type="checkbox"
-               [checked]="currentRole.permissionIds.includes(p.id)"
-               (change)="togglePermission(p.id)" />
-        {{ p.name }}
+        <div class="form-group">
+          <label for="role-description">Descripción</label>
+          <input type="text" id="role-description" [(ngModel)]="currentRole.description" name="description" />
+        </div>
+          
+        <div class="form-group">
+          <label>Permisos</label>
+          <div class="permissions-list">
+            <div class="checkdiv" *ngFor="let p of permissions">
+              <input type="checkbox"
+                    [checked]="currentRole.permissionIds.includes(p.id)"
+                    (change)="togglePermission(p.id)"
+                    [id]="'permission-' + p.id"
+                    name="permissions" />
+              <label [for]="'permission-' + p.id">{{ p.name }}</label>
+            </div>
+          </div>
+        </div>
+      
       </div>
-    </div>
-
-    <div class="modal-actions">
-      <button (click)="saveRole()">💾 Guardar</button>
-      <button (click)="closeModal()">❌ Cancelar</button>
-    </div>
+      <div class="actions">
+        <button class="btn-primary" type="submit">Registrar</button>
+        <button class="btn-secondary" type="button" (click)="closeModal()">Cancelar</button>
+      </div>
+    </form>
   </div>
 </div>

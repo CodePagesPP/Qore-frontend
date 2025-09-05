@@ -2,6 +2,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+  padding-bottom: 20px;
 }
 
 .role-card {
@@ -15,7 +16,7 @@
 .role-card h2 {
   margin: 0;
   font-size: 20px;
-  font-weight: bold;
+  font-family: 'MontBold';
 }
 
 .role-card p {
@@ -65,8 +66,16 @@
   font-weight: 500;
 }
 
-.actions {
-  display: flex;
+form label {
+  font-family: 'MontBold';
+}
+
+.princ-text {
+  font-family: 'MontBold';
+}
+
+.actions-form {
+  display: inline-flex;
   gap: 8px;
 }
 
@@ -89,7 +98,7 @@
 }
 
 .actions .btn:hover {
-  background: #f3f4f6;
+  background: var(--color-ivory);
 }
 
 /* Colores distintos por rol */
@@ -131,13 +140,14 @@
 }
 
 .modal {
-  background: var(--principal-latte);
+  background: var(--color-ivory);
   padding: 25px;
   border-radius: 12px;
   width: 700px;
   max-height: 80vh;
   overflow-y: auto;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.3s ease;
 }
 
 .modal h2 {
@@ -201,7 +211,7 @@ select {
 
 .registerbtn {
   background-color: #09b83d;
-  font-family: 'Mont';
+  font-family: 'MontBold';
 }
 
 .registerbtn:hover {
@@ -209,12 +219,18 @@ select {
 }
 
 .cancelbtn {
-  background-color: #bd3b3b;
-  font-family: 'Mont';
+  background-color: #df1919;
+  font-family: 'MontBold';
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
 }
 
 .cancelbtn:hover {
-  background-color: #943232;
+  background-color: #a50e0e;
 }
 
 .dateInput {
@@ -249,15 +265,26 @@ select {
   padding: 12px 16px;
   text-align: left;
   border-bottom: 1px solid #eee;
+  font-size: 14px;
 }
 
 .clients-table th {
   background-color: #f5f5f5;
   font-weight: bold;
+  font-family: 'MontBold';
 }
 
 .clients-table tr:hover {
   background-color: #f9f9f9;
+}
+
+.icon {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.icon:hover {
+  transform: scale(1.2);
 }
 
 .edit {
@@ -272,3 +299,73 @@ select {
   cursor: pointer;
 }
 
+/* Igual que los inputs */
+::ng-deep .custom-ng-select .ng-select-container {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 14px;
+  font-family: 'Mont';
+  background-color: white;
+  min-height: 38px; /* altura consistente con tus inputs */
+  display: flex;
+  align-items: center;
+  box-shadow: none; /* nada de sombras extra */
+  transition: border-color 0.2s;
+}
+
+/* Placeholder */
+::ng-deep .custom-ng-select .ng-select-placeholder {
+  color: #999;
+  font-size: 14px;
+  font-family: 'Mont';
+}
+
+/* Chips (valores seleccionados en multiple) */
+::ng-deep .custom-ng-select .ng-value {
+  background-color: #e6f4ea;   /* verde clarito */
+  color: #056d2c;              /* verde oscuro */
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-size: 13px;
+  margin: 2px 4px 2px 0;
+  display: inline-flex;
+  align-items: center;
+  font-family: 'Mont';
+}
+
+::ng-deep .custom-ng-select .ng-value-label {
+  margin-right: 4px;
+}
+
+::ng-deep .custom-ng-select .ng-value-icon {
+  color: #056d2c;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+::ng-deep .custom-ng-select .ng-dropdown-panel {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+  margin-top: 2px;
+  font-family: 'Mont';
+  font-size: 14px;
+}
+
+::ng-deep .custom-ng-select .ng-option {
+  padding: 8px;
+}
+
+::ng-deep .custom-ng-select .ng-option:hover {
+  background-color: #f3f4f6;
+}
+
+.custom-ng-select:has(.ng-value) .ng-placeholder {
+  display: none !important;
+}
+
+.error {
+  color: red;
+}

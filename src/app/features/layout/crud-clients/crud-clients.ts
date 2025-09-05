@@ -104,4 +104,40 @@ export class CrudClients implements OnInit{
       });
     }
   }
+
+  allowOnlyNumbers(event: KeyboardEvent): void {
+    const charCode = event.key.charCodeAt(0);
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
+    }
+  }
+
+  birthdayError: string = '';
+  dniError: string = '';
+  validateBirthday(): void {
+    const birthday = this.formData.birthday;
+
+    if (!birthday) {
+      this.birthdayError = '';
+      return;
+    }
+    const actualDate = new Date();
+    const receivedDate = new Date(birthday);
+    if (receivedDate > actualDate) {
+      this.birthdayError = 'La fecha es inválida.';
+      return;
+    }
+    let age = actualDate.getFullYear() - receivedDate.getFullYear();
+    const monthDiference = actualDate.getMonth() - receivedDate.getMonth();
+    const dayDiference = actualDate.getDate() - receivedDate.getDate();
+
+    if (monthDiference < 0 || (monthDiference === 0 && dayDiference < 0)) {
+      age--;
+    }
+    if (age < 5) {
+      this.birthdayError = 'La edad mínima es de 5 años.';
+    } else {
+      this.birthdayError = '';
+    }
+  }
 }
