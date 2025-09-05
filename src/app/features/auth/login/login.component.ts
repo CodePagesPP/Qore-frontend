@@ -17,19 +17,6 @@ export class LoginComponent {
 
   constructor(private authService: AuthService, private router: Router, private cdRef: ChangeDetectorRef) {}
 
-  onSubmit(): void {
-    this.authService.login(this.credentials).subscribe({
-      next: (res) => {
-        localStorage.setItem('token', res.token);
-        this.router.navigate(['/dashboard']);
-      },
-      error: (err) => {
-        this.error = err.message; 
-        this.cdRef.detectChanges();
-      },
-    });
-  }
-
   isActive = false;
 
   activateRegister() {
@@ -39,4 +26,25 @@ export class LoginComponent {
   activateLogin() {
     this.isActive = false;
   }
+onSubmit(): void {
+  this.authService.login(this.credentials).subscribe({
+    next: (res) => {
+      localStorage.setItem('token', res.token);
+
+      const roles = this.authService.getAuthorities();
+
+      if (roles.includes('ADMIN_ACCESS')) {
+        this.router.navigate(['/dashboard']);
+      } else if (roles.includes('CLIENT_ACCESS')) {
+        this.router.navigate(['/c/dashboard-client']);
+      } else {
+        this.router.navigate(['/home']);
+      }
+    },
+    error: (err) => {
+      this.error = err.message; 
+      this.cdRef.detectChanges();
+    },
+  });
+}
 }

@@ -43,6 +43,8 @@
 <div class="backdrop" *ngIf="showClassModal" (click)="closeClassModal()" tabindex="-1"></div>
 <div class="modal" *ngIf="showClassModal" role="dialog" aria-modal="true" aria-label="Modal de clase">
   <div class="modal__header">
+
+    <button class="icon-btn" type="button" (click)="closeClassModal()" title="Cerrar" aria-label="Cerrar">✕</button>
     <h2>{{ editing ? 'Editar clase' : 'Crear clase' }}</h2>
   </div>
 
@@ -113,10 +115,15 @@
 </div>
 
 
+
 <div class="backdrop" *ngIf="showClientsModal" (click)="closeClientsModal()" tabindex="-1"></div>
 <div class="modal" *ngIf="showClientsModal" role="dialog" aria-modal="true" aria-label="Registrar clientes">
   <div class="modal__header">
+
+    <button class="icon-btn" type="button" (click)="closeClientsModal()" title="Cerrar" aria-label="Cerrar">✕</button>
+
     <h2>Registrar clientes (capacidad: {{ currentClass?.capacity }})</h2>
+
   </div>
 
   <div class="modal__body">
@@ -136,7 +143,9 @@
       <div class="client-list">
         <label class="client-item"
                *ngFor="let cli of filteredClients"
-              [class.disabled]="!selectedClientIds.has(cli.id) && (selectedClientIds.size >= (currentClass?.capacity || 0))">
+
+               [class.disabled]="!selectedClientIds.has(cli.id) && (selectedClientIds.size >= (currentClass?.capacity || 0))">
+
           <input
             type="checkbox"
             [checked]="selectedClientIds.has(cli.id)"
@@ -151,9 +160,11 @@
         </label>
       </div>
 
+
       <div class="modal-actions">    
         <button type="submit" class="btn-primary">Guardar</button>
         <button type="button" class="btn-secondary" (click)="closeClientsModal()">Cancelar</button>
+
       </div>
     </form>
   </div>

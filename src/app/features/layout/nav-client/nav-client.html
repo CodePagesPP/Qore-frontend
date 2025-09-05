@@ -1,0 +1,65 @@
+
+<div class="container">
+    <aside #sideMenu>
+        <div class="top">
+            <div class="logo">
+                <img src="assets/logoQore.png" alt="logo"/>
+            </div>
+            <div class="close" id="close-btn" #closeBtn>
+                <span class="material-icons-sharp">close</span>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <a routerLink="/c/dashboard-client" class="active">
+                <span class="material-icons-sharp">grid_view</span>
+                <h3>Dashboard</h3>
+            </a>
+            <a routerLink="/classes-client" class="active">
+                <span class="material-icons-sharp">co_present</span>
+                <h3>Clases</h3>
+            </a>
+            <a class="menu-item active" (click)="toggleConfig()">
+                <span class="material-icons-sharp">settings</span>
+                <h3>Configuración</h3>
+                <span class="material-icons-sharp arrow">
+                    {{ showConfig ? 'expand_less' : 'expand_more' }}
+                </span>
+            </a>
+
+            <ul *ngIf="showConfig" class="submenu">
+                
+                <li>
+                    <a routerLink="/plans-">
+                    <span class="material-icons-sharp">savings</span>
+                    <h4>Planes</h4>
+                    </a>
+                </li>
+            </ul>
+
+            <a (click)="logout()" >
+                <span class="material-icons-sharp">logout</span>
+                <h3>Cerrar Sesion</h3>
+            </a>
+        </div>
+    </aside>
+
+    <main>
+        <router-outlet></router-outlet>
+    </main> 
+
+
+    <div class="right">
+        <div class="top">
+            <button id="menu-btn" #menuBtn>
+                <span class="material-icons-sharp">menu</span>
+            </button>
+            <div class="profile" *ngIf="user">
+                <div class="info">
+                    <p>Bienvenido, <b>{{user.name}}</b></p>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>

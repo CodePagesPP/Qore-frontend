@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthRequest, AuthResponse, RegisterRequest, User } from '../models/auth.model';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import { jwtDecode } from 'jwt-decode';
 @Injectable({
   providedIn: 'root'
 })
@@ -29,14 +30,30 @@ export class AuthService {
 }
 
   isAuthenticated(): boolean {
-  
-  if (typeof window !== 'undefined') {
-    const token = localStorage.getItem(this.tokenKey);
-    return !!token;
+    const token = this.getToken();
+    if (!token) return false;
+
+    try {
+      const decoded: any = jwtDecode(token);
+      const exp = decoded['exp'];
+      if (!exp) return false;
+      return Date.now() < exp * 1000;
+    } catch (e) {
+      return false;
+    }
   }
 
-  return false;
-}
+  getAuthorities(): string[] {
+    const token = this.getToken();
+    if (!token) return [];
+
+    try {
+      const decoded: any = jwtDecode(token);
+      return decoded['authorities'] || [];
+    } catch (e) {
+      return [];
+    }
+  }
 
   register(credentials: RegisterRequest): Observable<any> {
     return this.http.post(`${this.adminUrl}/registerClient`, credentials)
@@ -59,7 +76,7 @@ getUserInfo(): Observable<User> {
   const token = this.getToken();  // Obtiene el token del localStorage
   const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
   
-  return this.http.get<User>(`${this.adminUrl}/profile`, { headers }).pipe(
+  return this.http.get<User>(`${this.apiUrl}/profile`, { headers }).pipe(
     map((response: User) => {
       
       return response;  // Devuelves el objeto modificado

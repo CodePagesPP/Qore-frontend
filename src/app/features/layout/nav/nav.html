@@ -1,34 +1,35 @@
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp">
+
 <div class="container">
-    <aside #sideMenu>
+
+    <aside>
         <div class="top">
             <div class="logo">
-                <img src="assets/logoQore.png" alt="logo"/>
+                <img src="assets/logoQore.png" alt="">
             </div>
-            <div class="close" id="close-btn" #closeBtn>
+            <div class="close" id="close-btn">
                 <span class="material-icons-sharp">close</span>
             </div>
         </div>
 
         <div class="sidebar">
-            <a routerLink="/dashboard" class="active">
-                <span class="material-icons-sharp">grid_view</span>
+            <a routerLink="/dashboard">
+                <span class="material-icons-sharp">dashboard_customize</span>
                 <h3>Dashboard</h3>
             </a>
-            <a routerLink="/clients" class="active">
-                <span class="material-icons-sharp">groups</span>
-                <h3>Clientes</h3>
-            </a>
             <a routerLink="/classes" class="active">
-                <span class="material-icons-sharp">co_present</span>
+                <span class="material-icons-sharp">self_improvement</span>
                 <h3>Clases</h3>
             </a>
-            <a routerLink="/workers"  class="active">
-                <span class="material-icons-sharp">contact_mail</span>
+            <a routerLink="/clients">
+                <span class="material-icons-sharp">people</span>
+                <h3>Clientes</h3>
+            </a>
+            <a routerLink="/workers">
+                <span class="material-icons-sharp">diversity_3</span>
                 <h3>Colaboradores</h3>
             </a>
             <a class="menu-item active" (click)="toggleConfig()">
-                <span class="material-icons-sharp">settings</span>
+                <span class="material-icons-sharp">settings_applications</span>
                 <h3>Configuración</h3>
                 <span class="material-icons-sharp arrow">
                     {{ showConfig ? 'expand_less' : 'expand_more' }}
@@ -61,7 +62,6 @@
                     </a>
                 </li>
             </ul>
-
             <a (click)="logout()" >
                 <span class="material-icons-sharp">logout</span>
                 <h3>Cerrar Sesion</h3>

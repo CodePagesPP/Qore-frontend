@@ -1,8 +1,8 @@
 .container {
     display: flex;
-    width: 92%;
-    margin: auto auto;
-    margin-left: 3rem;
+    width: 96%;
+    margin: 0 auto;
+    gap: 1.8rem;
     grid-template-columns: 14rem auto;
 }
 
@@ -91,13 +91,18 @@ b {
 
 
 aside {
-    height: 100vh;
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 280px;   /* ajusta al tamaño que quieras */
+  height: 100vh;  /* ocupa todo el alto de la pantalla */
+  padding: 1rem;
 }
 
 aside .top {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: left;
     margin-top: 1.4rem;
 }
 
@@ -115,24 +120,22 @@ aside .close {
     display: none;
 }
 
-/* SIDEBAR */
 aside .sidebar {
-    background: var(--color-stone);
+    
     display: flex;
     flex-direction: column;
-    height: 80vh;
+    height: 86vh;
     position: relative;
     top: 3rem;
 }
 
 aside h3 {
     font-weight: 500;
+    color: var(--principal-white);
 }
 
 aside .sidebar a {
     display: flex;
-    color: gray;
-    margin-left: 2rem;
     gap: 1rem;
     align-items: center;
     position: relative;
@@ -143,39 +146,45 @@ aside .sidebar a {
 aside .sidebar a span {
     font-size: 1.6rem;
     transition: all 300ms ease;
+    margin-left: calc(1rem - 3px);
+    color: var(--principal-white);
 }
 
 aside .sidebar a:last-child {
+    gap: 1rem;
     position: absolute;
-    bottom: 2rem;
+    bottom: 6rem;
     width: 100%;
+    cursor: pointer;
 }
 
-aside .sidebar a.active {
-    background: #e7d7c979;
-    color: var(--color-gold);
+aside .sidebar a.active:hover {
+    background: var(--orange-color);
+    color: var(--blue-color);
     margin-left: 0;
 }
 
-aside .sidebar a.active::before {
+.disabled {
+    pointer-events: none; 
+    opacity: 0.5; 
+  }
+
+aside .siderbar a.active:before {
     content: "";
     width: 6px;
     height: 100%;
-    background: var(--color-gold);
+    background: white;
 }
 
 aside .sidebar a.active span {
-    color: var(--color-gold);
-    margin-left: calc(1.5rem - 3px);
-}
-
-aside .sidebar a:hover {
-    color: var(--color-gold);
+    color: var(--principal-white);
+    margin-left: calc(1rem - 3px);
 }
 
 aside .sidebar a:hover span {
-    margin-left: 1rem;
+    margin-left: 2rem;
 }
+
 main {
     margin-top: 2rem;
     margin-left: 0;
