@@ -42,6 +42,7 @@
     <h2>{{ isEdit ? 'Editar Plan' : 'Nuevo Plan' }}</h2>
 
     <form (ngSubmit)="savePlan()">
+
       <div class="info">
         <div>
           <label>Nombre</label>
@@ -107,6 +108,7 @@
       <div class="modal-actions">
         <button class="btn-primary" type="submit">Registrar</button>
         <button class="btn-secondary" type="button" (click)="closeModal()">Cancelar</button>
+
       </div>
     </form>
   </div>

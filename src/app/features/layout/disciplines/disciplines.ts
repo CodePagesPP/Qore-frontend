@@ -46,18 +46,36 @@ disciplines: Discipline[] = [];
   }
 
   saveDiscipline() {
-    if (this.isEditing && this.currentDiscipline.id) {
-      this.disciplineService.update(this.currentDiscipline.id, this.currentDiscipline).subscribe(() => {
+  if (this.isEditing && this.currentDiscipline.id) {
+    this.disciplineService.update(this.currentDiscipline.id, this.currentDiscipline).subscribe({
+      next: () => {
         this.loadDisciplines();
         this.closeModal();
-      });
-    } else {
-      this.disciplineService.create(this.currentDiscipline).subscribe(() => {
+      },
+      error: (err) => {
+        if (err.error?.message) {
+          alert(`Error al actualizar: ${err.error.message}`);
+        } else {
+          alert('Ocurrió un error inesperado al actualizar la disciplina.');
+        }
+      }
+    });
+  } else {
+    this.disciplineService.create(this.currentDiscipline).subscribe({
+      next: () => {
         this.loadDisciplines();
         this.closeModal();
-      });
-    }
+      },
+      error: (err) => {
+        if (err.error?.message) {
+          alert(`Error al crear: ${err.error.message}`);
+        } else {
+          alert('Ocurrió un error inesperado al crear la disciplina.');
+        }
+      }
+    });
   }
+}
 
   deleteDiscipline(id: number) {
   if (confirm('¿Seguro que deseas eliminar esta disciplina?')) {

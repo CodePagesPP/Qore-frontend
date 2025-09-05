@@ -35,6 +35,7 @@
     <h2>{{ isEdit ? 'Editar Rol' : 'Nuevo Rol' }}</h2>
 
     <form (ngSubmit)="saveRole()">
+
       <div class="form-grid">
         <div class="form-group">
           <label for="role-name">Nombre</label>
@@ -64,6 +65,7 @@
       <div class="actions">
         <button class="btn-primary" type="submit">Registrar</button>
         <button class="btn-secondary" type="button" (click)="closeModal()">Cancelar</button>
+
       </div>
     </form>
   </div>

@@ -11,21 +11,13 @@
         </div>
 
         <div class="sidebar">
-            <a routerLink="/dashboard" class="active">
+            <a routerLink="/c/dashboard-client" class="active">
                 <span class="material-icons-sharp">grid_view</span>
                 <h3>Dashboard</h3>
             </a>
-            <a routerLink="/clients" class="active">
-                <span class="material-icons-sharp">groups</span>
-                <h3>Clientes</h3>
-            </a>
-            <a routerLink="/classes" class="active">
+            <a routerLink="/classes-client" class="active">
                 <span class="material-icons-sharp">co_present</span>
                 <h3>Clases</h3>
-            </a>
-            <a routerLink="/workers"  class="active">
-                <span class="material-icons-sharp">contact_mail</span>
-                <h3>Colaboradores</h3>
             </a>
             <a class="menu-item active" (click)="toggleConfig()">
                 <span class="material-icons-sharp">settings</span>
@@ -36,26 +28,9 @@
             </a>
 
             <ul *ngIf="showConfig" class="submenu">
+                
                 <li>
-                    <a routerLink="/roles">
-                    <span class="material-icons-sharp">add_moderator</span>
-                    <h4>Roles</h4>
-                    </a>
-                </li>
-                <li>
-                    <a routerLink="/rooms">
-                    <span class="material-icons-sharp">meeting_rooms</span>
-                    <h4>Salas</h4>
-                    </a>
-                </li>
-                <li>
-                    <a routerLink="/disciplines">
-                    <span class="material-icons-sharp">tune</span>
-                    <h4>Disciplinas</h4>
-                    </a>
-                </li>
-                <li>
-                    <a routerLink="/plans">
+                    <a routerLink="/plans-">
                     <span class="material-icons-sharp">savings</span>
                     <h4>Planes</h4>
                     </a>
@@ -73,4 +48,18 @@
         <router-outlet></router-outlet>
     </main> 
 
+
+    <div class="right">
+        <div class="top">
+            <button id="menu-btn" #menuBtn>
+                <span class="material-icons-sharp">menu</span>
+            </button>
+            <div class="profile" *ngIf="user">
+                <div class="info">
+                    <p>Bienvenido, <b>{{user.name}}</b></p>
+                </div>
+                
+            </div>
+        </div>
+    </div>
 </div>

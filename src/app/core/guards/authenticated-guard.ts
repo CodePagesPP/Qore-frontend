@@ -6,9 +6,17 @@ export const authenticatedGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  if(authService.isAuthenticated()){
-    router.navigate(['/dashboard']);
+  if (authService.isAuthenticated()) {
+    const roles = authService.getAuthorities();
+
+    if (roles.includes('ADMIN_ACCESS')) {
+      router.navigate(['/dashboard']);
+    } else if (roles.includes('CLIENT_ACCESS')) {
+      router.navigate(['/c/dashboard-client']);
+    }
+
     return false;
   }
+
   return true;
 };
