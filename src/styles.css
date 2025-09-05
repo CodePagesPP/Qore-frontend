@@ -68,3 +68,10 @@ body {
     user-select: none;
     overflow-x: hidden;
 }
+
+input[type="checkbox"] {
+  appearance: auto !important;
+  -webkit-appearance: auto !important;
+  -moz-appearance: auto !important;
+  display: inline-block;
+}

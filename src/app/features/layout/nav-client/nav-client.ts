@@ -1,17 +1,17 @@
-import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
-import { User } from '../../../core/models/auth.model';
-import { AuthService } from '../../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { AuthService } from '../../../core/services/auth.service';
+import { User } from '../../../core/models/auth.model';
 
 @Component({
-  selector: 'app-nav',
+  selector: 'app-nav-client',
   imports: [CommonModule, RouterLink, ReactiveFormsModule, FormsModule, RouterOutlet],
-  templateUrl: './nav.html',
-  styleUrl: './nav.css'
+  templateUrl: './nav-client.html',
+  styleUrl: './nav-client.css'
 })
-export class Nav {
+export class NavClient {
    @ViewChild('sideMenu', { static: false }) sideMenu!: ElementRef;
   @ViewChild('menuBtn', { static: false }) menuBtn!: ElementRef;
   @ViewChild('closeBtn', { static: false }) closeBtn!: ElementRef;

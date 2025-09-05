@@ -40,46 +40,50 @@
   <div class="modal-content">
     <h3>{{ isEdit ? 'Editar Plan' : 'Nuevo Plan' }}</h3>
 
-    <label>Nombre</label>
-    <input type="text" [(ngModel)]="currentPlan.name" />
+    <form (ngSubmit)="savePlan()">
+      <label>Nombre</label>
+      <input type="text" [(ngModel)]="currentPlan.name" name="name" required />
 
-    <label>Descripción</label>
-    <textarea [(ngModel)]="currentPlan.description"></textarea>
+      <label>Descripción</label>
+      <textarea [(ngModel)]="currentPlan.description" name="description"></textarea>
 
-    <label>Sesiones</label>
-    <input type="number" [(ngModel)]="currentPlan.sessions" />
+      <label>Sesiones</label>
+      <input type="number" [(ngModel)]="currentPlan.sessions" name="sessions" />
 
-    <label>Duración (días)</label>
-    <input type="number" [(ngModel)]="currentPlan.duration" />
+      <label>Duración (días)</label>
+      <input type="number" [(ngModel)]="currentPlan.duration" name="duration" />
 
-    <label>Precio</label>
-    <input type="number" step="0.01" [(ngModel)]="currentPlan.price" />
+      <label>Precio</label>
+      <input type="number" step="0.01" [(ngModel)]="currentPlan.price" name="price" />
 
-    <label>Método de Pago</label>
-    <input type="text" [(ngModel)]="currentPlan.payMethod" />
+      <label>Método de Pago</label>
+      <input type="text" [(ngModel)]="currentPlan.payMethod" name="payMethod" />
 
-    <label>Tipo de Venta</label>
-    <input type="text" [(ngModel)]="currentPlan.sellType" />
+      <label>Tipo de Venta</label>
+      <input type="text" [(ngModel)]="currentPlan.sellType" name="sellType" />
 
-    <label>Reprogramaciones</label>
-    <input type="number" [(ngModel)]="currentPlan.reprograms" />
+      <label>Reprogramaciones</label>
+      <input type="number" [(ngModel)]="currentPlan.reprograms" name="reprograms" />
 
-    <label>Disciplinas</label>
-    <div class="disciplines-list">
-      <div *ngFor="let d of disciplines">
-        <input type="checkbox"
-               [checked]="currentPlan.discipline_id.includes(d.id!)"
-               (change)="toggleDiscipline(d.id!)" />
-        {{ d.name }}
+      <label>Disciplinas</label>
+      <div class="disciplines-list">
+        <div *ngFor="let d of disciplines">
+          <input type="checkbox"
+                 [checked]="currentPlan.discipline_id.includes(d.id!)"
+                 (change)="toggleDiscipline(d.id!)"
+                 [id]="'discipline-' + d.id"
+                 name="disciplines" />
+          <label [for]="'discipline-' + d.id">{{ d.name }}</label>
+        </div>
       </div>
-    </div>
 
-    <label>Activo</label>
-    <input type="checkbox" [(ngModel)]="currentPlan.active" />
+      <label for="active">Activo</label>
+      <input type="checkbox" [(ngModel)]="currentPlan.active" id="active" name="active" />
 
-    <div class="modal-actions">
-      <button (click)="savePlan()">💾 Guardar</button>
-      <button (click)="closeModal()">❌ Cancelar</button>
-    </div>
+      <div class="modal-actions">
+        <button type="submit">💾 Guardar</button>
+        <button type="button" (click)="closeModal()">❌ Cancelar</button>
+      </div>
+    </form>
   </div>
 </div>
