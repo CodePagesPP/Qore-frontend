@@ -75,5 +75,4 @@ export class RegisterComponent {
     event.preventDefault();
   }
 }
-
 }
