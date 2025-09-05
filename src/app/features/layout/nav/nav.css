@@ -1,8 +1,8 @@
 .container {
     display: flex;
-    width: 96%;
-    margin: 0 auto;
-    gap: 1.8rem;
+    width: 92%;
+    margin: auto auto;
+    margin-left: 3rem;
     grid-template-columns: 14rem auto;
 }
 

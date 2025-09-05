@@ -1,8 +1,8 @@
 <div class="clases-container">
   <div class="header">
     <h2>Clases</h2>
-    <button class="btn primary" (click)="openCreate()">+ Crear clase</button>
   </div>
+  <button class="btn-open" (click)="openCreate()"><i class="fa fa-plus-square"></i> Crear clase</button>
 
   <div class="table">
     <div class="row header">
@@ -25,23 +25,14 @@
       <div>{{ c.startDate }}</div>
       <div>{{ c.startTime }} - {{ c.endTime }}</div>
       <div class="actions">
-        <button class="icon-btn" title="Editar" (click)="openEdit(c)">
-          <!-- lápiz -->
-          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
-          </svg>
+        <button class="icon-btn" (click)="openEdit(c)">
+          <i class="fa-solid fa-pen-to-square"></i>
         </button>
-        <button class="icon-btn danger" title="Eliminar" (click)="deleteClase(c.id)">
-          <!-- tacho -->
-          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-            <path d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
-          </svg>
+        <button class="icon-btn danger" (click)="deleteClase(c.id)">
+          <i class="fa-solid fa-trash"></i>
         </button>
-        <button class="icon-btn" title="Registrar clientes" (click)="openClients(c)">
-          <!-- grupo -->
-          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-            <path d="M16 11c1.66 0 2.99-1.34 2.99-3A3 3 0 1 0 16 11zM8 11c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5C15 14.17 10.33 13 8 13zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5C23 14.57 18.33 13 16 13z"/>
-          </svg>
+        <button class="icon-btn" (click)="openClients(c)">
+          <i class="fa fa-users" aria-hidden="true"></i>
         </button>
       </div>
     </div>
@@ -52,8 +43,9 @@
 <div class="backdrop" *ngIf="showClassModal" (click)="closeClassModal()" tabindex="-1"></div>
 <div class="modal" *ngIf="showClassModal" role="dialog" aria-modal="true" aria-label="Modal de clase">
   <div class="modal__header">
-    <h3>{{ editing ? 'Editar clase' : 'Crear clase' }}</h3>
+
     <button class="icon-btn" type="button" (click)="closeClassModal()" title="Cerrar" aria-label="Cerrar">✕</button>
+    <h2>{{ editing ? 'Editar clase' : 'Crear clase' }}</h2>
   </div>
 
   <div class="modal__body">
@@ -114,9 +106,9 @@
         </label>
       </div>
 
-      <div class="modal__footer">
-        <button type="button" class="btn" (click)="closeClassModal()">Cancelar</button>
-        <button type="submit" class="btn primary">{{ editing ? 'Guardar cambios' : 'Crear' }}</button>
+      <div class="modal-actions">
+        <button type="submit" class="btn-primary">{{ editing ? 'Guardar cambios' : 'Crear' }}</button>
+        <button type="button" class="btn-secondary" (click)="closeClassModal()">Cancelar</button>
       </div>
     </form>
   </div>
@@ -127,8 +119,11 @@
 <div class="backdrop" *ngIf="showClientsModal" (click)="closeClientsModal()" tabindex="-1"></div>
 <div class="modal" *ngIf="showClientsModal" role="dialog" aria-modal="true" aria-label="Registrar clientes">
   <div class="modal__header">
-    <h3>Registrar clientes (capacidad: {{ currentClass?.capacity }})</h3>
+
     <button class="icon-btn" type="button" (click)="closeClientsModal()" title="Cerrar" aria-label="Cerrar">✕</button>
+
+    <h2>Registrar clientes (capacidad: {{ currentClass?.capacity }})</h2>
+
   </div>
 
   <div class="modal__body">
@@ -148,7 +143,9 @@
       <div class="client-list">
         <label class="client-item"
                *ngFor="let cli of filteredClients"
+
                [class.disabled]="!selectedClientIds.has(cli.id) && (selectedClientIds.size >= (currentClass?.capacity || 0))">
+
           <input
             type="checkbox"
             [checked]="selectedClientIds.has(cli.id)"
@@ -163,9 +160,11 @@
         </label>
       </div>
 
-      <div class="modal__footer">
-        <button type="button" class="btn" (click)="closeClientsModal()">Cancelar</button>
-        <button type="submit" class="btn primary">Guardar</button>
+
+      <div class="modal-actions">    
+        <button type="submit" class="btn-primary">Guardar</button>
+        <button type="button" class="btn-secondary" (click)="closeClientsModal()">Cancelar</button>
+
       </div>
     </form>
   </div>

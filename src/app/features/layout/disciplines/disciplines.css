@@ -1,39 +1,60 @@
 .disciplines-container {
   max-width: 900px;
-  margin: auto;
+  margin: 0;
   padding: 20px;
 }
 
-.btn-primary {
-  background: #28a745;
-  color: white;
-  border: none;
-  padding: 8px 14px;
-  margin-bottom: 15px;
-  cursor: pointer;
-  border-radius: 4px;
+.disciplines-container h2 {
+  font-family: 'MontBold';
 }
 
-.btn-secondary {
-  background: #ccc;
+.btn-primary {
+  background: #09b83d;
+  font-family: 'MontBold';
+  padding: 8px 16px;
+  border-radius: 8px;
   border: none;
-  padding: 8px 14px;
   cursor: pointer;
-  border-radius: 4px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: #079e35;
+}
+.btn-secondary {
+  background-color: #df1919;
+  font-family: 'MontBold';
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+  background-color: #a50e0e;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 th, td {
   border: 1px solid #ddd;
   padding: 8px;
+  font-size: 14px;
 }
 
 th {
   background: #f0f0f0;
+  font-family: 'MontBold';
 }
 
 
@@ -50,16 +71,24 @@ th {
 }
 
 .modal {
-  background: white;
+  background: var(--color-ivory);
   padding: 20px;
   border-radius: 6px;
   width: 450px;
   max-width: 95%;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal h2 {
+  font-family: 'MontBold';
+  text-align: center;
+  padding-bottom: 15px;
 }
 
 .modal input,
 .modal textarea {
   width: 100%;
+  font-family: 'Mont';
   margin-bottom: 10px;
   padding: 8px;
   border: 1px solid #ddd;
@@ -69,6 +98,52 @@ th {
 .modal-actions {
   margin-top: 15px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   gap: 10px;
+}
+
+.btn-open {
+  border: none;
+  background: none;
+  font-family: 'Mont';
+  cursor: pointer;
+  font-size: 16px;
+  padding: 6px;
+  border-radius: 6px;
+  transition: background 0.2s;
+  margin: 10px 0;
+}
+
+.btn-open:hover {
+  background: var(--color-ivory);
+}
+
+.actions {
+  padding: 12px 16px;
+  text-align: left;
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.icon {
+  cursor: pointer;
+  font-size: 20px;
+  transition: transform 0.2s;
+}
+
+.icon:hover {
+  transform: scale(1.2);
+}
+
+.edit {
+  cursor: pointer;
+  font-size: 15px;
+  background: none;
+}
+
+.delete {
+  cursor: pointer;
+  font-size: 15px;
+  background: none;
 }
