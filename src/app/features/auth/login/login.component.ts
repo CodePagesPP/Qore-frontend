@@ -17,7 +17,16 @@ export class LoginComponent {
 
   constructor(private authService: AuthService, private router: Router, private cdRef: ChangeDetectorRef) {}
 
-  onSubmit(): void {
+  isActive = false;
+
+  activateRegister() {
+    this.isActive = true;
+  }
+
+  activateLogin() {
+    this.isActive = false;
+  }
+onSubmit(): void {
   this.authService.login(this.credentials).subscribe({
     next: (res) => {
       localStorage.setItem('token', res.token);
