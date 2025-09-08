@@ -39,7 +39,7 @@ form {
   height: 100%;
   background: #fff;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   color: #333;
   text-align: center;
   padding: 40px;
@@ -194,4 +194,8 @@ form {
   background: transparent;
   border: 2px solid #fff;
   box-shadow: none;
+}
+
+.logoQore {
+  padding-bottom: 30px;
 }

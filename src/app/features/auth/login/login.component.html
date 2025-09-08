@@ -1,7 +1,11 @@
 <div class="body">
   <div class="container" [class.active]="isActive">
+    
   <div class="form-box login">
     <form (ngSubmit)="onSubmit()">
+      <div class="logoQore">
+        <img src="/assets/logoQore.png" width="150px" alt="">
+      </div>
       <h1>Inicia Sesión</h1>
       <div class="input-box">
         <input
@@ -39,6 +43,9 @@
   
   <div class="form-box register">
       <form (ngSubmit)="onSubmit()">
+        <div class="logoQore">
+          <img src="/assets/logoQore.png" width="150px" alt="">
+        </div>
         <h1>Regístrate</h1>
         <div class="input-box">
           <input
