@@ -75,4 +75,9 @@ export class Nav {
     this.menuBtn?.nativeElement.removeEventListener('click', this.menuClickHandler);
     this.closeBtn?.nativeElement.removeEventListener('click', this.closeClickHandler);
   }
+
+  activeOption: string = '';
+  setActive(option: string) {
+    this.activeOption = option;
+  }
 }
