@@ -2,22 +2,35 @@
   <div class="container" [class.active]="isActive">
     
   <div class="form-box login">
-    <form (ngSubmit)="onSubmit()">
+    <button type="button" class="back-btn" (click)="goBack()">
+      <i class="fa fa-arrow-left"></i>
+    </button>
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
       <div class="logoQore">
         <img src="/assets/logoQore.png" width="150px" alt="">
       </div>
       <h1>Inicia Sesión</h1>
-      <div class="input-box">
+      <div class="box">
+        <div class="input-box">
         <input
           type="email"
           placeholder="example@gmail.com"
+          pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
           id="email"
           [(ngModel)]="credentials.email"
           name="email"
+          #emailInput="ngModel"
           required
         />
-        <i class="fa fa-envelope" aria-hidden="true"></i>
+          <i class="fa fa-envelope" aria-hidden="true"></i>
+        </div>
+        <div>
+          <p class="errorEmail" *ngIf="emailInput.invalid && emailInput.touched">
+          <span *ngIf="emailInput.errors?.['pattern']">Formato de correo inválido</span>
+          </p>
+        </div>
       </div>
+      
 
       <div class="input-box">
         <input
@@ -35,52 +48,183 @@
         <a href="#">Olvidaste tu contraseña?</a>
       </div>
 
-      <button type="submit" class="btn">Iniciar Sesión</button>
+      <button type="submit" class="btn" [disabled]="loginForm.invalid">Iniciar Sesión</button>
 
       <p class="error" *ngIf="error">{{ error }}</p>
     </form>
   </div>
   
   <div class="form-box register">
-      <form (ngSubmit)="onSubmit()">
+    <button type="button" class="back-btn" (click)="goBack()">
+      <i class="fa fa-arrow-left"></i>
+    </button>
+      <form (ngSubmit)="onSubmitRegister()" #registerForm="ngForm">
         <div class="logoQore">
           <img src="/assets/logoQore.png" width="150px" alt="">
         </div>
         <h1>Regístrate</h1>
-        <div class="input-box">
+        <div class="registerForm">
+          <div class="input-box registerBox">
           <input
-            type="email"
+            type="name"
             placeholder="Nombre"
-            id="email"
-            [(ngModel)]="credentials.email"
-            name="email"
+            id="name"
+            [(ngModel)]="credentialsRegister.name"
+            name="name"
             required
           />
           <i class="fa fa-user" aria-hidden="true"></i>
         </div>
-        <div class="input-box">
+        <div class="input-box registerBox">
           <input
-            type="email"
-            placeholder="example@gmail.com"
-            id="email"
-            [(ngModel)]="credentials.email"
-            name="email"
+            type="lastName"
+            placeholder="Apellido"
+            id="lastName"
+            [(ngModel)]="credentialsRegister.lastName"
+            name="lastName"
             required
+            />
+          <i class="fa fa-user" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+          <div class="input-box registerBox">
+          <input
+            type="tel"
+            placeholder="XXXXXXXXX"
+            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+            id="phoneNumber"
+            [(ngModel)]="credentialsRegister.phoneNumber"
+            name="phoneNumber"
+            pattern="[0-9]{9}"
+            (keypress)="allowOnlyNumbers($event)"
+            #phoneNumber="ngModel"
+            required
+            />
+            <i class="fa fa-phone" aria-hidden="true"></i>
+          </div>
+          <div *ngIf="phoneNumber.invalid && phoneNumber.touched">El numero telefonico debe tener exactamente 9 dígitos</div>
+      </div>
+      <div class="box">
+        <div class="input-box registerBox">
+        <input
+          type="email"
+          placeholder="example@gmail.com"
+          pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+          id="email"
+          [(ngModel)]="credentialsRegister.email"
+          name="email"
+          #emailInputRegister="ngModel"
+          required
           />
           <i class="fa fa-envelope" aria-hidden="true"></i>
         </div>
-        <div class="input-box">
+        <div
+          *ngIf="emailInputRegister.invalid && emailInputRegister.touched">
+          <span *ngIf="emailInputRegister.errors?.['pattern']">Formato de correo inválido</span>
+        </div>
+      </div>
+      <div class="box">
+        <div class="input-box registerBox">
           <input
             type="password"
             id="password"
-            [(ngModel)]="credentials.password"
-            placeholder="contraseña"
+            [(ngModel)]="credentialsRegister.password"
+            placeholder="Contraseña"
             name="password"
             required
           />
           <i class="fa fa-lock" aria-hidden="true"></i>
         </div>
-        <button type="submit" class="btn">Regístrate</button>
+      </div>  
+      <div class="box">
+        <div class="input-box registerBox">
+        <input
+          type="tel"
+          placeholder="DNI"
+          pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+          id="tel"
+          [(ngModel)]="credentialsRegister.dni"
+          name="dni"
+          pattern="[0-9]{8}"
+          (keypress)="allowOnlyNumbers($event)"
+          #dni="ngModel"
+          required
+          />
+          <i class="fa fa-id-card-o" aria-hidden="true"></i>
+      </div>
+        <div *ngIf="dni.invalid && dni.touched">El DNI debe tener exactamente 8 dígitos</div>
+      </div>
+      <div class="box">
+        <div class="input-box registerBox">
+          <input
+            class="dateInput"
+            type="date"
+            id="birthday"
+            [(ngModel)]="credentialsRegister.birthday"
+            (ngModelChange)="validateBirthday()"
+            placeholder="XX/XX/XXXX"
+            name="birthday"
+            required
+          />
+        </div>
+        <div *ngIf="birthdayError">{{ birthdayError }}</div>
+      </div>
+
+      <div class="box">
+        <div class="select-box registerBox">
+        <select required name="sex" id="sex" [(ngModel)]="credentialsRegister.sex">
+          <option disabled selected value="">Selecciona tu sexo</option>
+          <option value="Masculino">Masculino</option>
+          <option value="Femenino">Femenino</option>
+        </select>
+          <i class="fa fa-venus-mars" aria-hidden="true"></i>
+        </div>
+      </div>
+
+      <div class="box">
+        <div class="input-box registerBox">
+          <input
+            type="text"
+            id="country"
+            [(ngModel)]="credentialsRegister.country"
+            placeholder="País"
+            name="country"
+            required
+          />
+          <i class="fa fa-globe" aria-hidden="true"></i>
+        </div>
+      </div>
+
+      <div class="box">
+        <div class="input-box registerBox">
+          <input
+            type="text"
+            id="city"
+            [(ngModel)]="credentialsRegister.city"
+            placeholder="Ciudad"
+            name="city"
+            required
+          />
+          <i class="fa fa-location-arrow" aria-hidden="true"></i>
+        </div>
+      </div>
+
+      <div class="box full">
+        <div class="input-box registerBox">
+          <input
+            type="text"
+            id="address"
+            [(ngModel)]="credentialsRegister.address"
+            placeholder="Dirección"
+            name="address"
+            required
+          />
+          <i class="fa fa-map-marker" aria-hidden="true"></i>
+        </div>
+      </div>
+      
+        </div>
+        <button type="submit" class="btn" [disabled]="registerForm.invalid">Regístrate</button>
 
         <p class="error" *ngIf="error">{{ error }}</p>
       </form>
@@ -89,13 +233,13 @@
   <div class="toggle-box"></div>
 
   <div class="toggle-panel toggle-left">
-    <h1>Hola, Bienvenido!</h1>
+    <h1>Bienvenido de vuelta!</h1>
     <p>Aún no tienes cuenta?</p>
     <button class="btn register-btn" (click)="activateRegister()">Regístrate</button>
   </div>
 
   <div class="toggle-panel toggle-right">
-    <h1>Bienvenido de vuelta!</h1>
+    <h1>Hola, Bienvenido!</h1>
     <p>Ya tienes cuenta?</p>
     <button class="btn login-btn" (click)="activateLogin()">Inicia Sesión</button>
   </div>

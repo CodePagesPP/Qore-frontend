@@ -12,61 +12,82 @@
         </div>
 
         <div class="sidebar">
-            <a routerLink="/dashboard">
-                <span class="material-icons-sharp">dashboard_customize</span>
-                <h3>Dashboard</h3>
-            </a>
-            <a routerLink="/classes" class="active">
-                <span class="material-icons-sharp">self_improvement</span>
-                <h3>Clases</h3>
-            </a>
-            <a routerLink="/clients">
-                <span class="material-icons-sharp">people</span>
-                <h3>Clientes</h3>
-            </a>
-            <a routerLink="/workers">
-                <span class="material-icons-sharp">diversity_3</span>
-                <h3>Colaboradores</h3>
-            </a>
-            <a class="menu-item active" (click)="toggleConfig()">
-                <span class="material-icons-sharp">settings_applications</span>
-                <h3>Configuración</h3>
-                <span class="material-icons-sharp arrow">
-                    {{ showConfig ? 'expand_less' : 'expand_more' }}
-                </span>
-            </a>
+        <a 
+            routerLink="/dashboard" 
+            (click)="setActive('dashboard')" 
+            [class.active]="activeOption === 'dashboard'">
+            <span class="material-icons-sharp">dashboard_customize</span>
+            <h3>Dashboard</h3>
+        </a>
 
-            <ul *ngIf="showConfig" class="submenu">
-                <li>
-                    <a routerLink="/roles">
-                    <span class="material-icons-sharp">add_moderator</span>
-                    <h4>Roles</h4>
-                    </a>
-                </li>
-                <li>
-                    <a routerLink="/rooms">
-                    <span class="material-icons-sharp">meeting_rooms</span>
-                    <h4>Salas</h4>
-                    </a>
-                </li>
-                <li>
-                    <a routerLink="/disciplines">
-                    <span class="material-icons-sharp">tune</span>
-                    <h4>Disciplinas</h4>
-                    </a>
-                </li>
-                <li>
-                    <a routerLink="/plans">
-                    <span class="material-icons-sharp">savings</span>
-                    <h4>Planes</h4>
-                    </a>
-                </li>
-            </ul>
-            <a (click)="logout()" >
-                <span class="material-icons-sharp">logout</span>
-                <h3>Cerrar Sesion</h3>
+        <a 
+            routerLink="/classes" 
+            (click)="setActive('classes')" 
+            [class.active]="activeOption === 'classes'">
+            <span class="material-icons-sharp">self_improvement</span>
+            <h3>Clases</h3>
+        </a>
+
+        <a 
+            routerLink="/clients" 
+            (click)="setActive('clients')" 
+            [class.active]="activeOption === 'clients'">
+            <span class="material-icons-sharp">people</span>
+            <h3>Clientes</h3>
+        </a>
+
+        <a 
+            routerLink="/workers" 
+            (click)="setActive('workers')" 
+            [class.active]="activeOption === 'workers'">
+            <span class="material-icons-sharp">diversity_3</span>
+            <h3>Colaboradores</h3>
+        </a>
+
+        <a 
+            class="menu-item" 
+            (click)="toggleConfig(); setActive('config')" 
+            [class.active]="activeOption === 'config'">
+            <span class="material-icons-sharp">settings_applications</span>
+            <h3>Configuración</h3>
+            <span class="material-icons-sharp arrow">
+            {{ showConfig ? 'expand_less' : 'expand_more' }}
+            </span>
+        </a>
+
+        <ul *ngIf="showConfig" class="submenu">
+            <li>
+            <a routerLink="/roles" (click)="setActive('roles')" [class.active]="activeOption === 'roles'">
+                <span class="material-icons-sharp">add_moderator</span>
+                <h4>Roles</h4>
             </a>
+            </li>
+            <li>
+            <a routerLink="/rooms" (click)="setActive('rooms')" [class.active]="activeOption === 'rooms'">
+                <span class="material-icons-sharp">room_preferences</span>
+                <h4>Salas</h4>
+            </a>
+            </li>
+            <li>
+            <a routerLink="/disciplines" (click)="setActive('disciplines')" [class.active]="activeOption === 'disciplines'">
+                <span class="material-icons-sharp">tune</span>
+                <h4>Disciplinas</h4>
+            </a>
+            </li>
+            <li>
+            <a routerLink="/plans" (click)="setActive('plans')" [class.active]="activeOption === 'plans'">
+                <span class="material-icons-sharp">savings</span>
+                <h4>Planes</h4>
+            </a>
+            </li>
+        </ul>
+
+        <a (click)="logout()">
+            <span class="material-icons-sharp">logout</span>
+            <h3>Cerrar Sesión</h3>
+        </a>
         </div>
+
     </aside>
 
     <main>

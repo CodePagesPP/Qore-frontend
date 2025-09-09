@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
-import { AuthRequest } from '../../../core/models/auth.model';
+import { AuthRequest, RegisterRequest } from '../../../core/models/auth.model';
 import { AuthService } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -46,5 +46,72 @@ onSubmit(): void {
       this.cdRef.detectChanges();
     },
   });
+}
+
+//Registro
+
+  credentialsRegister: RegisterRequest = {
+    email: '',
+    password: '',
+    name: '',
+    lastName: '',
+    phoneNumber: '',
+    birthday: '',
+    sex: '',
+    country: '',
+    city: '',
+    address: '',
+    dni: ''
+  }
+
+  birthdayError: string = '';
+  emailError: string = '';
+  dniError: string = '';
+
+  onSubmitRegister(): void {
+    this.authService.register(this.credentialsRegister).subscribe({
+      next: (res) => {
+        this.router.navigate(['/login']); 
+      },
+      error: (err) => {
+        console.log('Error recibido:', err.error.message);
+        this.error = err.error.message;
+        this.cdRef.detectChanges();
+      }
+    })
+  }
+
+  validateBirthday():void{
+    const actualDate = new Date();
+    const receivedDate = new Date(this.credentialsRegister.birthday);
+    if(receivedDate > actualDate) {
+      this.birthdayError = 'La fecha es inválida.';
+      return;
+    }
+    let age = actualDate.getFullYear() - receivedDate.getFullYear();
+    const monthDiference = actualDate.getMonth() - receivedDate.getMonth();
+    const dayDiference = actualDate.getDate() - receivedDate.getDate();
+
+    if(monthDiference < 0 || (monthDiference === 0 && dayDiference < 0)) {
+      age--;
+    }
+    if(age < 5) {
+      this.birthdayError = 'La edad mínima es de 5 años.';
+    } else {
+      this.birthdayError = '';
+    }
+  }
+
+  allowOnlyNumbers(event: KeyboardEvent): void {
+  const charCode = event.key.charCodeAt(0);
+  if (charCode < 48 || charCode > 57) {
+    event.preventDefault();
+  }
+}
+
+goBack() {
+  // si usas routing de Angular
+  this.router.navigate(['/home']); 
+  // o simplemente window.history.back();
 }
 }
