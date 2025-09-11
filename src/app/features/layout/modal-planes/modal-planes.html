@@ -1,0 +1,22 @@
+<!-- plans-modal.component.html -->
+<div class="modal-backdrop" *ngIf="showModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Elige un plan</h2>
+      <button class="close-btn" (click)="onClose()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="plans-grid">
+        <div class="plan-card" *ngFor="let plan of plans">
+          <h3>{{ plan.name }}</h3>
+          <p>{{ plan.description }}</p>
+          <p><strong>Sesiones:</strong> {{ plan.sessions }}</p>
+          <p><strong>Duración:</strong> {{ plan.duration }} días</p>
+          <p><strong>Precio:</strong> S/ {{ plan.price }}</p>
+          <button (click)="onSelect(plan)">Seleccionar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

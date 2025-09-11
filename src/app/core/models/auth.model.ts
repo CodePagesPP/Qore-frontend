@@ -59,6 +59,7 @@ export interface workerUpdateRequest {
 }
 
 export interface User{
+  id: number;
   email: string;
   name: string;
   lastName: string;
