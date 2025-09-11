@@ -2,49 +2,79 @@
   <div class="header">
     <h2>Clases</h2>
   </div>
-  <button class="btn-open" (click)="openCreate()"><i class="fa fa-plus-square"></i> Crear clase</button>
 
-  <div class="table">
-    <div class="row header">
-      <div>Nombre</div>
-      <div>Disciplina</div>
-      <div>Instructor</div>
-      <div>Sala</div>
-      <div>Capacidad</div>
-      <div>Inicio</div>
-      <div>Hora</div>
-      <div class="actions">Acciones</div>
+  <div class="clases-layout">
+    <!-- Columna izquierda (Calendario) -->
+    <div class="calendar-side">
+      <smart-calendar 
+        class="calendar-views" 
+        [view]="calendarView"
+        [viewSections]='["title", "header"]'
+        selection-mode="one">
+      </smart-calendar>
+      <div class="options">
+        <div class="caption">View Mode</div>
+        <div class="option">
+          <smart-radio-button 
+            [checked]="calendarView === 'landscape'" 
+            (change)="setView('landscape')">
+            Landscape
+          </smart-radio-button>
+          <smart-radio-button 
+            [checked]="calendarView === 'portrait'" 
+            (change)="setView('portrait')">
+            Portrait
+          </smart-radio-button>
+        </div>
+      </div>
     </div>
 
-    <div class="row" *ngFor="let c of clases">
-      <div>{{ c.name }}</div>
-      <div>{{ getDisciplineName(c.disciplineId) }}</div>
-<div>{{ getInstructorName(c.instructorId) }}</div>
-<div>{{ getRoomName(c.roomId) }}</div>
-      <div>{{ c.capacity }}</div>
-      <div>{{ c.startDate }}</div>
-      <div>{{ c.startTime }} - {{ c.endTime }}</div>
-      <div class="actions">
-        <button class="icon-btn" (click)="openEdit(c)">
-          <i class="fa-solid fa-pen-to-square"></i>
-        </button>
-        <button class="icon-btn danger" (click)="deleteClase(c.id)">
-          <i class="fa-solid fa-trash"></i>
-        </button>
-        <button class="icon-btn" (click)="openClients(c)">
-          <i class="fa fa-users" aria-hidden="true"></i>
-        </button>
+    <!-- Columna derecha (crear clases + tabla) -->
+    <div class="classes-side">
+      <button class="btn-open" (click)="openCreate()">
+        <i class="fa fa-plus-square"></i> Crear clase
+      </button>
+
+      <div class="table">
+        <div class="row header">
+          <div>Nombre</div>
+          <div>Disciplina</div>
+          <div>Instructor</div>
+          <div>Sala</div>
+          <div>Capacidad</div>
+          <div>Inicio</div>
+          <div>Hora</div>
+          <div class="actions">Acciones</div>
+        </div>
+
+        <div class="row" *ngFor="let c of clases">
+          <div>{{ c.name }}</div>
+          <div>{{ getDisciplineName(c.disciplineId) }}</div>
+          <div>{{ getInstructorName(c.instructorId) }}</div>
+          <div>{{ getRoomName(c.roomId) }}</div>
+          <div>{{ c.capacity }}</div>
+          <div>{{ c.startDate }}</div>
+          <div>{{ c.startTime }} - {{ c.endTime }}</div>
+          <div class="actions">
+            <button class="icon-btn" (click)="openEdit(c)">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+            <button class="icon-btn danger" (click)="deleteClase(c.id)">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+            <button class="icon-btn" (click)="openClients(c)">
+              <i class="fa fa-users" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-
 <div class="backdrop" *ngIf="showClassModal" (click)="closeClassModal()" tabindex="-1"></div>
 <div class="modal" *ngIf="showClassModal" role="dialog" aria-modal="true" aria-label="Modal de clase">
   <div class="modal__header">
-
-    <button class="icon-btn" type="button" (click)="closeClassModal()" title="Cerrar" aria-label="Cerrar">✕</button>
     <h2>{{ editing ? 'Editar clase' : 'Crear clase' }}</h2>
   </div>
 
@@ -119,11 +149,7 @@
 <div class="backdrop" *ngIf="showClientsModal" (click)="closeClientsModal()" tabindex="-1"></div>
 <div class="modal" *ngIf="showClientsModal" role="dialog" aria-modal="true" aria-label="Registrar clientes">
   <div class="modal__header">
-
-    <button class="icon-btn" type="button" (click)="closeClientsModal()" title="Cerrar" aria-label="Cerrar">✕</button>
-
     <h2>Registrar clientes (capacidad: {{ currentClass?.capacity }})</h2>
-
   </div>
 
   <div class="modal__body">
