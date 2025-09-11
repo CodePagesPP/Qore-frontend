@@ -240,6 +240,17 @@ main .insights .income svg circle {
     stroke-dashoffset: 35;
     stroke-dasharray: 110;
 }
+.sales .top{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: space-between;
+}
+
+.sales i{
+    color: green;
+    cursor: pointer;
+}
 
 main .insights .progress .number {
     position: absolute;

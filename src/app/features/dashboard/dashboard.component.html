@@ -4,39 +4,38 @@
 
         <div class="insights">
             <div class="sales">
-  <span class="material-icons-sharp">analytics</span>
-  <div class="middle">
-    <div class="left">
-      <h3>Ingresos Mensuales</h3>
-      <h1>S/.{{ currentMonthIncome }}</h1>
-    </div>
-    <div class="progress">
-      <svg>
-  <!-- fondo -->
-  <circle cx='38' cy='38' r='36' class="background-circle"></circle>
-  <!-- progreso -->
-  <circle 
-    cx='38' cy='38' r='36' 
-    class="progress-circle"
-    [attr.stroke-dasharray]="226" 
-    [attr.stroke-dashoffset]="226 - (percentage/100 * 226)"
-    transform="rotate(-90 38 38)">
-  </circle>
-</svg>
-      <div class="number">
-        <p>{{ percentage | number:'1.0-0' }}%</p>
-      </div>
-    </div>
-  </div>
-  <small class="text-muted">Meta: S/.{{ goal }} (Se reinicia cada mes)</small>
-</div>
+                <div class="top">
+
+
+                <span class="material-icons-sharp">analytics</span>
+                <i class="fa-solid fa-file-excel fa-xl"></i>
+                </div>
+                <div class="middle">
+                    <div class="left">
+                        <h3>Ingresos Mensuales</h3>
+                        <h1>S/.{{ currentMonthIncome }}</h1>
+                    </div>
+                    <div class="progress">
+                        <svg>
+                            <circle cx='38' cy='38' r='36' class="background-circle"></circle>
+                            <circle cx='38' cy='38' r='36' class="progress-circle" [attr.stroke-dasharray]="226"
+                                [attr.stroke-dashoffset]="226 - (percentage/100 * 226)" transform="rotate(-90 38 38)">
+                            </circle>
+                        </svg>
+                        <div class="number">
+                            <p>{{ percentage | number:'1.0-0' }}%</p>
+                        </div>
+                    </div>
+                </div>
+                <small class="text-muted">Meta: S/.{{ goal }} (Se reinicia cada mes)</small>
+            </div>
 
 
             <div class="expenses">
                 <span class="material-icons-sharp">bar_chart</span>
                 <div class="middle">
                     <div class="left">
-                        <h3>Ingresos Diarios</h3>
+                        <h3>Clases Semanales</h3>
                         <h1>S/.230</h1>
                     </div>
                     <div class="progress">
