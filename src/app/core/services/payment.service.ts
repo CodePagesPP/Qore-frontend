@@ -21,4 +21,8 @@ export class PaymentService {
       { headers: this.getAuthHeaders() }
     );
   }
+
+   getCurrentMonthIncome() {
+    return this.http.get<{month: string, total: number, goal: number, percentage: number}>(`${this.apiUrl}/current-month-income`,{ headers: this.getAuthHeaders() });
+  }
 }
