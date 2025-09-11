@@ -7,14 +7,19 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { WorkersService } from '../../../core/services/workers.service';
 import { AdminService } from '../../../core/services/admin.service';
+import { ViewChild, OnInit, AfterViewInit } from '@angular/core';
+import { CalendarComponent } from 'smart-webcomponents-angular/calendar';
+import { RadioButtonComponent } from 'smart-webcomponents-angular/radiobutton';
+import { RouterOutlet } from '@angular/router';
+import { CalendarModule } from 'smart-webcomponents-angular/calendar';import { RadioButtonModule } from 'smart-webcomponents-angular/radiobutton';
 
 @Component({
   selector: 'app-clases',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, CalendarModule, RadioButtonModule],
   templateUrl: './clases.html',
   styleUrl: './clases.css'
 })
-export class Clases {
+export class Clases implements AfterViewInit  {
   clases: ClassSession[] = [];
 
   disciplines: Discipline[] = [];
@@ -190,4 +195,32 @@ getRoomName(id: number): string {
     this.closeClientsModal();
     this.loadClases();
   }
+
+  @ViewChild('calendar', { static: false }) calendar!: CalendarComponent;
+  @ViewChild('landscape', { static: false }) landscape!: RadioButtonComponent;
+  @ViewChild('portrait', { static: false }) portrait!: RadioButtonComponent;
+
+  ngAfterViewInit(): void {
+    this.init();
+  }
+
+  init(): void {
+  this.landscape.addEventListener('change', () => {
+    if (this.landscape.checked) {
+      this.calendar.nativeElement.view = 'landscape';
+    }
+  });
+
+  this.portrait.addEventListener('change', () => {
+    if (this.portrait.checked) {
+      this.calendar.nativeElement.view = 'portrait';
+    }
+  });
+  }
+
+  calendarView: 'landscape' | 'portrait' = 'landscape';
+
+setView(view: 'landscape' | 'portrait') {
+  this.calendarView = view;
+}
 }
