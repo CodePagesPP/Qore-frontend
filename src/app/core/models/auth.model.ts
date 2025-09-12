@@ -74,6 +74,24 @@ export interface User{
   updatedAt: Date;
 }
 
+export interface UserProfile{
+  id: number;
+  email: string;
+  name: string;
+  lastName: string;
+  phoneNumber: string;
+  birthday: string;
+  sex: string;
+  country: string;
+  city: string;
+  address: string;
+  dni: string;
+  area?: string;
+  disciplineId?: number[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface Client{
   id: number;
   email: string;

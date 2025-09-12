@@ -129,6 +129,111 @@
   </div>
 </div>
 
+<div class="modal-backdrop" *ngIf="showModalView">
+  <div class="modal">
+    <div class="header">
+      <h2 class="princ-text">Mi Colaborador</h2>
+      <div class="iconClose" (click)="closeModalView()" aria-label="Cerrar"><i class="fa fa-close"></i></div>
+    </div>
+    <div>
+      <div class="user-info">
+      <div *ngIf="formData.role?.id == 3">   
+        <label for="discipline" class="block text-sm font-semibold text-gray-700 mb-2">
+          Disciplinas
+        </label>
+        <ng-select
+          class="custom-ng-select"
+          [items]="disciplines"
+          bindLabel="name"
+          bindValue="id"
+          [(ngModel)]="formData.disciplineId"
+          [multiple]="true"
+          [closeOnSelect]="false"
+          name="disciplineId"
+          required>
+        </ng-select>
+      </div>
+      <div *ngIf="formData.role?.id == 4">
+        <label>Área</label>
+        <input type="text" [(ngModel)]="formData.area" name="area">
+      </div>
+      <div>
+        <label>Nombre</label>
+        <input type="text" [(ngModel)]="formData.name" name="name" required>
+      </div>
+      <div>
+        <label>Apellido</label>
+        <input type="text" [(ngModel)]="formData.lastName" name="lastName" required>
+      </div>
+      <div>
+        <label>Email</label>
+        <input
+        type="email"
+        [(ngModel)]="formData.email"
+        name="email"
+        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+        #emailInput="ngModel"
+        required>
+      </div>
+      <div>
+        <label>Telefono</label>
+        <input
+        required
+        name="phoneNumber" 
+        type="tel" 
+        [(ngModel)]="formData.phoneNumber" 
+        pattern="[0-9]{9}"
+        (keypress)="allowOnlyNumbers($event)"
+        #phoneNumber="ngModel">
+        <div class="error" *ngIf="phoneNumber.invalid && phoneNumber.touched">El numero telefonico debe tener exactamente 9 dígitos</div>
+      </div>
+      <div>
+        <label>DNI</label>
+        <input type="tel"
+        required
+        name="dni"
+        [(ngModel)]="formData.dni"
+        pattern="[0-9]{8}"
+        (keypress)="allowOnlyNumbers($event)"
+        #dni="ngModel">
+        <div class="error" *ngIf="dni.invalid && dni.touched">El DNI debe tener exactamente 8 dígitos</div>
+        <div *ngIf="dniError">{{ dniError }}</div>
+      </div>
+      <div>
+        <label>Fecha de nacimiento</label>
+        <input class="dateInput"
+        type="date"
+        name="birthday"
+        required
+        [(ngModel)]="formData.birthday"
+        (ngModelChange)="validateBirthday()">
+        <div class="error" *ngIf="birthdayError">{{ birthdayError }}</div>
+      </div>
+      <div>
+        <label>Sexo</label>
+        <select id="sex_select" [(ngModel)]="formData.sex" name="sex" required>
+          <option value="" disabled selected>Selecciona tu sexo</option>
+          <option value="Femenino">Femenino</option>
+          <option value="Masculino">Masculino</option>
+        </select>
+      </div>
+      <div>
+        <label>País</label>
+        <input type="text" [(ngModel)]="formData.country" name="country">
+      </div>
+      <div>
+        <label>Ciudad</label>
+        <input type="text" [(ngModel)]="formData.city" name="city">
+      </div>
+      <div>
+        <label>Dirección</label>
+        <input type="text" [(ngModel)]="formData.address" name="address">
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+
 <div class="cards-container">
   <div class="role-card" *ngFor="let role of personal | keyvalue" [ngClass]="role.key.toLowerCase()">
     <div class="role-header">
@@ -153,8 +258,8 @@
         <td>{{ user.phoneNumber }}</td>
         <td class="actions">
           <span class="icon edit" (click)="openEditModal(user)" ><i class="fa-solid fa-pen-to-square"></i></span>
-          <span class="icon delete" ><i class="fa-solid fa-trash"></i></span>
-          <span class="icon info" ><i class="fa fa-info-circle"></i></span>
+          <span class="icon delete" (click)="deleteWorker(user.id)" ><i class="fa-solid fa-trash"></i></span>
+          <span class="icon info" (click)="openViewModal(user)" ><i class="fa fa-info-circle"></i></span>
         </td>
       </tr>
     </tbody>

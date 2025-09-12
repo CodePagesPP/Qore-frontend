@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Discipline, Instructor, Role, workerRegisterRequest, workerUpdateRequest } from '../../../core/models/auth.model';
+import { Discipline, Instructor, Role, UserProfile, workerRegisterRequest, workerUpdateRequest } from '../../../core/models/auth.model';
 import { WorkersService } from '../../../core/services/workers.service';
 import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { RolService } from '../../../core/services/rol.service';
+import { AdminService } from '../../../core/services/admin.service';
 
 @Component({
   selector: 'app-workers',
@@ -15,6 +16,7 @@ import { RolService } from '../../../core/services/rol.service';
 })
 export class Workers implements OnInit {
   showModal = false;
+  showModalView = false;
   edicion: workerUpdateRequest | null = null;
   roles: Role[] = [];
   formData: Partial<workerRegisterRequest> = {
@@ -36,8 +38,9 @@ export class Workers implements OnInit {
   error: string | null = null;
   disciplines: Discipline[] = [];
   personal: { [key: string]: any[] } = {};
+  userProfile: UserProfile | null = null;
 
-  constructor(private workersService: WorkersService, private rolService: RolService) {}
+  constructor(private workersService: WorkersService, private rolService: RolService, private adminService: AdminService) {}
 
   ngOnInit() {
     this.loadPersonal();
@@ -83,6 +86,10 @@ export class Workers implements OnInit {
 
   closeModal() {
     this.showModal = false;
+  }
+
+  closeModalView() {
+    this.showModalView = false;
   }
 
   registerWorker() {
@@ -172,7 +179,24 @@ export class Workers implements OnInit {
   });
 }
 
+  openViewModal(user: any): void {
+  this.userProfile = user;
+  const matchedRole = this.roles.find(r => r.name.toUpperCase() === user.role.toUpperCase());
+  this.formData = {
+    ...user,
+    role: matchedRole ? { id: matchedRole.id, name: matchedRole.name } : { id: 0, name: '' }
+  };
+  this.showModalView = true;
+}
 
+deleteWorker(userId: string): void {
+  if (confirm('¿Seguro que deseas eliminar este colaborador?')) {
+      this.workersService.deleteWorker(userId).subscribe({
+        next: () => this.loadPersonal(),
+        error: (err) => console.error('Error eliminando cliente', err)
+      });
+    }
+}
 
   onSubmit(): void {
     if(this.edicion) {

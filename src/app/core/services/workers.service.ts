@@ -86,6 +86,10 @@ export class WorkersService {
     )
   }
 
+  deleteWorker(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.adminUrl}/deleteWorker/${id}`, { headers: this.getAuthHeaders() });
+  }
+
   updateStaff(
     dni: string,
     dto: workerUpdateRequest

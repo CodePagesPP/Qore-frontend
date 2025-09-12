@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 export class CrudClients implements OnInit{
   clients : Client[] = [];
   isModalOpen = false;
+  isModalViewOpen = false;
   editingClient: Client | null = null;
 
   formData: Partial<RegisterRequest> = {
@@ -70,8 +71,18 @@ export class CrudClients implements OnInit{
     this.isModalOpen = true;
   }
 
+  openViewModal(client: Client): void {
+    this.editingClient = null;
+    this.formData = { ...client};
+    this.isModalViewOpen = true
+  }
+
   closeModal(): void {
     this.isModalOpen = false;
+  }
+
+  closeViewModal(): void {
+    this.isModalViewOpen = false;
   }
 
   onSubmit(): void {

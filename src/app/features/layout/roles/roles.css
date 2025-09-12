@@ -136,6 +136,7 @@ button {
 
 .btn-secondary:hover {
   background-color: #a50e0e;
+  background: none;
 }
 
 .form-grid {

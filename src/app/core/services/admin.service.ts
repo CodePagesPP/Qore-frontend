@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Client } from '../models/auth.model';
+import { Client, UserProfile } from '../models/auth.model';
 import { map, Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
@@ -13,6 +13,11 @@ export class AdminService {
   private tokenKey = 'token'
 
   constructor(private http: HttpClient, private router: Router) {}
+
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem(this.tokenKey);
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  }
 
    getAllActiveClients(): Observable<Client[]> {
     const token = localStorage.getItem(this.tokenKey); 
@@ -26,4 +31,8 @@ export class AdminService {
       })
     );
   }
+
+  getUserById(id: number): Observable<UserProfile> {
+      return this.http.get<UserProfile>(`${this.adminUrl}/moreInfo/${id}`,{ headers: this.getAuthHeaders()});
+    }
 }

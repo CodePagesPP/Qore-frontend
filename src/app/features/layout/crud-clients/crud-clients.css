@@ -209,3 +209,13 @@ select {
 .error {
   color: red;
 }
+
+.iconClose {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
