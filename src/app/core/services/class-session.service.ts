@@ -45,4 +45,9 @@ export class ClassSessionService {
   addClientToClass(classId: number, clientId: number): Observable<string> {
     return this.http.put<string>(`${this.classApiUrl}/${classId}/clients/${clientId}`, {},{ headers: this.getAuthHeaders() });
   }
+
+  getWeeklyClassCount() {
+  return this.http.get<{ weeklyCount: number }>(`${this.classApiUrl}/weekly-count`, { headers: this.getAuthHeaders() });
+}
+
 }
