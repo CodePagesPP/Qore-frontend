@@ -38,6 +38,14 @@ export class WorkersService {
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
+
+getNonAdminClientUsersCount(): Observable<{ workers: number }> {
+  return this.http.get<{ workers: number }>(
+    `${this.adminUrl}/count-non-admin-client`,{ headers: this.getAuthHeaders() }
+  );
+}
+
+
   getInstructors(): Observable<Instructor[]> {
       return this.http.get<Instructor[]>(`${this.instructorAPIurl}/listInstructor`,{ headers: this.getAuthHeaders() });
     }

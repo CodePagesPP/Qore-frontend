@@ -16,3 +16,15 @@ export interface Room{
     id?: number;
     name: string;
 }
+
+export interface ClientEndingSoon {
+  id: number;
+  name: string;
+  lastName: string;
+  phoneNumber: string;
+  email: string;
+  subscriptionEnd: string;
+  classesTaken: number;
+  classesRemaining: number;
+  totalClasses: number;
+}

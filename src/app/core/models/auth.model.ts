@@ -7,6 +7,24 @@ export interface AuthResponse {
   token: string;
 }
 
+export interface ClientRegisterNewDTO {
+  id: number;
+  name: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  createdAt: string; 
+}
+
+export interface ClientSubscriptionEndedDTO {
+  id: number;
+  name: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  subscriptionEnd: string;
+}
+
 export interface RegisterRequest {
   email: string;
   password: string;

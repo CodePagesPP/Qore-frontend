@@ -44,30 +44,11 @@
                 </div>
                 <small class="text-muted">Se reinicia cada semana</small>
             </div>
-
-            <div class="income">
-                <span class="material-icons-sharp">stacked_line_chart</span>
-                <div class="middle">
-                    <div class="left">
-                        <h3>Ingresos Semanales</h3>
-                        <h1>S/.1000</h1>
-                    </div>
-                    <div class="progress">
-                        <svg>
-                            <circle cx ='38' cy='38' r="36"></circle>
-                        </svg>
-                        <div class="number">
-                            <p>80%</p>
-                        </div>
-                    </div>
-                </div>
-                <small class="text-muted">Se reinicia cada semana</small>
-            </div>
         </div>
 
         <div class="tables-container">
             <div class="recent-orders">
-                <h2>Clientes por Recuperar</h2>
+                <h2>Clientes por Vencer</h2>
                 <div class="table-wrapper">
                     <table>
                         <thead>
@@ -76,111 +57,63 @@
                                 <th>Email</th>
                                 <th>Teléfono</th>
                                 <th>Sesiones</th>
+                                <th>Fecha de vencimiento</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Valeria Pilco</td>
-                                <td>test@gmail.com</td>
-                                <td>999000111</td>
-                                <td class="warning">6/7</td>
+                            <tr *ngFor="let client of clientsEnding | paginate: {id: 'ending', itemsPerPage: 5, currentPage: pE }">
+                                <td>{{ client.name }} {{ client.lastName }}</td>
+                                <td>{{ client.email }}</td>
+                                <td>{{ client.phoneNumber }}</td>
+                                <td class="warning">{{ client.classesTaken }}/{{ client.totalClasses }}</td>
+                                <td class="warning">{{client.subscriptionEnd}}</td>
                                 <td class="primary" id="detalle">Detalle</td>
                             </tr>
-                            <tr>
-                                <td>Valeria Pilco</td>
-                                <td>test@gmail.com</td>
-                                <td>999000111</td>
-                                <td class="warning">6/7</td>
-                                <td class="primary" id="detalle">Detalle</td>
-                            </tr>
-                            <tr>
-                                <td>Valeria Pilco</td>
-                                <td>test@gmail.com</td>
-                                <td>999000111</td>
-                                <td class="warning">6/7</td>
-                                <td class="primary" id="detalle">Detalle</td>
-                            </tr>
+                            
                         </tbody>
+                        <pagination-controls id="ending" (pageChange)="pE = $event"></pagination-controls>
                     </table>
                 </div>
                 <a href="#">Mostrar todos</a>
             </div>
 
-            <div class="recent-orders">
-                <h2>Ultimos Clientes</h2>
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Nombres</th>
-                                <th>Email</th>
-                                <th>Teléfono</th>
-                                <th>Sesiones</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Valeria Pilco</td>
-                                <td>test@gmail.com</td>
-                                <td>999000111</td>
-                                <td class="warning">6/7</td>
-                                <td class="primary" id="detalle">Detalle</td>
-                            </tr>
-                            <tr>
-                                <td>Valeria Pilco</td>
-                                <td>test@gmail.com</td>
-                                <td>999000111</td>
-                                <td class="warning">6/7</td>
-                                <td class="primary" id="detalle">Detalle</td>
-                            </tr>
-                            <tr>
-                                <td>Valeria Pilco</td>
-                                <td>test@gmail.com</td>
-                                <td>999000111</td>
-                                <td class="warning">6/7</td>
-                                <td class="primary" id="detalle">Detalle</td>
-                            </tr>
-                            <tr>
-                                <td>Valeria Pilco</td>
-                                <td>test@gmail.com</td>
-                                <td>999000111</td>
-                                <td class="warning">6/7</td>
-                                <td class="primary" id="detalle">Detalle</td>
-                            </tr>
-                            <tr>
-                                <td>Valeria Pilco</td>
-                                <td>test@gmail.com</td>
-                                <td>999000111</td>
-                                <td class="warning">6/7</td>
-                                <td class="primary" id="detalle">Detalle</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <a href="#">Mostrar todos</a>
+
+        <div class="recent-orders">
+            <h2>Últimos Clientes registrados en el mes</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombres</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                            <th>Registrado</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let client of newClients | paginate: {id: 'new', itemsPerPage: 5, currentPage: p }">
+                            <td>{{client.name}} {{client.lastName}}</td>
+                            <td>{{client.email}}</td>
+                            <td>{{client.phoneNumber}}</td>
+                            <td class="warning">{{ client.createdAt | date:'dd/MM/yyyy' }}</td>
+                        </tr>
+        
+                        
+                    </tbody>
+                    <pagination-controls id="new" (pageChange)="p = $event"></pagination-controls>
+                </table>
             </div>
+            <a href="#">Mostrar todos</a>
+        </div>
+
         </div>
     </main>
 
     <div class="right">
-        <div class="top">
-            <button id="menu-btn">
-                <span class="material-icons-sharp">menu</span>
-            </button>
-            <div class="profile">
-                <div class="info">
-                    <p>Hola, Natalia</p>
-                    <small class="text-muted">Admin</small>
-                </div>
-                <div class="profile-photo">
-                    <img src="https://cdn.pixabay.com/photo/2017/11/10/05/46/user-2935523_1280.png" alt="">
-                </div>
-            </div>
-        </div>
         <div class="recent-updates">
-            <h2>Cumpleaños del mes!</h2>
+            <h2>Cumpleaños de la semana</h2>
             <div class="updates">
                 <div class="update">
                     <table>
@@ -193,34 +126,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Valeria Pilco</td>
-                                <td>23/08</td>
-                                <td>999000111</td>
-                                <td class="primary" id="detalle">Detalle</td>
-                            </tr>
-                            <tr>
-                                <td>Valeria Pilco</td>
-                                <td>23/08</td>
-                                <td>999000111</td>
-                                <td class="primary" id="detalle">Detalle</td>
-                            </tr>
-                            <tr>
-                                <td>Valeria Pilco</td>
-                                <td>23/08</td>
-                                <td>999000111</td>
-                                <td class="primary" id="detalle">Detalle</td>
-                            </tr>
-                            <tr>
-                                <td>Valeria Pilco</td>
-                                <td>23/08</td>
-                                <td>999000111</td>
-                                <td class="primary" id="detalle">Detalle</td>
-                            </tr>
-                            <tr>
-                                <td>Valeria Pilco</td>
-                                <td>23/08</td>
-                                <td>999000111</td>
+                            <tr *ngFor="let client of clients">
+                                <td>{{ client.name }} {{ client.lastName }}</td>
+                                <td>{{ formatDate(client.birthday) }}</td>
+                                <td>{{ client.phoneNumber }}</td>
                                 <td class="primary" id="detalle">Detalle</td>
                             </tr>
                         </tbody>
@@ -228,22 +137,10 @@
                 </div>
             </div>
         </div>
+
         <div class="sales-analytics">
-            <h2>Status de Clientes</h2>
-            <div class="item online">
-                <div class="icon">
-                    <span class="material-icons-sharp">shopping_cart</span>
-                </div>
-                <div class="right">
-                    <div class="info">
-                        <h3>CLIENTES ACTIVOS</h3>
-                        <small class="text-muted">Últimas 24 horas</small>
-                    </div>
-                    <h5 class="success">+39%</h5>
-                    <h3>20</h3>
-                </div>
-            </div>
-            <div class="item offline">
+            <h2>Status</h2>
+            <div class="item offline" (click)="openInactiveModal()">
                 <div class="icon">
                     <span class="material-icons-sharp">local_mall</span>
                 </div>
@@ -252,8 +149,7 @@
                         <h3>CLIENTES INACTIVOS</h3>
                         <small class="text-muted">Últimas 24 horas</small>
                     </div>
-                    <h5 class="danger">-10%</h5>
-                    <h3>5</h3>
+                    <h3>{{ inactiveClientsCount }}</h3>
                 </div>
             </div>
             <div class="item customers">
@@ -263,24 +159,55 @@
                 <div class="right">
                     <div class="info">
                         <h3>ULTIMOS CLIENTES</h3>
-                        <small class="text-muted">Últimas 24 horas</small>
+                        <small class="text-muted">Por mes</small>
                     </div>
-                    <h5 class="success">+6%</h5>
-                    <h3>3</h3>
+                    <h3>{{ currentMonthClients }}</h3>
                 </div>
             </div>
+
             <div class="item yogacus">
                 <div class="icon">
                     <span class="material-icons-sharp">person</span>
                 </div>
                 <div class="right">
                     <div class="info">
-                        <h3>NUEVO PERSONAL</h3>
+                        <h3>PERSONAL</h3>
                         <small class="text-muted">Últimas 24 horas</small>
                     </div>
-                    <h3>1</h3>
+                    <h3>{{ workers }}</h3>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<div class="modal recent-updates" *ngIf="showInactiveModal" role="dialog" aria-modal="true">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Clientes Inactivos</h2>
+      <button (click)="closeInactiveModal()" class="close-btn">✕</button>
+    </div>
+    <div class="updates">
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Teléfono</th>
+            <th>Suscripción Terminó</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let client of inactiveClients">
+            <td>{{ client.name }} {{ client.lastName }}</td>
+            <td>{{ client.email }}</td>
+            <td>{{ client.phoneNumber }}</td>
+            <td>{{ client.subscriptionEnd | date: 'dd/MM/yyyy' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
