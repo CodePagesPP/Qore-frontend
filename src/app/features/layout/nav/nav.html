@@ -16,7 +16,7 @@
             routerLink="/dashboard" 
             (click)="setActive('dashboard')" 
             [class.active]="activeOption === 'dashboard'">
-            <span class="material-icons-sharp">dashboard_customize</span>
+            <span class="material-icons-sharp active">dashboard_customize</span>
             <h3>Dashboard</h3>
         </a>
 
@@ -94,4 +94,19 @@
         <router-outlet></router-outlet>
     </main> 
 
+    <div class="right">
+        <div class="top">
+            <button id="menu-btn" #menuBtn>
+                <span class="material-icons-sharp">menu</span>
+            </button>
+            <div class="profile" *ngIf="user">
+                <div class="info">
+                    <p>Bienvenido, <b>{{user.name}}</b></p>
+                    <div class="profile-photo">
+                    <img src="https://cdn.pixabay.com/photo/2017/11/10/05/46/user-2935523_1280.png" alt="">
+                    </div>
+                </div>    
+            </div>
+        </div>
+    </div>
 </div>
