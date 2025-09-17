@@ -19,7 +19,7 @@ export class PlanService {
   }
 
   getAllPlans(): Observable<PlanResponse[]> {
-    return this.http.get<PlanResponse[]>(`${this.apiUrl}/listPlans`, { headers: this.getHeaders() });
+    return this.http.get<PlanResponse[]>(`${this.apiUrl}/listPlans`);
   }
 
   createPlan(plan: PlanCreate): Observable<PlanResponse> {

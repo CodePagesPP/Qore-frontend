@@ -13,6 +13,8 @@ export const authenticatedGuard: CanActivateFn = (route, state) => {
       router.navigate(['/dashboard']);
     } else if (roles.includes('CLIENT_ACCESS')) {
       router.navigate(['/c/dashboard-client']);
+    } else if (roles.includes('INSTRUCTOR_ACCESS')) {
+      router.navigate(['/i/dashboard-instructor']);
     }
 
     return false;
