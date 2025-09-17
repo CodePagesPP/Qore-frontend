@@ -4,6 +4,7 @@ import { authGuard } from './core/guards/auth-guard';
 import { Nav } from './features/layout/nav/nav';
 import { roleGuard } from './core/guards/role-guard';
 import { NavClient } from './features/layout/nav-client/nav-client';
+import { NavInstructor } from './features/layout/nav-instructor/nav-instructor';
 
 export const routes: Routes = [
     {
@@ -89,6 +90,22 @@ export const routes: Routes = [
         loadComponent: () => import('./features/dashboard-client/dashboard-client').then(m => m.DashboardClient),
         canActivate: [roleGuard],
         data: { roles: ['CLIENT_ACCESS']}
+      },
+    ]
+  },
+//RUTAS INSTRUCTOR
+  {
+    path: 'i',
+    title: '',
+    component: NavInstructor,
+    canActivate: [authGuard] ,
+    children:[
+      {
+        path: 'dashboard-instructor',
+        title: 'Dashboard',
+        loadComponent: () => import('./features/dashboard-instructor/dashboard-instructor').then(m => m.DashboardInstructor),
+        canActivate: [roleGuard],
+        data: { roles: ['INSTRUCTOR_ACCESS']}
       },
     ]
   },

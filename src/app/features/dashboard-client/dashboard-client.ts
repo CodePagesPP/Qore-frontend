@@ -26,7 +26,6 @@ export class DashboardClient implements  OnInit{
     });
   }
 
-
 openModal() {
   this.showPlansModal = true;
 }
@@ -34,6 +33,5 @@ openModal() {
 closeModal() {
   this.showPlansModal = false;
 }
-
 
 }
