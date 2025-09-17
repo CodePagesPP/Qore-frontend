@@ -78,11 +78,12 @@
     </div>
 
     <div class="programs-cards">
-      <div class="card" *ngFor="let plan of plans">
+      <div class="card" *ngFor="let plan of plans | slice:0:4">
         <div class="icon">S/{{plan.price}}</div>
         <h3>{{plan.name}}</h3>
-        <p>{{plan.description}}
-        </p>
+        <ul class="desc-list">
+          <li *ngFor="let item of plan.description.split('\n')"><i class="far fa-check-circle" aria-hidden="true"></i>{{ item }}</li>
+        </ul>
         <a routerLink="/login" class="btn">Comprar</a>
       </div>
     </div>
@@ -93,31 +94,14 @@
       <p class="subtitle">Nuestros Paquetes Privados</p>
     </div>
     <div class="programs-cards" style="padding-top: 50px;">
-      <div class="card">
-        <div class="icon">S/90</div>
-        <h3>Clase Suelta</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.
-        </p>
-        <a href="#" class="btn">Comprar</a>
-      </div>
-
-      <div class="card">
-        <div class="icon">S/340</div>
-        <h3>Pack de 4 Clases</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.
-          Duis cursus, psum dolor sit amet.</p>
-        <a href="#" class="btn">Comprar</a>
-      </div>
-
-      <div class="card">
-        <div class="icon">S/485</div>
-        <h3>Pack Mixto</h3>
-        <ul>
-          <li><i class="far fa-check-circle" aria-hidden="true"></i> 4 clases grupales</li>
-          <li><i class="far fa-check-circle" aria-hidden="true"></i> 4 clases privadas</li>
+      <div class="card" *ngFor="let plan of plans | slice:4:7">
+        <div class="icon">S/{{plan.price}}</div>
+        <h3>{{plan.name}}</h3>
+        <ul class="desc-list">
+          <li *ngFor="let item of plan.description.split('\n')"><i class="far fa-check-circle" aria-hidden="true"></i>{{ item }}</li>
         </ul>
         <a href="#" class="btn">Comprar</a>
-      </div>
+      </div> 
     </div>
   </section>
 

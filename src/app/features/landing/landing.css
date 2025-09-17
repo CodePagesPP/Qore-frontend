@@ -548,6 +548,10 @@
   color: #666;
 }
 
+.desc-list {
+  margin-bottom: 20px;
+}
+
 /* TESTIMONIOS SECTION */
 .testimonials {
   padding: 80px 20px;
