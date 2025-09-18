@@ -324,6 +324,7 @@ main .recent-orders a {
     display: block;
     margin: 1rem auto;
     color: var(--color-primary);
+    cursor: pointer;
 }
 
 #detalle {

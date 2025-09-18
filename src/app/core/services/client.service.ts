@@ -3,7 +3,7 @@ import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Client, ClientRegisterNewDTO, ClientSubscriptionEndedDTO, RegisterRequest } from '../models/auth.model';
 import { map, Observable } from 'rxjs';
-import { ClientEndingSoon } from '../models/class.model';
+import { ClientClassDTO, ClientEndingSoon, ClientPlanInfo } from '../models/class.model';
 
 @Injectable({
   providedIn: 'root'
@@ -62,5 +62,13 @@ export class ClientService {
       `${this.clientUrl}/subscription-ended-2months`, { headers: this.getAuthHeaders() }
     );
   }
+
+  getClientPlanInfo(id: number): Observable<ClientPlanInfo> {
+  return this.http.get<ClientPlanInfo>(`${this.clientUrl}/${id}/plan-info`, { headers: this.getAuthHeaders() });
+}
+
+getMyClasses(): Observable<ClientClassDTO[]> {
+  return this.http.get<ClientClassDTO[]>(`${this.clientUrl}/classes`, { headers: this.getAuthHeaders() });
+}
 
 }
