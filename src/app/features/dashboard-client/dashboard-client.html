@@ -14,13 +14,13 @@
                 <div class="middle">
                     <div class="left">
                         <h3>Mi Plan</h3>
-                        <h1>TestPlan</h1>
+                        <h1>{{ clientPlanInfo?.planName }}</h1>
                     </div>
                     <div class="progress">
                         
                     </div>
                 </div>
-                <small class="text-muted">Meta: S/. (Se reinicia cada mes)</small>
+                <small class="text-muted">(Se reinicia cada mes)</small>
             </div>
 
 
@@ -29,7 +29,7 @@
                 <div class="middle">
                     <div class="left">
                         <h3>Clases Restantes</h3>
-                        <h1>4</h1>
+                        <h1>{{ clientPlanInfo?.classesRemaining }}</h1>
                     </div>
                     <div class="progress">
                         
@@ -43,56 +43,45 @@
                 <div class="middle">
                     <div class="left">
                         <h3>Fecha de Vencimiento</h3>
-                        <h1>06/08/2025</h1>
+                        <h1>{{ clientPlanInfo?.subscriptionEnd | date:'dd/MM/yyyy' }}</h1>
                     </div>
                     <div class="progress">
                         
                     </div>
                 </div>
-                <small class="text-muted">Se reinicia cada semana</small>
+                <small class="text-muted">Se reinicia cada mes</small>
             </div>
         </div>
 
         <div class="tables-container">
             <div class="recent-orders">
-                <h2>Clientes por Recuperar</h2>
+                <h2>Clases Pendientes</h2>
                 <div class="table-wrapper">
                     <table>
                         <thead>
                             <tr>
                                 <th>Nombre</th>
-                                <th>Email</th>
-                                <th>Teléfono</th>
-                                <th>Sesiones</th>
-                                <th></th>
+                                <th>Instructor</th>
+                                <th>Sala</th>
+                                <th>Fecha</th>
+                                <th>Inicio</th>
+                                <th>Fin</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Valeria Pilco</td>
-                                <td>test@gmail.com</td>
-                                <td>999000111</td>
-                                <td class="warning">6/7</td>
-                                <td class="primary" id="detalle">Detalle</td>
-                            </tr>
-                            <tr>
-                                <td>Valeria Pilco</td>
-                                <td>test@gmail.com</td>
-                                <td>999000111</td>
-                                <td class="warning">6/7</td>
-                                <td class="primary" id="detalle">Detalle</td>
-                            </tr>
-                            <tr>
-                                <td>Valeria Pilco</td>
-                                <td>test@gmail.com</td>
-                                <td>999000111</td>
-                                <td class="warning">6/7</td>
-                                <td class="primary" id="detalle">Detalle</td>
+                            <tr *ngFor="let c of myClasses | paginate: {id: 'new', itemsPerPage: 5, currentPage: p }">
+                                <td>{{c.name}}</td>
+                                <td>{{c.instructorName}}</td>
+                                <td>{{c.room}}</td>
+                                <td>{{c.startDate | date:'dd/MM/yyyy'}}</td>
+                                <td>{{c.startTime}}</td>
+                                <td>{{c.endTime}}</td>
                             </tr>
                         </tbody>
+                        <pagination-controls id="new" (pageChange)="p = $event"></pagination-controls>
                     </table>
                 </div>
-                <a href="#">Mostrar todos</a>
+                <a routerLink="/c/classes">Mostrar todos</a>
             </div>
         </div>
     </main>
@@ -107,48 +96,11 @@
             <h2>Mi Información</h2>
             <div class="updates">
                 <div class="update">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Fecha</th>
-                                <th>Teléfono</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Valeria Pilco</td>
-                                <td>23/08</td>
-                                <td>999000111</td>
-                                <td class="primary" id="detalle">Detalle</td>
-                            </tr>
-                            <tr>
-                                <td>Valeria Pilco</td>
-                                <td>23/08</td>
-                                <td>999000111</td>
-                                <td class="primary" id="detalle">Detalle</td>
-                            </tr>
-                            <tr>
-                                <td>Valeria Pilco</td>
-                                <td>23/08</td>
-                                <td>999000111</td>
-                                <td class="primary" id="detalle">Detalle</td>
-                            </tr>
-                            <tr>
-                                <td>Valeria Pilco</td>
-                                <td>23/08</td>
-                                <td>999000111</td>
-                                <td class="primary" id="detalle">Detalle</td>
-                            </tr>
-                            <tr>
-                                <td>Valeria Pilco</td>
-                                <td>23/08</td>
-                                <td>999000111</td>
-                                <td class="primary" id="detalle">Detalle</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <h3>Nombre: {{clientPlanInfo?.name}}</h3>
+                    <h3>Apellido: {{clientPlanInfo?.lastName}}</h3>
+                    <h3>DNI: {{clientPlanInfo?.dni}}</h3>
+                    <h3>Email: {{clientPlanInfo?.email}}</h3>
+                    <h3>phoneNumber: {{clientPlanInfo?.phoneNumber}}</h3>
                 </div>
             </div>
         </div>
