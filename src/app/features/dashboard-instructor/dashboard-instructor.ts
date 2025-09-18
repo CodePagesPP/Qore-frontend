@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 import { User } from '../../core/models/auth.model';
+import { InstructorService } from '../../core/services/instructor.service';
+import { InstructorStats } from '../../core/models/class.model';
 
 @Component({
   selector: 'app-dashboard-instructor',
@@ -10,7 +12,8 @@ import { User } from '../../core/models/auth.model';
 })
 export class DashboardInstructor {
   currentInstructorId?: number;
-  constructor(private authService: AuthService) {}
+  stats?: InstructorStats;
+  constructor(private authService: AuthService, private instructorService: InstructorService) {}
 
 
   ngOnInit(): void {
@@ -18,8 +21,13 @@ export class DashboardInstructor {
     this.authService.getUserInfo().subscribe({
       next: (profile: User) => {
         this.currentInstructorId = profile.id;
+         this.instructorService.getInstructorStats(profile.id).subscribe(planInfo => {
+        this.stats = planInfo;
+      });
       },
       error: (err) => console.error('Error al obtener perfil', err),
     });
   }
+
+
 }

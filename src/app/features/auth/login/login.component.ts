@@ -37,6 +37,8 @@ onSubmit(): void {
         this.router.navigate(['/dashboard']);
       } else if (roles.includes('CLIENT_ACCESS')) {
         this.router.navigate(['/c/dashboard']);
+      }else if (roles.includes('INSTRUCTOR_ACCESS')) {
+        this.router.navigate(['/i/dashboard']);
       } else {
         this.router.navigate(['/home']);
       }

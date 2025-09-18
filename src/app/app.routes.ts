@@ -101,7 +101,7 @@ export const routes: Routes = [
     canActivate: [authGuard] ,
     children:[
       {
-        path: 'dashboard-instructor',
+        path: 'dashboard',
         title: 'Dashboard',
         loadComponent: () => import('./features/dashboard-instructor/dashboard-instructor').then(m => m.DashboardInstructor),
         canActivate: [roleGuard],
