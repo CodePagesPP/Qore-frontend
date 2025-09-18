@@ -219,3 +219,10 @@ select {
   display: flex;
   justify-content: space-between;
 }
+
+.search-container input{
+  padding: 6px;
+  border-radius: 6px;
+  font-family: 'Mont';
+  width: 20%;
+}

@@ -151,4 +151,19 @@ export class CrudClients implements OnInit{
       this.birthdayError = '';
     }
   }
+
+searchTerm: string = '';
+
+  filteredClients() {
+    if (!this.searchTerm) {
+      return this.clients; // sin búsqueda → devuelve todos
+    }
+
+    const term = this.searchTerm.toLowerCase();
+
+    return this.clients.filter(client =>
+      (client.name + ' ' + client.lastName).toLowerCase().includes(term) ||
+      client.dni.toLowerCase().includes(term)
+    );
+  }
 }

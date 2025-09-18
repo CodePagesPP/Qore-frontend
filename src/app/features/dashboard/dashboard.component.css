@@ -273,6 +273,7 @@ main .insights small {
     display: flex;
     overflow-x: auto;
     padding-bottom: 1rem;
+    gap: 1.5rem;
     flex-wrap: wrap;
 }
 

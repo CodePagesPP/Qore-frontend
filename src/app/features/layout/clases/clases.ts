@@ -223,4 +223,19 @@ getRoomName(id: number): string {
 setView(view: 'landscape' | 'portrait') {
   this.calendarView = view;
 }
+
+selectedDate: string | null = null; // YYYY-MM-DD
+filteredByDate: any[] = [];
+
+onDateSelect(event: any) {
+  const selected = event.detail.value; // array de Date
+  if (selected && selected.length > 0) {
+    const dateObj: Date = selected[0]; // tomamos la primera fecha
+    const dateStr = dateObj.toISOString().split('T')[0]; // YYYY-MM-DD
+    this.selectedDate = dateStr;
+
+    this.filteredByDate = this.clases.filter(c => c.startDate === dateStr);
+  }
+}
+
 }

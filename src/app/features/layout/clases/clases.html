@@ -6,11 +6,12 @@
   <div class="clases-layout">
     <!-- Columna izquierda (Calendario) -->
     <div class="calendar-side">
-      <smart-calendar 
+      <smart-calendar
         class="calendar-views" 
         [view]="calendarView"
         [viewSections]='["title", "header"]'
-        selection-mode="one">
+        selection-mode="one"
+        (change)="onDateSelect($event)">
       </smart-calendar>
       <div class="options">
         <div class="caption">View Mode</div>
@@ -47,7 +48,7 @@
           <div class="actions">Acciones</div>
         </div>
 
-        <div class="row" *ngFor="let c of clases">
+        <div class="row" *ngFor="let c of (selectedDate ? filteredByDate : clases)">
           <div>{{ c.name }}</div>
           <div>{{ getDisciplineName(c.disciplineId) }}</div>
           <div>{{ getInstructorName(c.instructorId) }}</div>

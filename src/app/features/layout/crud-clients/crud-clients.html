@@ -1,6 +1,14 @@
 <h2 class="princ-text">Gestiona tus Clientes</h2>
 <button class="btn-open" (click)="openAddModal()"><i class="fa fa-plus-square"></i> Nuevo Cliente</button>
 
+<div class="search-container">
+  <input 
+    type="text" 
+    placeholder="Ingresa un nombre o DNI" 
+    [(ngModel)]="searchTerm" 
+  />
+</div>
+
  <div class="clients-table-container">
   <table class="clients-table">
     <thead>
@@ -14,7 +22,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let client of clients">
+      <tr *ngFor="let client of filteredClients()">
         <td>{{ client.id }}</td>
         <td>{{ client.name }} {{ client.lastName }}</td>
         <td>{{ client.dni }}</td>
