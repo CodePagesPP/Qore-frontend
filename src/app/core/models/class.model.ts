@@ -28,3 +28,27 @@ export interface ClientEndingSoon {
   classesRemaining: number;
   totalClasses: number;
 }
+
+export interface ClientPlanInfo {
+  id: number;
+  name: string;
+  lastName: string;
+  email: string;
+  dni: string;
+  phoneNumber: string;
+  planName: string;
+  subscriptionEnd: Date | string; 
+  totalClasses: number;
+  classesTaken: number;
+  classesRemaining: number;
+}
+
+export interface ClientClassDTO {
+  id: number;
+  name: string;
+  instructorName: string;
+  room: string;
+  startDate: Date | string; 
+  startTime: string;
+  endTime: string;
+}
