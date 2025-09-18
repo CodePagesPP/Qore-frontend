@@ -52,3 +52,14 @@ export interface ClientClassDTO {
   startTime: string;
   endTime: string;
 }
+
+export interface InstructorStats {
+  id: number;
+  name: string;
+  lastName: string;
+  email: string;
+  dni: string;
+  phoneNumber: string;
+  totalClassesThisMonth: number;
+  totalStudentsThisMonth: number;
+}
