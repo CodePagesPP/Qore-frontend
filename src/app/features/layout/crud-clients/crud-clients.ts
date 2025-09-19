@@ -155,15 +155,33 @@ export class CrudClients implements OnInit{
 searchTerm: string = '';
 
   filteredClients() {
-    if (!this.searchTerm) {
-      return this.clients; // sin búsqueda → devuelve todos
-    }
+  if (!this.searchTerm || this.searchTerm.trim() === '') {
+    return this.clients;
+  }
 
-    const term = this.searchTerm.toLowerCase();
+  return this.clients.filter(c =>
+    c.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+    c.dni.includes(this.searchTerm)
+  );
+}
 
-    return this.clients.filter(client =>
-      (client.name + ' ' + client.lastName).toLowerCase().includes(term) ||
-      client.dni.toLowerCase().includes(term)
-    );
+onSearchChange() {
+  this.currentPage = 1; // reinicia siempre a la primera página
+}
+
+  // Parámetros de paginación
+  currentPage: number = 1;
+  itemsPerPage: number = 10; // clientes por página
+
+  get paginatedClients() {
+  const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+  const endIndex = startIndex + this.itemsPerPage;
+
+  return this.filteredClients().slice(startIndex, endIndex);
+}
+
+
+  get totalPages() {
+    return Math.ceil(this.filteredClients().length / this.itemsPerPage);
   }
 }

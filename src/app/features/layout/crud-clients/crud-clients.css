@@ -226,3 +226,17 @@ select {
   font-family: 'Mont';
   width: 20%;
 }
+
+.pagination {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.pagination button {
+  background: var(--color-gold);
+  border-radius: 8px;
+  padding: 7px;
+  margin-right: 10px;
+  cursor: pointer;
+  
+}
