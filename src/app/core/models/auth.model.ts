@@ -113,6 +113,7 @@ export interface UserProfile{
 export interface Client{
   id: number;
   email: string;
+  password: string;
   role: Role;
   name: string;
   lastName: string;
@@ -130,6 +131,7 @@ export interface Client{
 export interface Instructor{
   id: number;
   email: string;
+  password: string;
   role: Role;
   name: string;
   lastName: string;

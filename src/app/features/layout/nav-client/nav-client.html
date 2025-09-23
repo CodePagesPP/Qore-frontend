@@ -46,6 +46,12 @@
                 <h4>Planes</h4>
             </a>
             </li>
+            <li>
+            <a routerLink="/c/editClient" (click)="setActive('editClient')" [class.active]="activeOption === 'editClient'">
+                <span class="material-icons-sharp">edit</span>
+                <h4>Editar Perfil</h4>
+            </a>
+            </li>
         </ul>
 
         <a style="cursor: pointer;" (click)="logout()">
