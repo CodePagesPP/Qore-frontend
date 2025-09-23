@@ -38,6 +38,18 @@ export class Clases implements AfterViewInit  {
   filteredClients: Client[] = [];
   selectedClientIds = new Set<number>();
   clientSearch = '';
+  estados: string[] = ['PENDIENTE', 'DICTADA', 'CANCELADA'];
+  daysOfWeek = [
+  { value: 'MONDAY', label: 'Lunes' },
+  { value: 'TUESDAY', label: 'Martes' },
+  { value: 'WEDNESDAY', label: 'Miércoles' },
+  { value: 'THURSDAY', label: 'Jueves' },
+  { value: 'FRIDAY', label: 'Viernes' },
+  { value: 'SATURDAY', label: 'Sábado' },
+  { value: 'SUNDAY', label: 'Domingo' },
+];
+
+
 
   constructor(
     private classService: ClassSessionService,
@@ -61,6 +73,10 @@ export class Clases implements AfterViewInit  {
       startTime: '',
       endTime: '',
       repeat: false,
+      repeatUntil: null,      // YYYY-MM-DD
+  repeatDay: null,    // MONDAY, TUESDAY… (DayOfWeek)
+  repeatInterval: 0,
+      estado: '',
       clientIds: []
     };
   }
@@ -68,6 +84,14 @@ export class Clases implements AfterViewInit  {
   loadClases() {
     this.classService.getAll().subscribe(data => this.clases = data);
   }
+
+  onDisciplineChange() {
+  const discipline = this.disciplines.find(d => d.id === this.form.disciplineId);
+  if (discipline) {
+    this.form.startTime = discipline.startTime;
+    this.form.endTime = discipline.endTime;
+  }
+}
 
   loadCatalogs() {
     
@@ -99,10 +123,15 @@ getRoomName(id: number): string {
     this.openClassModal();
   }
   openEdit(c: ClassSession) {
-    this.editing = true;
-    this.form = { ...c, clientIds: c.clientIds ? [...c.clientIds] : [] };
-    this.openClassModal();
-  }
+  this.editing = true;
+  
+  this.form = { 
+    ...c, 
+    clientIds: c.clientIds ? [...c.clientIds] : [], 
+    repeatDay: c.repeatDay ?? null 
+  };
+  this.openClassModal();
+}
   openClassModal() {
     this.showClassModal = true;
     document.body.style.overflow = 'hidden'; 

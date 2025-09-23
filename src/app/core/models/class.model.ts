@@ -7,8 +7,13 @@ export interface ClassSession {
   capacity: number;
   startDate: string;   
   startTime: string;   
-  endTime: string;     
+  endTime: string;   
+  estado: string;  
   repeat: boolean;
+
+  repeatUntil?: string | null;        // YYYY-MM-DD
+  repeatDay?: string| null;          // MONDAY, TUESDAY… (DayOfWeek)
+  repeatInterval?: number| null;
   clientIds?: number[];
 }
 
@@ -62,4 +67,5 @@ export interface InstructorStats {
   phoneNumber: string;
   totalClassesThisMonth: number;
   totalStudentsThisMonth: number;
+  pendingClassesThisMonth: number;
 }

@@ -89,9 +89,16 @@
 
         <label for="disciplineId">
           <span>Disciplina</span>
-          <select id="disciplineId" [(ngModel)]="form.disciplineId" name="disciplineId" required>
+          <select id="disciplineId" [(ngModel)]="form.disciplineId" name="disciplineId" required (change)="onDisciplineChange()">
             <option [ngValue]="0" disabled>Selecciona</option>
             <option *ngFor="let d of disciplines" [ngValue]="d.id">{{ d.name }}</option>
+          </select>
+        </label>
+
+        <label for="estado" *ngIf="editing">
+          <span>Estado</span>
+          <select id="estado" [(ngModel)]="form.estado" name="estado">
+            <option *ngFor="let e of estados" [value]="e">{{ e }}</option>
           </select>
         </label>
 
@@ -123,18 +130,38 @@
 
         <label for="startTime">
           <span>Hora inicio</span>
-          <input id="startTime" type="time" [(ngModel)]="form.startTime" name="startTime" required />
+          <input id="startTime" type="time" [(ngModel)]="form.startTime" name="startTime" required [disabled]="true" />
         </label>
-
+        
         <label for="endTime">
           <span>Hora fin</span>
-          <input id="endTime" type="time" [(ngModel)]="form.endTime" name="endTime" required />
+          <input id="endTime" type="time" [(ngModel)]="form.endTime" name="endTime" required [disabled]="true" />
         </label>
 
         <label for="repeat" class="checkline">
           <input id="repeat" type="checkbox" [(ngModel)]="form.repeat" name="repeat" />
           <span>Repetir</span>
         </label>
+
+        <div *ngIf="form.repeat" class="repeat-options">
+          <label for="repeatUntil">
+            <span>Repetir hasta</span>
+            <input id="repeatUntil" type="date" [(ngModel)]="form.repeatUntil" name="repeatUntil" />
+          </label>
+
+        <label for="repeatDay" *ngIf="form.repeat">
+          <span>Día de la semana</span>
+          <select id="repeatDay" [(ngModel)]="form.repeatDay" name="repeatDay">
+            <option *ngFor="let d of daysOfWeek" [value]="d.value">{{ d.label }}</option>
+          </select>
+        </label>
+
+
+          <label for="repeatInterval">
+            <span>Cada cuántas semanas</span>
+            <input id="repeatInterval" type="number" min="1" [(ngModel)]="form.repeatInterval" name="repeatInterval" />
+          </label>
+        </div>
       </div>
 
       <div class="modal-actions">
