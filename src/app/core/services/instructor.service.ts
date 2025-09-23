@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { InstructorStats } from '../models/class.model';
 import { Observable } from 'rxjs';
+import { Instructor, RegisterRequest } from '../models/auth.model';
 
 @Injectable({
   providedIn: 'root'
@@ -25,4 +26,12 @@ export class InstructorService {
 
     return this.http.get<InstructorStats>(`${this.apiUrl}/${id}/stats`, { params, headers: this.getHeaders() },);
   }
+
+  updateInstructor(dni: string, dto: Partial<RegisterRequest>): Observable<Instructor> {
+    return this.http.put<Instructor>(`${this.apiUrl}/updateInstructor/${dni}`, dto, { headers: this.getHeaders() });
+  }
+
+  getInstructorById(id: string): Observable<Instructor> {
+  return this.http.get<Instructor>(`${this.apiUrl}/instructor/${id}`, { headers: this.getHeaders() });
+}
 }

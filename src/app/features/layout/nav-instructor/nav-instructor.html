@@ -13,7 +13,7 @@
 
         <div class="sidebar">
         <a 
-            routerLink="/i/dashboard" 
+            routerLink="/i/i/dashboard"
             (click)="setActive('dashboard')" 
             [class.active]="activeOption === 'dashboard'">
             <span class="material-icons-sharp">dashboard_customize</span>
@@ -43,9 +43,9 @@
         <ul *ngIf="showConfig" class="submenu">
 
             <li>
-            <a routerLink="/profile" (click)="setActive('profile')" [class.active]="activeOption === 'profile'">
-                <span class="material-icons-sharp">account_box</span>
-                <h4>Mi Perfil</h4>
+            <a routerLink="/i/editInstructor" (click)="setActive('editInstructor')" [class.active]="activeOption === 'editInstructor'">
+                <span class="material-icons-sharp">edit</span>
+                <h4>Editar Perfil</h4>
             </a>
             </li>
         </ul>

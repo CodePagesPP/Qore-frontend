@@ -1,0 +1,72 @@
+<div class="edit-profile-container">
+  <h2 class="princ-text">Editar Perfil</h2>
+
+  <form class="form" (ngSubmit)="onSubmit()" #editForm="ngForm">
+    <div class="user-info">
+      <div>
+        <label>Nombre</label>
+        <input type="text" [(ngModel)]="formData.name" name="name">
+      </div>
+
+      <div>
+        <label>Apellido</label>
+        <input type="text" [(ngModel)]="formData.lastName" name="lastName">
+      </div>
+
+      <div>
+        <label>Email</label>
+        <input type="email" [(ngModel)]="formData.email" name="email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" #emailInput="ngModel">
+        <p class="error" *ngIf="emailInput.invalid && emailInput.touched">
+          <span *ngIf="emailInput.errors?.['pattern']">Formato de correo inválido</span>
+        </p>
+      </div>
+
+      <!-- Eliminamos el campo DNI, porque el cliente no debe editarlo -->
+
+      <div>
+        <label>Fecha de nacimiento</label>
+        <input class="dateInput" type="date" name="birthday" required [(ngModel)]="formData.birthday" (ngModelChange)="validateBirthday()">
+        <div class="error" *ngIf="birthdayError">{{ birthdayError }}</div>
+      </div>
+
+      <div>
+        <label>Contraseña</label>
+        <input type="password" [(ngModel)]="formData.password" name="password">
+      </div>
+
+      <div>
+        <label>Teléfono</label>
+        <input type="tel" required name="phoneNumber" [(ngModel)]="formData.phoneNumber" pattern="[0-9]{9}" (keypress)="allowOnlyNumbers($event)" #phoneNumber="ngModel">
+        <div class="error" *ngIf="phoneNumber.invalid && phoneNumber.touched">El número telefónico debe tener exactamente 9 dígitos</div>
+      </div>
+
+      <div>
+        <label>Sexo</label>
+        <select id="sex_select" [(ngModel)]="formData.sex" name="sex">
+          <option value="" disabled selected>Selecciona tu sexo</option>
+          <option value="Femenino">Femenino</option>
+          <option value="Masculino">Masculino</option>
+        </select>
+      </div>
+
+      <div>
+        <label>País</label>
+        <input type="text" [(ngModel)]="formData.country" name="country">
+      </div>
+
+      <div>
+        <label>Ciudad</label>
+        <input type="text" [(ngModel)]="formData.city" name="city">
+      </div>
+
+      <div>
+        <label>Dirección</label>
+        <input type="text" [(ngModel)]="formData.address" name="address">
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button type="submit" class="btn-primary">Actualizar</button>
+    </div>
+  </form>
+</div>

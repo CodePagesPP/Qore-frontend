@@ -92,6 +92,13 @@ export const routes: Routes = [
         data: { roles: ['CLIENT_ACCESS']}
       },
       {
+        path: 'editClient',
+        title: 'EditClient',
+        loadComponent: () => import('./features/layout/edit-client/edit-client').then(m => m.EditClient),
+        canActivate: [roleGuard],
+        data: { roles: ['CLIENT_ACCESS']}
+      },
+      {
         path: 'classes',
         title: 'Clases',
         loadComponent: () => import('./features/layout/clases-client/clases-client').then(m => m.ClasesClient),
@@ -114,10 +121,17 @@ export const routes: Routes = [
         canActivate: [roleGuard],
         data: { roles: ['INSTRUCTOR_ACCESS']}
       },
-      {
+       {
         path: 'classes',
         title: 'Clases',
         loadComponent: () => import('./features/layout/clases-instructor/clases-instructor').then(m => m.ClasesInstructor),
+        canActivate: [roleGuard],
+        data: { roles: ['INSTRUCTOR_ACCESS']}
+      },
+      {
+        path: 'editInstructor',
+        title: 'EditInstructor',
+        loadComponent: () => import('./features/layout/edit-instructor/edit-instructor').then(m => m.EditInstructor),
         canActivate: [roleGuard],
         data: { roles: ['INSTRUCTOR_ACCESS']}
       }
@@ -127,6 +141,11 @@ export const routes: Routes = [
   {
     path: 'login',
     loadComponent: () => import('./features/auth/login/login.component').then(m => m.LoginComponent),
+    canActivate: [authenticatedGuard]
+  },
+  {
+    path: 'recovery',
+    loadComponent: () => import('./features/auth/recuperar-pass/recuperar-pass').then(m => m.RecuperarPass),
     canActivate: [authenticatedGuard]
   },
   {

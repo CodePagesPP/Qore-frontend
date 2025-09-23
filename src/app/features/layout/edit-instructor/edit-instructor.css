@@ -1,6 +1,8 @@
 .princ-text {
   font-family: 'MontBold';
   margin-top: 24px;
+  font-size: 24px;
+  margin-bottom: 20px;
 }
 
 .btn-open {
@@ -110,11 +112,16 @@
   animation: fadeIn 0.3s ease;
 }
 
+.form {
+    margin-left: 20px;
+}
+
 .user-info {
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* 2 columnas iguales */
   gap: 5px 10px; /* espacio entre filas y columnas */
   margin-bottom: 20px;
+  max-width: 80%;
 }
 
 .user-info div {

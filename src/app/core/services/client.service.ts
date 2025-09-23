@@ -71,4 +71,8 @@ getMyClasses(): Observable<ClientClassDTO[]> {
   return this.http.get<ClientClassDTO[]>(`${this.clientUrl}/classes`, { headers: this.getAuthHeaders() });
 }
 
+  getClientById(id: string): Observable<Client> {
+  return this.http.get<Client>(`${this.clientUrl}/client/${id}`, { headers: this.getAuthHeaders() });
+}
+
 }
