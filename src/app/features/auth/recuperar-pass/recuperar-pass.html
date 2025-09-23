@@ -1,0 +1,20 @@
+<div class="modal-backdrop" *ngIf="isModalOpen">
+  <div class="modal">
+    <h2>Reestablece tu contraseña</h2>
+
+    <form #recoverForm="ngForm">
+      <input
+        type="email"
+        placeholder="example@gmail.com"
+        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+        id="email"
+        name="email"
+        required
+        />
+      <div class="modal-actions">
+        <button type="submit" [disabled]="recoverForm.invalid" class="btn-primary">Continuar</button>
+        <button type="button" class="btn-secondary" (click)="closeModal()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>
