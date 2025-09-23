@@ -45,7 +45,7 @@
       </div>
 
       <div class="forgot-link">
-        <a routerLink="/recovery">Olvidaste tu contraseña?</a>
+        <a (click)="openModal()">Olvidaste tu contraseña?</a>
       </div>
 
       <button type="submit" class="btn" [disabled]="loginForm.invalid">Iniciar Sesión</button>
@@ -245,3 +245,8 @@
   </div>
 </div>
 </div>
+
+<app-recuperar-pass
+  [showModalRecovery]="showRecoveryModal"
+  (close)="closeModal()">
+</app-recuperar-pass>

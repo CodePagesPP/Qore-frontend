@@ -105,6 +105,7 @@ th {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
 }
 
 .modal {
@@ -175,4 +176,14 @@ th {
   cursor: pointer;
   font-size: 15px;
   background: none;
+}
+
+.recovery-text {
+  margin-bottom: 20px;
+  color: #666;
+}
+
+.btn-primary[disabled] {
+  background-color: rgb(143, 143, 143);
+  cursor: not-allowed;
 }

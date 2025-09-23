@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
+import { AuthRequest } from '../../../core/models/auth.model';
 
 @Component({
   selector: 'app-recuperar-pass',
@@ -9,9 +10,13 @@ import { FormsModule, NgForm } from '@angular/forms';
   styleUrl: './recuperar-pass.css'
 })
 export class RecuperarPass {
-  isModalOpen = false;
+  @Input() showModalRecovery = false;
+  error: string | null = null;
+  @Output() close = new EventEmitter<void>();
 
-    closeModal() {
-    this.isModalOpen = false;
+  email = '';
+
+  onClose() {
+    this.close.emit();
   }
 }

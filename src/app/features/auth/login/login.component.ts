@@ -1,19 +1,21 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { AuthRequest, RegisterRequest } from '../../../core/models/auth.model';
 import { AuthService } from '../../../core/services/auth.service';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RecuperarPass } from '../recuperar-pass/recuperar-pass';
 
 @Component({
   selector: 'app-login.component',
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RecuperarPass],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
   credentials: AuthRequest = { email: '', password: '' };
   error: string | null = null;
+  showRecoveryModal = false;
 
   constructor(private authService: AuthService, private router: Router, private cdRef: ChangeDetectorRef) {}
 
@@ -115,5 +117,13 @@ goBack() {
   // si usas routing de Angular
   this.router.navigate(['/home']); 
   // o simplemente window.history.back();
+}
+
+openModal() {
+  this.showRecoveryModal = true;
+}
+
+closeModal() {
+  this.showRecoveryModal = false;
 }
 }
