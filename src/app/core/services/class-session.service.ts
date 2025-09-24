@@ -51,5 +51,14 @@ export class ClassSessionService {
 }
 
 
+getByInstructor(instructorId: number): Observable<ClassSession[]> {
+    return this.http.get<ClassSession[]>(`${this.classApiUrl}/instructor/${instructorId}`, { headers: this.getAuthHeaders() });
+  }
+
+  getPendingTodayInstructor(instructorId: number): Observable<ClassSession[]> {
+  return this.http.get<ClassSession[]>(
+    `${this.classApiUrl}/instructors/${instructorId}/pending-today`, { headers: this.getAuthHeaders() }
+  );
+}
 
 }

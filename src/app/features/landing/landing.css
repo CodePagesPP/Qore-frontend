@@ -858,9 +858,18 @@
 
 .articles-grid {
   display: grid;
+  
+  gap: 24px;
+  padding: 0 5%;
+}
+
+@media(min-width: 768px){
+  .articles-grid {
+  display: grid;
   grid-template-columns: repeat(3, minmax(300px, 1fr));
   gap: 24px;
   padding: 0 5%;
+}
 }
 
 .card-article {

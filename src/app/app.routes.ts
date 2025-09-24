@@ -98,6 +98,13 @@ export const routes: Routes = [
         canActivate: [roleGuard],
         data: { roles: ['CLIENT_ACCESS']}
       },
+      {
+        path: 'classes',
+        title: 'Clases',
+        loadComponent: () => import('./features/layout/clases-client/clases-client').then(m => m.ClasesClient),
+        canActivate: [roleGuard],
+        data: { roles: ['CLIENT_ACCESS']}
+      }
     ]
   },
 //RUTAS INSTRUCTOR
@@ -114,13 +121,20 @@ export const routes: Routes = [
         canActivate: [roleGuard],
         data: { roles: ['INSTRUCTOR_ACCESS']}
       },
+       {
+        path: 'classes',
+        title: 'Clases',
+        loadComponent: () => import('./features/layout/clases-instructor/clases-instructor').then(m => m.ClasesInstructor),
+        canActivate: [roleGuard],
+        data: { roles: ['INSTRUCTOR_ACCESS']}
+      },
       {
         path: 'editInstructor',
         title: 'EditInstructor',
         loadComponent: () => import('./features/layout/edit-instructor/edit-instructor').then(m => m.EditInstructor),
         canActivate: [roleGuard],
         data: { roles: ['INSTRUCTOR_ACCESS']}
-      },
+      }
     ]
   },
 //RUTAS PUBLICAS

@@ -1,0 +1,61 @@
+<div class="clases-container">
+  <div class="header">
+    <h2>Clases</h2>
+  </div>
+
+  <div class="clases-layout">
+    <!-- Columna izquierda (Calendario) -->
+    <div class="calendar-side">
+      <smart-calendar
+        class="calendar-views" 
+        [view]="calendarView"
+        [viewSections]='["title", "header"]'
+        selection-mode="one"
+        (change)="onDateSelect($event)">
+      </smart-calendar>
+      <div class="options">
+        <div class="caption">View Mode</div>
+        <div class="option">
+          <smart-radio-button 
+            [checked]="calendarView === 'landscape'" 
+            (change)="setView('landscape')">
+            Landscape
+          </smart-radio-button>
+          <smart-radio-button 
+            [checked]="calendarView === 'portrait'" 
+            (change)="setView('portrait')">
+            Portrait
+          </smart-radio-button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Columna derecha (crear clases + tabla) -->
+    <div class="classes-side">
+
+
+      <div class="table">
+        <div class="row header">
+          <div>Nombre</div>
+          <div>Disciplina</div>
+          <div>Sala</div>
+          <div>Capacidad</div>
+          <div>Inicio (YYYY/MM/DD) </div>
+          <div>Hora</div>
+          <div class="actions">Estado</div>
+        </div>
+
+        <div class="row" *ngFor="let c of (selectedDate ? filteredByDate : clases)">
+          <div>{{ c.name }}</div>
+          <div>{{ getDisciplineName(c.disciplineId) }}</div>
+          <div>{{ getRoomName(c.roomId) }}</div>
+          <div>{{ c.capacity }}</div>
+          <div>{{ c.startDate }}</div>
+          <div>{{ c.startTime }} - {{ c.endTime }}</div>
+          <div>{{ c.estado}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

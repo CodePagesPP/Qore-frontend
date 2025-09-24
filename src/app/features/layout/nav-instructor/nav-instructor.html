@@ -13,7 +13,7 @@
 
         <div class="sidebar">
         <a 
-            routerLink="/i/dashboard"
+            routerLink="/i/i/dashboard"
             (click)="setActive('dashboard')" 
             [class.active]="activeOption === 'dashboard'">
             <span class="material-icons-sharp">dashboard_customize</span>
@@ -21,20 +21,13 @@
         </a>
 
         <a 
-            routerLink="/classes" 
-            (click)="setActive('classes')" 
-            [class.active]="activeOption === 'classes'">
+            routerLink="/i/classes" 
+            (click)="setActive('/i/classes')" 
+            [class.active]="activeOption === '/i/classes'">
             <span class="material-icons-sharp">self_improvement</span>
             <h3>Mis Clases</h3>
         </a>
 
-        <a 
-            routerLink="/alumnos" 
-            (click)="setActive('alumnos')" 
-            [class.active]="activeOption === 'alumnos'">
-            <span class="material-icons-sharp">face_retouching_natural</span>
-            <h3>Mis Alumnos</h3>
-        </a>
 
         <a 
             class="menu-item" 
@@ -48,12 +41,6 @@
         </a>
 
         <ul *ngIf="showConfig" class="submenu">
-            <li>
-            <a routerLink="/plans" (click)="setActive('plans')" [class.active]="activeOption === 'plans'">
-                <span class="material-icons-sharp">savings</span>
-                <h4>Planes</h4>
-            </a>
-            </li>
 
             <li>
             <a routerLink="/i/editInstructor" (click)="setActive('editInstructor')" [class.active]="activeOption === 'editInstructor'">

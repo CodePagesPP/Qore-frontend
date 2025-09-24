@@ -186,6 +186,8 @@ export interface Discipline {
   id?: number;
   name: string;
   description: string;
+  startTime: string;
+  endTime: string;
 }
 
 export interface Role{
