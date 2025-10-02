@@ -6,10 +6,11 @@ import { ClassSession, InstructorStats, Room } from '../../core/models/class.mod
 import { ClassSessionService } from '../../core/services/class-session.service';
 import { CommonModule } from '@angular/common';
 import { WorkersService } from '../../core/services/workers.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard-instructor',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './dashboard-instructor.html',
   styleUrl: './dashboard-instructor.css'
 })

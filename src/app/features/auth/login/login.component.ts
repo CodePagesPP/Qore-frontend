@@ -35,22 +35,25 @@ onSubmit(): void {
 
       const roles = this.authService.getAuthorities();
 
-      if (roles.includes('ADMIN_ACCESS')) {
+      const adminRoles = ['ADMIN_ACCESS', 'MANAGER_ACCESS', 'STAFF_ACCESS'];
+
+      if (roles.some(role => adminRoles.includes(role))) {
         this.router.navigate(['/dashboard']);
       } else if (roles.includes('CLIENT_ACCESS')) {
         this.router.navigate(['/c/dashboard']);
-      }else if (roles.includes('INSTRUCTOR_ACCESS')) {
+      } else if (roles.includes('INSTRUCTOR_ACCESS')) {
         this.router.navigate(['/i/dashboard']);
       } else {
         this.router.navigate(['/home']);
       }
     },
     error: (err) => {
-      this.error = err.message; 
+      this.error = err.message;
       this.cdRef.detectChanges();
     },
   });
 }
+
 
 //Registro
 

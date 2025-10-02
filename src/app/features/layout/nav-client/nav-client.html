@@ -41,10 +41,6 @@
 
         <ul *ngIf="showConfig" class="submenu">
             <li>
-            <a routerLink="/plans" (click)="setActive('plans')" [class.active]="activeOption === 'plans'">
-                <span class="material-icons-sharp">savings</span>
-                <h4>Planes</h4>
-            </a>
             </li>
             <li>
             <a routerLink="/c/editClient" (click)="setActive('editClient')" [class.active]="activeOption === 'editClient'">

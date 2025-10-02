@@ -126,6 +126,7 @@ export interface Client{
   dni: string;
   createdAt: Date;
   updatedAt: Date;
+  disciplines: Discipline[];
 }
 
 export interface Instructor{
@@ -142,7 +143,6 @@ export interface Instructor{
   city: string;
   address: string;
   dni: string;
-  disciplineId: number[];
   createdAt: Date;
   updatedAt: Date;
 }

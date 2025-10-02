@@ -60,6 +60,7 @@ export class Clases implements AfterViewInit  {
   ngOnInit(): void {
     this.loadClases();
     this.loadCatalogs();
+
   }
 
   private emptyForm(): ClassSession {
@@ -82,8 +83,12 @@ export class Clases implements AfterViewInit  {
   }
 
   loadClases() {
-    this.classService.getAll().subscribe(data => this.clases = data);
-  }
+  this.classService.getAll().subscribe(data => {
+    this.clases = data;
+    this.filteredByDate = [...this.clases]; // inicializar aquí cuando ya hay datos
+  });
+}
+
 
   onDisciplineChange() {
   const discipline = this.disciplines.find(d => d.id === this.form.disciplineId);
@@ -247,10 +252,11 @@ getRoomName(id: number): string {
   });
   }
 
-  calendarView: 'landscape' | 'portrait' = 'landscape';
+calendarView: 'day' | 'week' | 'month' = 'month';
 
-setView(view: 'landscape' | 'portrait') {
+setView(view: 'day' | 'week' | 'month') {
   this.calendarView = view;
+  this.filterClases();
 }
 
 selectedDate: string | null = null; // YYYY-MM-DD
@@ -259,12 +265,82 @@ filteredByDate: any[] = [];
 onDateSelect(event: any) {
   const selected = event.detail.value; // array de Date
   if (selected && selected.length > 0) {
-    const dateObj: Date = selected[0]; // tomamos la primera fecha
-    const dateStr = dateObj.toISOString().split('T')[0]; // YYYY-MM-DD
-    this.selectedDate = dateStr;
-
-    this.filteredByDate = this.clases.filter(c => c.startDate === dateStr);
+    const dateObj: Date = selected[0]; 
+    this.selectedDate = dateObj.toISOString().split('T')[0]; 
+    this.filterClases();
   }
 }
+
+// Helper: convierte "YYYY-MM-DD" o "YYYY-MM-DDTHH:MM:..." o Date a Date local con horas 00:00
+private parseDateOnly(value: string | Date): Date {
+  if (value instanceof Date) {
+    return new Date(value.getFullYear(), value.getMonth(), value.getDate());
+  }
+  if (typeof value === 'string') {
+    // tomar solo la parte fecha antes de la 'T' si existe
+    const isoDate = value.split('T')[0]; // "YYYY-MM-DD"
+    const parts = isoDate.split('-').map(p => Number(p));
+    if (parts.length === 3 && parts.every(n => !isNaN(n))) {
+      return new Date(parts[0], parts[1] - 1, parts[2]); // local midnight
+    }
+    // fallback
+    const d = new Date(value);
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  }
+  return new Date();
+}
+
+filterClases() {
+  if (!this.selectedDate) {
+    this.filteredByDate = [...this.clases];
+    return;
+  }
+
+  const dateObj = this.parseDateOnly(this.selectedDate);
+
+  if (this.calendarView === 'day') {
+    const selectedDay = dateObj;
+
+    this.filteredByDate = this.clases.filter(c => {
+      const classDate = this.parseDateOnly(c.startDate);
+      const same =
+        classDate.getFullYear() === selectedDay.getFullYear() &&
+        classDate.getMonth() === selectedDay.getMonth() &&
+        classDate.getDate() === selectedDay.getDate();
+
+      return same;
+    });
+
+  } else if (this.calendarView === 'week') {
+   
+    const day = dateObj.getDay(); 
+    const diffToMonday = (day === 0 ? -6 : 1 - day);
+    const firstDay = new Date(dateObj);
+    firstDay.setDate(dateObj.getDate() + diffToMonday);
+    firstDay.setHours(0, 0, 0, 0);
+
+    const lastDay = new Date(firstDay);
+    lastDay.setDate(firstDay.getDate() + 6);
+    lastDay.setHours(23, 59, 59, 999);
+
+    this.filteredByDate = this.clases.filter(c => {
+      const classDate = this.parseDateOnly(c.startDate);
+      const inside = classDate >= firstDay && classDate <= lastDay;
+
+      return inside;
+    });
+  }
+}
+
+clearFilter() {
+  this.selectedDate = null;       
+  this.calendarView = 'month';  
+  this.filteredByDate = [...this.clases];
+  if (this.calendar) {
+    this.calendar.clearSelection(); 
+  }
+}
+
+
 
 }

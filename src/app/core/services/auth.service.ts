@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { AuthRequest, AuthResponse, RegisterRequest, User } from '../models/auth.model';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
@@ -83,4 +83,18 @@ getUserInfo(): Observable<User> {
     })
   );
 }
+
+forgotPassword(email: string): Observable<any> {
+    const params = new HttpParams().set('email', email);
+    return this.http.post(`${this.apiUrl}/forgot-password`, null, { params });
+  }
+
+  // Cambiar contraseña usando el token
+  resetPassword(token: string, newPassword: string): Observable<any> {
+    const params = new HttpParams()
+      .set('token', token)
+      .set('newPassword', newPassword);
+
+    return this.http.post(`${this.apiUrl}/reset-password`, null, { params });
+  }
 }

@@ -1,0 +1,8 @@
+<div class="error-backdrop" *ngIf="message">
+  <div class="error-box">
+    <i class="fa-solid fa-circle-exclamation fa-4x error-icon"></i>
+    <h3 class="error-title">Error</h3>
+    <p class="error-message">{{ message }}</p>
+    <button class="error-button" (click)="close()">Cerrar</button>
+  </div>
+</div>

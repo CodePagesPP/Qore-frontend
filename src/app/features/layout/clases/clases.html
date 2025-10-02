@@ -8,25 +8,32 @@
     <div class="calendar-side">
       <smart-calendar
         class="calendar-views" 
-        [view]="calendarView"
+        view="landscape"
         [viewSections]='["title", "header"]'
         selection-mode="one"
         (change)="onDateSelect($event)">
       </smart-calendar>
       <div class="options">
-        <div class="caption">View Mode</div>
+        <div class="caption">Vista</div>
         <div class="option">
           <smart-radio-button 
-            [checked]="calendarView === 'landscape'" 
-            (change)="setView('landscape')">
-            Landscape
+            [checked]="calendarView === 'day'" 
+            (change)="setView('day')">
+            Día
           </smart-radio-button>
           <smart-radio-button 
-            [checked]="calendarView === 'portrait'" 
-            (change)="setView('portrait')">
-            Portrait
+            [checked]="calendarView === 'week'" 
+            (change)="setView('week')">
+            Semana
           </smart-radio-button>
+          
         </div>
+        <div class="option">
+          
+    <button class="btn-clear" (click)="clearFilter()">
+      Limpiar filtro
+    </button>
+  </div>
       </div>
     </div>
 
@@ -48,26 +55,35 @@
           <div class="actions">Acciones</div>
         </div>
 
-        <div class="row" *ngFor="let c of (selectedDate ? filteredByDate : clases)">
-          <div>{{ c.name }}</div>
-          <div>{{ getDisciplineName(c.disciplineId) }}</div>
-          <div>{{ getInstructorName(c.instructorId) }}</div>
-          <div>{{ getRoomName(c.roomId) }}</div>
-          <div>{{ c.capacity }}</div>
-          <div>{{ c.startDate }}</div>
-          <div>{{ c.startTime }} - {{ c.endTime }}</div>
-          <div class="actions">
-            <button class="icon-btn" (click)="openEdit(c)">
-              <i class="fa-solid fa-pen-to-square"></i>
-            </button>
-            <button class="icon-btn danger" (click)="deleteClase(c.id)">
-              <i class="fa-solid fa-trash"></i>
-            </button>
-            <button class="icon-btn" (click)="openClients(c)">
-              <i class="fa fa-users" aria-hidden="true"></i>
-            </button>
+        <div *ngIf="filteredByDate.length > 0; else noClasses">
+          <div class="row" *ngFor="let c of filteredByDate">
+            <div>{{ c.name }}</div>
+            <div>{{ getDisciplineName(c.disciplineId) }}</div>
+            <div>{{ getInstructorName(c.instructorId) }}</div>
+            <div>{{ getRoomName(c.roomId) }}</div>
+            <div>{{ c.capacity }}</div>
+            <div>{{ c.startDate }}</div>
+            <div>{{ c.startTime }} - {{ c.endTime }}</div>
+            <div class="actions">
+              <button class="icon-btn" (click)="openEdit(c)">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </button>
+              <button class="icon-btn danger" (click)="deleteClase(c.id)">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+              <button class="icon-btn" (click)="openClients(c)">
+                <i class="fa fa-users" aria-hidden="true"></i>
+              </button>
+            </div>
           </div>
         </div>
+        <ng-template #noClasses>
+          <div class="row">
+            <div class="empty" style="grid-column: 1 / -1; text-align: center; padding: 1rem; color: #666;">
+              No hay clases para la fecha/semana seleccionada.
+            </div>
+          </div>
+        </ng-template>
       </div>
     </div>
   </div>

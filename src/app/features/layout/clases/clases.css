@@ -390,3 +390,16 @@ smart-radio-button {
   padding: 5px 10px;
   cursor: pointer;
 }
+
+.btn-clear {
+  background: #f5f5f5;
+  border: 1px solid #ccc;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-clear:hover {
+  background: #e5e5e5;
+}

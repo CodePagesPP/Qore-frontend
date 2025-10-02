@@ -10,11 +10,13 @@ export interface ClassSession {
   endTime: string;   
   estado: string;  
   repeat: boolean;
-
+  comentario?: string;
   repeatUntil?: string | null;        // YYYY-MM-DD
   repeatDay?: string| null;          // MONDAY, TUESDAY… (DayOfWeek)
   repeatInterval?: number| null;
   clientIds?: number[];
+
+  joined?: boolean;
 }
 
 export interface Room{

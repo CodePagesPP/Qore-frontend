@@ -8,6 +8,7 @@ import { ClassSessionService } from '../../../core/services/class-session.servic
 import { AuthService } from '../../../core/services/auth.service';
 import { WorkersService } from '../../../core/services/workers.service';
 import { Discipline, Instructor } from '../../../core/models/auth.model';
+import { InstructorService } from '../../../core/services/instructor.service';
 
 @Component({
   selector: 'app-clases-instructor',
@@ -22,13 +23,17 @@ clases: ClassSession[] = [];
   instructors: Instructor[] = [];
   rooms: Room[] = [];
 currentInstructorId!: number;
+selectedClass?: ClassSession;
+comentario: string = '';
+showModal = false;
 
 
 
   constructor(
     private classService: ClassSessionService,
     private workerService: WorkersService,
-    private authService: AuthService
+    private authService: AuthService,
+    private instructorService: InstructorService
   ) {}
 
   ngOnInit(): void {
@@ -42,6 +47,25 @@ currentInstructorId!: number;
     });
     this.loadCatalogs();
   }
+
+  openModal(classSession: ClassSession) {
+  this.selectedClass = classSession;
+  this.comentario = classSession.comentario || '';
+  this.showModal = true;
+}
+
+saveComentario() {
+  if (!this.selectedClass) return;
+
+  this.instructorService.updateComentario(this.selectedClass.id!, this.comentario)
+  .subscribe({
+    next: (updated) => {
+      this.selectedClass!.comentario = updated.comentario;
+      this.showModal = false;
+    },
+    error: (err) => console.error('Error guardando comentario', err)
+  });
+}
 
 
 
@@ -104,10 +128,11 @@ getRoomName(id: number): string {
   });
   }
 
-  calendarView: 'landscape' | 'portrait' = 'landscape';
+  calendarView: 'week' | 'month' = 'month';
 
-setView(view: 'landscape' | 'portrait') {
+setView(view: 'week' | 'month') {
   this.calendarView = view;
+  this.filterClases();
 }
 
 selectedDate: string | null = null; // YYYY-MM-DD
@@ -116,11 +141,41 @@ filteredByDate: any[] = [];
 onDateSelect(event: any) {
   const selected = event.detail.value; // array de Date
   if (selected && selected.length > 0) {
-    const dateObj: Date = selected[0]; // tomamos la primera fecha
-    const dateStr = dateObj.toISOString().split('T')[0]; // YYYY-MM-DD
-    this.selectedDate = dateStr;
+    const dateObj: Date = selected[0]; 
+    this.selectedDate = dateObj.toISOString().split('T')[0]; 
+    this.filterClases();
+  }
+}
 
-    this.filteredByDate = this.clases.filter(c => c.startDate === dateStr);
+filterClases() {
+  if (!this.selectedDate) {
+    this.filteredByDate = [];
+    return;
+  }
+
+  const dateObj = new Date(this.selectedDate);
+
+  if (this.calendarView === 'week') {
+    // Calcular rango de semana (lunes a domingo, por ejemplo)
+    const firstDay = new Date(dateObj);
+    firstDay.setDate(dateObj.getDate() - dateObj.getDay() + 1); // lunes
+    const lastDay = new Date(firstDay);
+    lastDay.setDate(firstDay.getDate() + 6); // domingo
+
+    this.filteredByDate = this.clases.filter(c => {
+      const classDate = new Date(c.startDate);
+      return classDate >= firstDay && classDate <= lastDay;
+    });
+
+  } else if (this.calendarView === 'month') {
+    // Filtrar por mes
+    const month = dateObj.getMonth();
+    const year = dateObj.getFullYear();
+
+    this.filteredByDate = this.clases.filter(c => {
+      const classDate = new Date(c.startDate);
+      return classDate.getMonth() === month && classDate.getFullYear() === year;
+    });
   }
 }
 
