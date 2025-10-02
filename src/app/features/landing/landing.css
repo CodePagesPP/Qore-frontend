@@ -940,7 +940,7 @@
   max-width: 90%;
   margin-top: 40px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(370px, 1fr));
   gap: 20px;
   align-items: start;
 }
@@ -967,6 +967,7 @@
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
+  text-align: left;
 }
 
 .faq-question .icon {

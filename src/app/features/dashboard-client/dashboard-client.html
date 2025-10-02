@@ -96,11 +96,27 @@
             <h2>Mi Información</h2>
             <div class="updates">
                 <div class="update">
-                    <h3>Nombre: {{clientPlanInfo?.name}}</h3>
-                    <h3>Apellido: {{clientPlanInfo?.lastName}}</h3>
-                    <h3>DNI: {{clientPlanInfo?.dni}}</h3>
-                    <h3>Email: {{clientPlanInfo?.email}}</h3>
-                    <h3>phoneNumber: {{clientPlanInfo?.phoneNumber}}</h3>
+                    <div class="row">
+                        <span>Nombre</span>
+                        <h3>{{clientPlanInfo?.name}}</h3>
+                    </div>
+                    <div class="row">
+                        <span>Apellido</span>
+                        <h3>{{clientPlanInfo?.lastName}}</h3>
+                    </div>
+                    <div class="row">
+                        <span>DNI</span>
+                        <h3>{{clientPlanInfo?.dni}}</h3>
+                    </div>
+                    <div class="row">
+                        <span>Email</span>
+                        <h3>{{clientPlanInfo?.email}}</h3>
+                    </div>  
+                    <div class="row">
+                        <span>Teléfono</span>
+                        <h3>{{clientPlanInfo?.phoneNumber}}</h3>
+                    </div>
+                    
                 </div>
             </div>
         </div>

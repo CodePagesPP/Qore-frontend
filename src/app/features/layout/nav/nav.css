@@ -1,7 +1,7 @@
 .container {
     display: flex;
     gap: 20px;
-    margin: auto 10px;
+    margin: auto 3em;
     grid-template-columns: 14rem auto;
 }
 

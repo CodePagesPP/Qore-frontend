@@ -207,4 +207,13 @@ filterClases() {
     });
   }
 }
+
+clearFilter() {
+  this.selectedDate = null;       
+  this.calendarView = 'month';  
+  this.filteredByDate = [...this.clases];
+  if (this.calendar) {
+    this.calendar.clearSelection(); 
+  }
+}
 }

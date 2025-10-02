@@ -335,6 +335,7 @@ main .recent-orders a {
 
 .right {
     margin-top: 1.4rem;
+    width: 400px;
 }
 
 .right .top {
@@ -395,6 +396,17 @@ main .recent-orders a {
     border-radius: var(--card-border-radius);
     box-shadow: var(--box-shadow);
     transition: all 300ms ease;
+}
+
+.update .row, h3{
+    align-items: center;
+    display: flex;
+    font-size: 15px;
+    justify-content: space-between;
+}
+
+.update span {
+    font-family: 'MontBold';
 }
 
 .right .recent-updates .updates:hover {
