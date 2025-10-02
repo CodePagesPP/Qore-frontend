@@ -31,7 +31,6 @@ export class Workers implements OnInit {
     city: '',
     address: '',
     dni: '',
-    disciplineId: [],
     area: '',
     role: { id: 0, name: '' }
   };

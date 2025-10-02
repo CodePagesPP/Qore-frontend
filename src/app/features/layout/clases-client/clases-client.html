@@ -1,1 +1,91 @@
-<p>clases-client works!</p>
+<div class="clases-container">
+  <div class="header">
+    <h2>Clases</h2>
+  </div>
+
+  <div class="clases-layout">
+    <!-- Columna izquierda (Calendario) -->
+    <div class="calendar-side">
+      <smart-calendar
+        class="calendar-views" 
+        view="landscape"
+        [viewSections]='["title", "header"]'
+        selection-mode="one"
+        (change)="onDateSelect($event)">
+      </smart-calendar>
+      <div class="options">
+        <div class="caption">Vista</div>
+        <div class="option">
+          <smart-radio-button 
+            [checked]="calendarView === 'week'" 
+            (change)="setView('week')">
+            Semana
+          </smart-radio-button>
+          <smart-radio-button 
+            [checked]="calendarView === 'month'" 
+            (change)="setView('month')">
+            Mes
+          </smart-radio-button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Columna derecha (crear clases + tabla) -->
+    <div class="classes-side">
+
+
+      <div class="table">
+        <div class="row header">
+          <div>Nombre</div>
+          <div>Disciplina</div>
+          <div>Sala</div>
+          <div>Capacidad</div>
+          <div>Inicio (YYYY/MM/DD) </div>
+          <div>Hora</div>
+          <div class="actions">Estado</div>
+          <div class="actions">Join</div>
+        </div>
+
+        <div class="row" *ngFor="let c of (selectedDate ? filteredByDate : clases)">
+          <div>{{ c.name }}</div>
+          <div>{{ getDisciplineName(c.disciplineId) }}</div>
+          <div>{{ getRoomName(c.roomId) }}</div>
+          <div>{{ c.capacity }}</div>
+          <div>{{ c.startDate }}</div>
+          <div>{{ c.startTime }} - {{ c.endTime }}</div>
+          <div>{{ c.estado}}</div>
+          <button 
+                *ngIf="!c.joined" 
+                (click)="openJoinModal(c)">
+                Unirse
+            </button>
+
+  <span *ngIf="c.joined" class="joined-label">Ya inscrito</span>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de confirmación -->
+<div class="modalconfirm" [class.show]="confirmJoinModal">
+  <div class="modal-content">
+    <h3>¿Quieres unirte a esta clase?</h3>
+    <p>{{ selectedClass?.name }}</p>
+    <p>{{ selectedClass?.startDate }}</p>
+    <p>{{ selectedClass?.startTime }} - {{ selectedClass?.endTime }}</p>
+    <button class="modal-button-confirm" (click)="confirmJoin()">Confirmar</button>
+    <button class="modal-button" (click)="closeJoinModal()">Cancelar</button>
+  </div>
+</div>
+
+<!-- Modal de éxito -->
+<div class="modalconfirm" [class.show]="successModal">
+  <div class="modal-content success">
+    <span class="check-icon"><i class="fa-regular fa-circle-check"></i></span>
+    <h3>Registro exitoso</h3>
+    <p>Te has inscrito correctamente en la clase.</p>
+    <button class="modal-button" (click)="closeSuccessModal()">Cerrar</button>
+  </div>
+</div>

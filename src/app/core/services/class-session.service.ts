@@ -53,6 +53,10 @@ export class ClassSessionService {
 
 getByInstructor(instructorId: number): Observable<ClassSession[]> {
     return this.http.get<ClassSession[]>(`${this.classApiUrl}/instructor/${instructorId}`, { headers: this.getAuthHeaders() });
+}
+
+getClientByDiscipline(ClientId: number): Observable<ClassSession[]> {
+    return this.http.get<ClassSession[]>(`${this.classApiUrl}/client/${ClientId}`, { headers: this.getAuthHeaders() });
   }
 
   getPendingTodayInstructor(instructorId: number): Observable<ClassSession[]> {
@@ -60,5 +64,10 @@ getByInstructor(instructorId: number): Observable<ClassSession[]> {
     `${this.classApiUrl}/instructors/${instructorId}/pending-today`, { headers: this.getAuthHeaders() }
   );
 }
+
+joinClass(classId: number, clientId: number): Observable<any> {
+  return this.http.post(`${this.classApiUrl}/${classId}/join/${clientId}`, {}, { headers: this.getAuthHeaders() });
+}
+
 
 }

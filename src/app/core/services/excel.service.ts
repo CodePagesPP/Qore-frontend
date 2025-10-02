@@ -23,6 +23,10 @@ export class ExcelService {
     responseType: 'blob' as 'json'      
   });
 }
-
-
+downloadClientsExcel() {
+  return this.http.get(`${this.apiUrl}/report/clients`, {
+    headers: this.getHeaders(),
+    responseType: 'blob'
+  });
+}
 }

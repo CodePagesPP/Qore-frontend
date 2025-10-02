@@ -694,3 +694,13 @@ main .recent-orders a {
 .modal-content table tbody tr:last-child td{
     border: none;
 }
+
+::ng-deep pagination-controls .ngx-pagination li a {
+  color: blue !important;
+}
+
+::ng-deep pagination-controls .ngx-pagination li.current {
+  background-color: var(--color-ivory) !important;
+  color: white !important;
+  border-radius: 4px;
+}

@@ -7,18 +7,20 @@ export const authenticatedGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
 
   if (authService.isAuthenticated()) {
-    const roles = authService.getAuthorities();
+  const roles = authService.getAuthorities();
 
-    if (roles.includes('ADMIN_ACCESS')) {
-      router.navigate(['/dashboard']);
-    } else if (roles.includes('CLIENT_ACCESS')) {
-      router.navigate(['/c/dashboard']);
-    } else if (roles.includes('INSTRUCTOR_ACCESS')) {
-      router.navigate(['/i/dashboard-instructor']);
-    }
+  const adminRoles = ['ADMIN_ACCESS', 'MANAGER_ACCESS', 'STAFF_ACCESS'];
 
-    return false;
+  if (roles.some(role => adminRoles.includes(role))) {
+    router.navigate(['/dashboard']);
+  } else if (roles.includes('CLIENT_ACCESS')) {
+    router.navigate(['/c/dashboard']);
+  } else if (roles.includes('INSTRUCTOR_ACCESS')) {
+    router.navigate(['/i/dashboard']);
   }
+
+  return false;
+}
 
   return true;
 };

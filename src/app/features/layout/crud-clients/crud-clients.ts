@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Client, RegisterRequest } from '../../../core/models/auth.model';
+import { Client, Discipline, RegisterRequest } from '../../../core/models/auth.model';
 import { AdminService } from '../../../core/services/admin.service';
 import { ClientService } from '../../../core/services/client.service';
 import { FormsModule } from '@angular/forms';
+import { ExcelService } from '../../../core/services/excel.service';
+import { DisciplineService } from '../../../core/services/discipline.service';
 
 @Component({
   selector: 'app-crud-clients',
@@ -17,8 +19,8 @@ export class CrudClients implements OnInit{
   isModalOpen = false;
   isModalViewOpen = false;
   editingClient: Client | null = null;
-
-  formData: Partial<RegisterRequest> = {
+  allDisciplines: Discipline[]=[];
+  formData: any = {
     email: '',
     password: '',
     name: '',
@@ -29,17 +31,41 @@ export class CrudClients implements OnInit{
     country: '',
     city: '',
     address: '',
-    dni: ''
+    dni: '',
+    disciplinesIds: []   
   };
 
   constructor(
    private adminService: AdminService,
-   private clientService: ClientService
+   private clientService: ClientService,
+   private excelService: ExcelService,
+   private disciplineService: DisciplineService
  ) {}
  
  ngOnInit() {
    this.loadClients();
+   this.loadDisciplines();
  }
+
+downloadClientsExcel() {
+  this.excelService.downloadClientsExcel().subscribe((blob: Blob) => {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'all-clients.xlsx';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
+  });
+}
+
+loadDisciplines() {
+  this.disciplineService.getAll().subscribe({
+    next: (data) => this.allDisciplines = data,
+    error: (err) => console.error('Error cargando disciplinas', err)
+  });
+}
  
  
   loadClients() {
@@ -65,11 +91,12 @@ export class CrudClients implements OnInit{
     this.isModalOpen = true;
   }
 
-  openEditModal(client: Client): void {
-    this.editingClient = client;
-    this.formData = { ...client }; 
-    this.isModalOpen = true;
-  }
+openEditModal(client: Client): void {
+  this.editingClient = client;
+  this.formData = { ...client, disciplineIds: client.disciplines?.map(d => d.id) || [] };
+  this.isModalOpen = true;
+}
+
 
   openViewModal(client: Client): void {
     this.editingClient = null;

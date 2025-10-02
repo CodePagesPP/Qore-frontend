@@ -1,6 +1,6 @@
 <h2 class="princ-text">Gestiona tus Clientes</h2>
 <button class="btn-open" (click)="openAddModal()"><i class="fa fa-plus-square"></i> Nuevo Cliente</button>
-
+<i class="fa-solid fa-file-excel fa-xl excel" (click)="downloadClientsExcel()"></i>
 <div class="search-container">
   <input 
     type="text" 
@@ -91,7 +91,7 @@
         <div class="error" *ngIf="dni.invalid && dni.touched">El DNI debe tener exactamente 8 dígitos</div>
         <div *ngIf="dniError">{{ dniError }}</div>
       </div>
-
+      
       <div>
         <label>Fecha de nacimiento*</label>
         <input class="dateInput"
@@ -103,10 +103,19 @@
         <div class="error" *ngIf="birthdayError">{{ birthdayError }}</div>
       </div>
 
-      <div>
+      <div *ngIf="!editingClient">
         <label>Contraseña*</label>
         <input type="password" [(ngModel)]="formData.password" name="password" required>
       </div>
+
+  <div>
+  <label>Disciplinas*</label>
+  <select multiple [(ngModel)]="formData.disciplineIds" name="disciplineIds" required>
+    <option *ngFor="let d of allDisciplines" [value]="d.id">{{ d.name }}</option>
+  </select>
+  <small>Puedes seleccionar varias disciplinas con CTRL (Windows) o CMD (Mac)</small>
+</div>
+
 
       <div>
         <label>Telefono*</label>

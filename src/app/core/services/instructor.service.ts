@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { InstructorStats } from '../models/class.model';
+import { ClassSession, InstructorStats } from '../models/class.model';
 import { Observable } from 'rxjs';
 import { Instructor, RegisterRequest } from '../models/auth.model';
 
@@ -33,5 +33,13 @@ export class InstructorService {
 
   getInstructorById(id: string): Observable<Instructor> {
   return this.http.get<Instructor>(`${this.apiUrl}/instructor/${id}`, { headers: this.getHeaders() });
+}
+
+updateComentario(id: number, comentario: string): Observable<ClassSession> {
+  return this.http.patch<ClassSession>(
+    `${this.apiUrl}/${id}/comentario`,
+    { comentario }, 
+    { headers: this.getHeaders() }
+  );
 }
 }
