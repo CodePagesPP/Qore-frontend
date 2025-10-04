@@ -1,6 +1,11 @@
 <div class="body">
   <div class="container" [class.active]="isActive">
     
+  <div class="tab-header mobile-only">
+      <button [class.active]="!isActive" (click)="activateLogin()">Inicia Sesión</button>
+      <button [class.active]="isActive" (click)="activateRegister()">Regístrate</button>
+  </div>
+
   <div class="form-box login">
     <button type="button" class="back-btn" (click)="goBack()">
       <i class="fa fa-arrow-left"></i>
