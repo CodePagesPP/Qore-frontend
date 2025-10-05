@@ -124,6 +124,7 @@ export interface Client{
   city: string;
   address: string;
   dni: string;
+  trialCompleted: boolean;
   createdAt: Date;
   updatedAt: Date;
   disciplines: Discipline[];
