@@ -75,7 +75,7 @@
                         <pagination-controls style="color: blue;" id="ending" (pageChange)="pE = $event"></pagination-controls>
                     </table>
                 </div>
-                <a href="#">Mostrar todos</a>
+                <a routerLink="/clients">Mostrar todos</a>
             </div>
 
 
@@ -105,7 +105,7 @@
                     <pagination-controls id="new" (pageChange)="p = $event"></pagination-controls>
                 </table>
             </div>
-            <a href="#">Mostrar todos</a>
+            <a routerLink="/clients">Mostrar todos</a>
         </div>
 
         </div>
@@ -147,7 +147,7 @@
                 <div class="right">
                     <div class="info">
                         <h3>CLIENTES INACTIVOS</h3>
-                        <small class="text-muted">Últimas 24 horas</small>
+                        <small class="text-muted">Aquellos que su plan ha vencido y no han renovado por 3 meses</small>
                     </div>
                     <h3>{{ inactiveClientsCount }}</h3>
                 </div>
@@ -159,7 +159,7 @@
                 <div class="right">
                     <div class="info">
                         <h3>ULTIMOS CLIENTES</h3>
-                        <small class="text-muted">Por mes</small>
+                        <small class="text-muted">En el mes</small>
                     </div>
                     <h3>{{ currentMonthClients }}</h3>
                 </div>
@@ -172,7 +172,7 @@
                 <div class="right">
                     <div class="info">
                         <h3>PERSONAL</h3>
-                        <small class="text-muted">Últimas 24 horas</small>
+                        <small class="text-muted">El número de colaboradores en Qore!</small>
                     </div>
                     <h3>{{ workers }}</h3>
                 </div>

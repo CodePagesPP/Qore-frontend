@@ -1096,6 +1096,14 @@
   color: var(--color-stone);
 }
 
+#phonefooter{
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#phonefooter:hover {
+  color: var(--color-stone);
+}
 
 .footer-social a{
   color: var(--color-nude);
@@ -1322,3 +1330,53 @@
     margin-top: 0;
   }
 }
+
+/* WTPP BUTTON */
+.float{
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	right:40px;
+	background: linear-gradient(0.25turn, var(--color-gold), var(--color-rose));
+	color:#FFF;
+	border-radius:50px;
+	text-align:center;
+    font-size:30px;
+	box-shadow: 2px 2px 3px #999;
+    z-index:10000;
+}
+.float:hover {
+	text-decoration: none;
+	color: #ffffff;
+  background-color:#ffffff;
+    
+    animation: shake 1s;
+
+ 
+  animation-iteration-count: infinite;
+}
+
+.my-float{
+	margin-top:16px;
+}
+
+.pulse{
+	animation:  pulse-animation 2s infinite;
+}
+@keyframes pulse-animation {
+	0% {
+	 box-shadow: 0 0 0 0px #25d36657 rgba(0, 0, 0, 0.2);
+	}
+	100% {
+	  box-shadow: 0 0 0 20px rgba(0, 0, 0, 0);
+	}
+  }
+  
+  @keyframes shake {
+	 0% { transform: translateX(0) }
+   25% { transform: translateX(5px) }
+   50% { transform: translateX(-5px) }
+   75% { transform: translateX(5px) }
+   100% { transform: translateX(0) }
+  }

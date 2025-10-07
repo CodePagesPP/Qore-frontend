@@ -7,10 +7,11 @@ import { ClientClassDTO, ClientPlanInfo } from '../../core/models/class.model';
 import { ClientService } from '../../core/services/client.service';
 import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard-client',
-  imports: [ModalPlanes, CommonModule, NgxPaginationModule],
+  imports: [ModalPlanes, CommonModule, NgxPaginationModule, RouterLink],
   templateUrl: './dashboard-client.html',
   styleUrl: './dashboard-client.css'
 })

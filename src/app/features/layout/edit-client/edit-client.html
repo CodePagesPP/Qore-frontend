@@ -30,11 +30,6 @@
       </div>
 
       <div>
-        <label>Contraseña</label>
-        <input type="password" [(ngModel)]="formData.password" name="password">
-      </div>
-
-      <div>
         <label>Teléfono</label>
         <input type="tel" required name="phoneNumber" [(ngModel)]="formData.phoneNumber" pattern="[0-9]{9}" (keypress)="allowOnlyNumbers($event)" #phoneNumber="ngModel">
         <div class="error" *ngIf="phoneNumber.invalid && phoneNumber.touched">El número telefónico debe tener exactamente 9 dígitos</div>

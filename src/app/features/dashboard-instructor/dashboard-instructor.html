@@ -89,14 +89,29 @@
             </button>
         </div>
         <div class="recent-updates">
-             <h2>Mi Información</h2>
+            <h2>Mi Información</h2>
             <div class="updates">
                 <div class="update">
-                    <h3>Nombre: {{stats?.name}}</h3>
-                    <h3>Apellido: {{stats?.lastName}}</h3>
-                    <h3>DNI: {{stats?.dni}}</h3>
-                    <h3>Email: {{stats?.email}}</h3>
-                    <h3>phoneNumber: {{stats?.phoneNumber}}</h3>
+                    <div class="row">
+                        <span>Nombre</span>
+                        <h3>{{stats?.name}}</h3>
+                    </div>
+                    <div class="row">
+                        <span>Apellido</span>
+                        <h3>{{stats?.lastName}}</h3>
+                    </div>
+                    <div class="row">
+                        <span>DNI</span>
+                        <h3>{{stats?.dni}}</h3>
+                    </div>
+                    <div class="row">
+                        <span>Email</span>
+                        <h3>{{stats?.email}}</h3>
+                    </div>  
+                    <div class="row">
+                        <span>Teléfono</span>
+                        <h3>{{stats?.phoneNumber}}</h3>
+                    </div>                 
                 </div>
             </div>
         </div>
