@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { Client, Discipline, RegisterRequest } from '../../../core/models/auth.model';
 import { AdminService } from '../../../core/services/admin.service';
 import { ClientService } from '../../../core/services/client.service';
@@ -84,6 +83,18 @@ loadDisciplines() {
      error => console.error(error)
    );
  }
+
+ updateTrialStatus(client: any) {
+  this.clientService.updateTrialStatus(client.id, client.trialCompleted).subscribe({
+    next: () => {
+      console.log(`Clase de prueba actualizada para ${client.name}`);
+    },
+    error: (err) => {
+      console.error('Error al actualizar clase de prueba', err);
+    }
+  });
+}
+
 
  openAddModal(): void {
     this.editingClient = null;

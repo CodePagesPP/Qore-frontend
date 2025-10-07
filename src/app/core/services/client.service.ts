@@ -75,4 +75,13 @@ getMyClasses(): Observable<ClientClassDTO[]> {
   return this.http.get<Client>(`${this.clientUrl}/client/${id}`, { headers: this.getAuthHeaders() });
 }
 
+updateTrialStatus(clientId: number, completed: boolean) {
+  return this.http.put(
+    `${this.clientUrl}/${clientId}/trial?completed=${completed}`,
+    {}, 
+    { headers: this.getAuthHeaders() }
+  );
+}
+
+
 }

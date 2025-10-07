@@ -48,6 +48,7 @@ export interface ClientPlanInfo {
   totalClasses: number;
   classesTaken: number;
   classesRemaining: number;
+  trialCompleted: boolean;
 }
 
 export interface ClientClassDTO {

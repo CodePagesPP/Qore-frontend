@@ -19,6 +19,7 @@
         <th>DNI</th>
         <th>Correo</th>
         <th>Teléfono</th>
+        <th>Clase de prueba</th>
         <th>Acciones</th>
       </tr>
     </thead>
@@ -29,6 +30,16 @@
         <td>{{ client.dni }}</td>
         <td>{{ client.email }}</td>
         <td>{{ client.phoneNumber }}</td>
+        <td>
+          <label class="switch">
+            <input
+              type="checkbox"
+              [(ngModel)]="client.trialCompleted"
+              (change)="updateTrialStatus(client)"
+            />
+            <span class="slider round"></span>
+          </label>
+        </td>
         <td class="actions">
           <span class="icon" (click)="openEditModal(client)"><i class="fa-solid fa-pen-to-square"></i></span>
           <span class="icon delete" (click)="deleteClient(client.dni)"><i class="fa-solid fa-trash"></i></span>
