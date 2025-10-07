@@ -13,11 +13,14 @@
         <li><a href="#faq">{{ 'NAV.FAQ' | translate }}</a></li>
         
       </ul>
-      <a href="#" class="btn-join" routerLink="/login">{{ 'NAV.INGRESAR' | translate }}</a>
+      <div class="buttonnav">
+        <a href="#" class="btn-join" routerLink="/login">{{ 'NAV.INGRESAR' | translate }}</a>
       <button (click)="toggleLanguage()" class="lang" id="lang-toggle">
                 <img [src]="currentFlag" alt="English" />
                 {{ 'NAV.IDIOMA' | translate }}
         </button>
+      </div>
+      
     </nav>
 
     <div class="hero-content">
