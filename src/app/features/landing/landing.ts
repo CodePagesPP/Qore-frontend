@@ -4,16 +4,41 @@ import { RouterLink } from '@angular/router';
 import { PlanService } from '../../core/services/plan.service';
 import { PlanResponse } from '../../core/models/plan.model';
 import { FormsModule } from "@angular/forms";
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 
+interface FaqItem {
+  QUESTION: string;
+  ANSWER: string;
+  open?: boolean;
+}
 @Component({
   selector: 'app-landing',
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule, RouterLink, FormsModule, TranslateModule],
   templateUrl: './landing.html',
   styleUrl: './landing.css'
 })
 export class Landing {
+  currentLang = 'es';
+  currentFlag = 'assets/es.svg'
+  faqs: FaqItem[] = [];
+  faqsOpen: boolean[] = [];
+  faqSub!: Subscription;
+  constructor(private planService: PlanService, private translate: TranslateService) {
+    this.translate.setDefaultLang(this.currentLang);
+    this.translate.use(this.currentLang); 
+  }
 
-  constructor(private planService: PlanService) {}
+  toggleLanguage() {
+    if (this.currentLang === 'es') {
+      this.currentLang = 'en';
+      this.currentFlag = 'assets/en.svg';
+    } else {
+      this.currentLang = 'es';
+      this.currentFlag = 'assets/es.svg';
+    }
+    this.translate.use(this.currentLang);
+  }
 
   plans: PlanResponse[] = [];
   testimonials = [
@@ -47,40 +72,19 @@ export class Landing {
 
   ngOnInit(): void {
     this.loadPlans();
+    this.faqSub = this.translate.stream('FAQ.ITEMS').subscribe((items: FaqItem[]) => {
+      this.faqs = items.map(item => ({ ...item, open: false }));
+      this.faqsOpen = new Array(items.length).fill(false);
+    });
   }
-
-  ngOnDestroy() {
-    clearInterval(this.interval);
-  }
-
-  faqs = [
-    {
-      question: "¿Qué tipo de clases ofrecen?",
-      answer: "En Qore Wellness Lab dictamos clases de Pilates Mat, Spine Corrector, Reformer, Fitball y accesorios. Además, contamos con clases privadas en Cadillac y en cualquiera de los equipos.",
-      open: false
-    },
-    {
-      question: "¿Ofrecen clases de prueba?",
-      answer: "No. En lugar de ello, todos los alumnos inician con una clase de evaluación personalizada, indispensable para recomendar el plan adecuado.",
-      open: false
-    },
-    {
-      question: "¿Necesito experiencia previa para empezar?",
-      answer: "No. Todos los alumnos inician con una clase de evaluación, donde explicamos los principios de Pilates, evaluamos postura, pisada y desenvolvimiento. A partir de ahí diseñamos el plan más adecuado para ti.",
-      open: false
-    },
-    {
-      question: "¿Dónde están ubicados?",
-      answer: "Qore Wellness Lab está la Urbanización California en Trujillo, en una zona segura y tranquila, con estacionamiento disponible afuera (espacios limitados) y en calles cercanas.",
-      open: false
-    }
-  ];
 
   toggleFaq(index: number) {
-  this.faqs.forEach((faq, i) => {
-    faq.open = i === index ? !faq.open : false;
-  });
-}
+    this.faqsOpen[index] = !this.faqsOpen[index];
+  }
+
+  ngOnDestroy(): void {
+    this.faqSub?.unsubscribe();
+  }
 
 loadPlans() {
     this.planService.getAllPlans().subscribe({

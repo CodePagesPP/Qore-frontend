@@ -1,0 +1,126 @@
+{
+  "NAV": {
+    "NOSOTROS": "About Us",
+    "PAQUETES": "Plans",
+    "TESTIMONIOS": "Testimonials",
+    "ARTICULOS": "Articles",
+    "FAQ": "FAQ",
+    "INGRESAR": "Login",
+    "IDIOMA": "EN"
+  },
+  "HERO": {
+    "TITLE_PART1": "Pilates",
+    "TITLE_PART2": "is not just Exercise",
+    "TITLE_PART3": "It's a Way",
+    "TITLE_PART4": "of Life",
+    "JOIN_US": "Join Us"
+  },
+  "ABOUT": {
+    "SUBTITLE": "About Us",
+    "TITLE": "Welcome to Qore Wellness Lab",
+    "DESCRIPTION": "A boutique Pilates studio where every movement becomes a space for connection with yourself. Our approach is semi-personalized (maximum of 3 people per class), allowing us to provide close guidance tailored to your level and goals. Here you'll find a safe, inspiring place designed to enhance your physical, mental, and emotional well-being."
+  },
+  "MISSION": {
+    "SUBTITLE": "Who We Are",
+    "TITLE": "We enhance your well-being through the practice of Pilates",
+    "DESCRIPTION": "At Qore Wellness Lab, we believe that wellness is not just about training, but about cultivating a mindful lifestyle.<br> Our team is made up of certified Pilates instructors who are passionate about guiding each person through their own transformation process.<br> We specialize in Mat Pilates, Spine Corrector, Reformer, Cadillac, and Fitball classes, offering an integrated approach that strengthens flexibility, posture, and breathing.<br> More than a studio, we are a community where you’ll learn to move with body intelligence, prevent injuries, boost your energy, and reconnect with your body through respect and awareness."
+  },
+  "VALUES": {
+    "TITLE": "Philosophy & Values",
+    "MOVEMENT": "Mindful movement",
+    "SUPPORT": "Close guidance",
+    "CONSISTENCY": "Consistency with balance",
+    "WELLNESS": "Comprehensive wellness"
+  },
+  "PACKAGES": {
+    "SUBTITLE": "Our Group Packages",
+    "TITLE": "Book your evaluation class and start now!",
+    "DESCRIPTION": "In order to analyze and provide the best possible service to our clients, each package requires a prior evaluation class."
+  },
+  "EVALUATION": {
+    "COST": "The evaluation class costs S/60"
+  },
+  "PRIVATE_PACKAGES": {
+    "SUBTITLE": "Our Private Packages"
+  },
+  "TESTIMONIALS": {
+    "SUBTITLE": "See what our clients say",
+    "TITLE": "Testimonials",
+    "DESCRIPTION": "Your opinion matters. <br>We adapt to your pace to achieve your goals.",
+    "BUTTON": "Join Now"
+  },
+  "ARTICLES": {
+    "SUBTITLE": "Articles",
+    "TITLE": "Wellness & Pilates",
+    "DESCRIPTION": "A space to inspire your practice and self-care. Discover some of our most important tips for practicing Pilates."
+  },
+  "ARTICLESITEM": {
+    "ITEM1": {
+      "TITLE": "The importance of hydration in your Pilates practice",
+      "DESCRIPTION": "During a Pilates class, even though we may not sweat as much as in more intense disciplines, water is still lost through breathing and sweating. Mild dehydration can cause fatigue, lack of concentration, muscle cramps, or headache."
+    },
+    "ITEM2": {
+      "TITLE": "Simple tips to avoid heavy meals before and after Pilates",
+      "DESCRIPTION": "Light and mindful eating is key for your body to feel energized, not heavy, and more capable of movement. In Pilates, where precision and breathing are fundamental, overeating can be counterproductive."
+    },
+    "ITEM3": {
+      "TITLE": "Supplements that can enhance your Pilates practice",
+      "DESCRIPTION": "Many people wonder if they need supplements to improve their well-being and performance in Pilates. The reality is that supplements do not replace a balanced diet, but can be a helpful support in certain life stages or when physical demand is higher."
+    },
+    "ITEM4": {
+      "TITLE": "How they contribute to joint well-being, energy, and muscle recovery",
+      "DESCRIPTION": "Joint and muscle wellness is essential for practicing Pilates comfortably and consistently. This discipline strengthens deep muscles, improves posture, and increases mobility. However, beyond exercise, nutrition and lifestyle play a crucial role."
+    },
+    "ITEM5": {
+      "TITLE": "Non-slip socks or barefoot in Pilates: pros and cons",
+      "DESCRIPTION": "Non-slip socks provide extra safety, prevent slipping, and offer protection against the cold. They are ideal for beginners or those who prefer to feel more covered. At Qore Wellness Lab, we support barefoot practice because we believe it better connects with the essence of Pilates."
+    },
+    "ITEM6": {
+      "TITLE": "Motivating style: how to choose your Pilates clothes",
+      "DESCRIPTION": "Sportswear is not only aesthetic; it also influences motivation and performance during your Pilates practice. In Pilates, we recommend tight-fitting or one-piece garments. This type of clothing allows you to observe posture clearly, facilitates instructor corrections, and prevents fabric from tangling or causing discomfort in the equipment."
+    }
+  },
+  "FAQ": {
+    "TITLE": "Frequently Asked Questions",
+    "SUBTITLE": "FAQ",
+    "DESCRIPTION": "Some of the topics most asked before joining us.",
+    "ITEMS": [
+      {
+        "QUESTION": "What types of classes do you offer?",
+        "ANSWER": "At Qore Wellness Lab we offer Pilates Mat, Spine Corrector, Reformer, Fitball, and accessory classes. Additionally, we provide private classes on Cadillac and any of the equipment."
+      },
+      {
+        "QUESTION": "Do you offer trial classes?",
+        "ANSWER": "No. Instead, all students start with a personalized evaluation class, essential to recommend the right plan."
+      },
+      {
+        "QUESTION": "Do I need previous experience to start?",
+        "ANSWER": "No. All students start with an evaluation class, where we explain Pilates principles, assess posture, foot placement, and performance. From there, we design the most suitable plan for you."
+      },
+      {
+        "QUESTION": "Where are you located?",
+        "ANSWER": "Qore Wellness Lab is located in Urbanización California in Trujillo, in a safe and quiet area, with parking available outside (limited spaces) and nearby streets."
+      }
+    ]
+  },
+  "FOOTER": {
+    "CONTACT": {
+      "TITLE": "Contact",
+      "PHONE": "+51 957 718 273",
+      "EMAIL": "qorewellnesslab@gmail.com",
+      "LOCATION": "Los Granados 551, Urb. California\nVíctor Larco Herrera Trujillo, Peru"
+    },
+    "EXPLORE": {
+      "TITLE": "Explore",
+      "ABOUT": "About Us",
+      "SERVICES": "Packages",
+      "PORTFOLIO": "Testimonials",
+      "ARTICLES": "Articles",
+      "CONTACT": "Contact"
+    },
+    "SOCIAL": {
+      "TITLE": "Social Media"
+    },
+    "BOTTOM": "©2025 Qore Wellness Lab - All rights reserved"
+  }
+}
