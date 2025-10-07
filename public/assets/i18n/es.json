@@ -1,0 +1,126 @@
+{
+  "NAV": {
+    "NOSOTROS": "Nosotros",
+    "PAQUETES": "Paquetes",
+    "TESTIMONIOS": "Testimonios",
+    "ARTICULOS": "Artículos",
+    "FAQ": "FAQ",
+    "INGRESAR": "Ingresar",
+    "IDIOMA": "ES"
+  },
+  "HERO": {
+    "TITLE_PART1": "Pilates",
+    "TITLE_PART2": "no es Solo Ejercicio",
+    "TITLE_PART3": "Es un Estilo",
+    "TITLE_PART4": "de Vida",
+    "JOIN_US": "Únete a Nosotros"
+  },
+  "ABOUT": {
+    "SUBTITLE": "Sobre Nosotros",
+    "TITLE": "Bienvenido a Qore Wellness Lab",
+    "DESCRIPTION": "Un estudio boutique de Pilates donde cada movimiento se convierte en un espacio de conexión contigo mismo. Nuestro enfoque es semipersonalizado (máximo 3 personas por clase), lo que nos permite brindarte acompañamiento cercano, adaptado a tu nivel y objetivos. Aquí encontrarás un lugar seguro, inspirador y diseñado para potenciar tu bienestar físico, mental y emocional."
+  },
+  "MISSION": {
+    "SUBTITLE": "Quiénes Somos",
+    "TITLE": "Mejoramos tu bienestar mediante la práctica de Pilates",
+    "DESCRIPTION": "En Qore Wellness Lab creemos que el bienestar no se trata solo de entrenar, sino de cultivar un estilo de vida consciente.<br> Nuestro equipo está conformado por instructores certificados en Pilates, apasionados por guiar a cada persona en su propio proceso de transformación.<br> Nos especializamos en clases de Pilates Mat, Spine Corrector, Reformer, Cadillac y Fitball, ofreciendo un enfoque integral que trabaja fuerza, flexibilidad, postura y respiración.<br> Más que un estudio, somos una comunidad donde aprenderás a moverte con inteligencia corporal, prevenir lesiones, mejorar tu energía y reconectar con tu cuerpo desde el respeto y la consciencia."
+  },
+  "VALUES": {
+    "TITLE": "Filosofía y Valores",
+    "MOVEMENT": "Movimiento consciente",
+    "SUPPORT": "Acompañamiento cercano",
+    "CONSISTENCY": "Constancia con equilibrio",
+    "WELLNESS": "Bienestar integral"
+  },
+  "PACKAGES": {
+    "SUBTITLE": "Nuestros Paquetes Grupales",
+    "TITLE": "Reserva tu clase de evaluación y empieza ya!",
+    "DESCRIPTION": "Con el objetivo de analizar y ofrecer el mejor servicio posible a nuestros clientes, cada paquete requiere de una clase de evaluación previa."
+  },
+  "EVALUATION": {
+    "COST": "La clase de evaluación tiene un costo de S/60"
+  },
+  "PRIVATE_PACKAGES": {
+    "SUBTITLE": "Nuestros Paquetes Privados"
+  },
+  "TESTIMONIALS": {
+    "SUBTITLE": "Conoce lo que nuestros clientes dicen",
+    "TITLE": "Testimonios",
+    "DESCRIPTION": "Tu opinión nos importa. <br>Nos adaptamos a tu ritmo para lograr tus objetivos.",
+    "BUTTON": "Únete Ahora"
+  },
+  "ARTICLES": {
+    "SUBTITLE": "Artículos",
+    "TITLE": "Bienestar y Pilates",
+    "DESCRIPTION": "Un espacio para inspirar tu práctica y tu autocuidado. Conoce algunos de nuestros tips más importantes a la hora de practicar Pilates."
+  },
+  "ARTICLESITEM": {
+    "ITEM1": {
+      "TITLE": "La importancia de la hidratación en tu práctica de Pilates",
+      "DESCRIPTION": "Durante una clase de Pilates, aunque no transpiremos tanto como en disciplinas más intensas, igualmente se pierde agua a través de la respiración y la sudoración. Una deshidratación leve puede provocar fatiga, falta de concentración, calambres musculares o dolor de cabeza."
+    },
+    "ITEM2": {
+      "TITLE": "Recomendaciones simples para no caer en comidas pesadas antes y después de Pilates",
+      "DESCRIPTION": "Una alimentación ligera y consciente es la clave para que tu cuerpo se sienta con energía, sin pesadez y con mayor capacidad de movimiento. En Pilates, donde la precisión y la respiración son fundamentales, comer en exceso puede jugar en contra."
+    },
+    "ITEM3": {
+      "TITLE": "Suplementos que pueden potenciar tu práctica de Pilates",
+      "DESCRIPTION": "Muchas personas se preguntan si necesitan suplementos para mejorar su bienestar y rendimiento en Pilates. La realidad es que los suplementos no sustituyen una alimentación equilibrada, pero sí pueden ser un apoyo interesante en ciertas etapas de la vida o cuando la demanda física es mayor."
+    },
+    "ITEM4": {
+      "TITLE": "Cómo contribuyen al bienestar articular, energía y recuperación muscular",
+      "DESCRIPTION": "El bienestar articular y muscular es fundamental para practicar Pilates con comodidad y continuidad. Esta disciplina fortalece músculos profundos, mejora la postura y aumenta la movilidad. Sin embargo, más allá del ejercicio, la nutrición y el estilo de vida juegan un papel crucial."
+    },
+    "ITEM5": {
+      "TITLE": "Medias antideslizantes o barefoot en Pilates: pros y contras",
+      "DESCRIPTION": "Las medias antideslizantes ofrecen seguridad extra, evitan resbalones y brindan protección contra el frío. Son ideales para quienes recién empiezan o prefieren sentirse más cubiertos. En Qore Wellness Lab apoyamos la práctica barefoot porque creemos que conecta mejor con la esencia del Pilates."
+    },
+    "ITEM6": {
+      "TITLE": "Estilo que motiva: cómo elegir tu ropa para Pilates",
+      "DESCRIPTION": "La ropa deportiva no solo cumple una función estética, también influye en la motivación y el desempeño durante tu práctica de Pilates. En Pilates, recomendamos prendas ajustadas o enterizos. Este tipo de ropa permite observar la postura con claridad, facilita las correcciones del instructor y evita que las telas se enreden o incomoden en los aparatos."
+    }
+  },
+  "FAQ": {
+    "TITLE": "Preguntas Frecuentes",
+    "SUBTITLE": "FAQ",
+    "DESCRIPTION": "Algunos de los temas que más preguntan antes de unirse a nosotros.",
+    "ITEMS": [
+      {
+        "QUESTION": "¿Qué tipo de clases ofrecen?",
+        "ANSWER": "En Qore Wellness Lab dictamos clases de Pilates Mat, Spine Corrector, Reformer, Fitball y accesorios. Además, contamos con clases privadas en Cadillac y en cualquiera de los equipos."
+      },
+      {
+        "QUESTION": "¿Ofrecen clases de prueba?",
+        "ANSWER": "No. En lugar de ello, todos los alumnos inician con una clase de evaluación personalizada, indispensable para recomendar el plan adecuado."
+      },
+      {
+        "QUESTION": "¿Necesito experiencia previa para empezar?",
+        "ANSWER": "No. Todos los alumnos inician con una clase de evaluación, donde explicamos los principios de Pilates, evaluamos postura, pisada y desenvolvimiento. A partir de ahí diseñamos el plan más adecuado para ti."
+      },
+      {
+        "QUESTION": "¿Dónde están ubicados?",
+        "ANSWER": "Qore Wellness Lab está la Urbanización California en Trujillo, en una zona segura y tranquila, con estacionamiento disponible afuera (espacios limitados) y en calles cercanas."
+      }
+    ]
+  },
+  "FOOTER": {
+    "CONTACT": {
+      "TITLE": "Contacto",
+      "PHONE": "+51 957 718 273",
+      "EMAIL": "qorewellnesslab@gmail.com",
+      "LOCATION": "Los Granados 551, Urb. California\nVíctor Larco Herrera Trujillo, Perú"
+    },
+    "EXPLORE": {
+      "TITLE": "Explora",
+      "ABOUT": "Nosotros",
+      "SERVICES": "Paquetes",
+      "PORTFOLIO": "Testimonios",
+      "ARTICLES": "Artículos",
+      "CONTACT": "Contacto"
+    },
+    "SOCIAL": {
+      "TITLE": "Redes Sociales"
+    },
+    "BOTTOM": "©2025 Qore Wellness Lab - Todos los derechos reservados"
+  }
+}

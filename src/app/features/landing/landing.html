@@ -3,23 +3,36 @@
     <nav class="navbar">
       <div class="logo"><a routerLink="/home"><img src="assets/logoQore.png"alt=""></a></div>
       <ul class="nav-links">
-        <li><a href="#nosotros">Nosotros</a></li>
-        <li><a href="#paquetes">Paquetes</a></li>
-        <li><a href="#testimonios">Testimonios</a></li>
-        <li><a href="#articulos">Artículos</a></li>
-        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#nosotros">{{ 'NAV.NOSOTROS' | translate }}</a></li>
+        <li><a href="#paquetes">{{ 'NAV.PAQUETES' | translate }}</a></li>
+        <li><a href="#testimonios">{{ 'NAV.TESTIMONIOS' | translate }}</a></li>
+        <li><a href="#articulos">{{ 'NAV.ARTICULOS' | translate }}</a></li>
+        <li><a href="#faq">{{ 'NAV.FAQ' | translate }}</a></li>
+        
       </ul>
-      <a href="#" class="btn-join" routerLink="/login">Ingresar</a>
+      <a href="#" class="btn-join" routerLink="/login">{{ 'NAV.INGRESAR' | translate }}</a>
+      <button (click)="toggleLanguage()" class="lang" id="lang-toggle">
+                <img [src]="currentFlag" alt="English" />
+                {{ 'NAV.IDIOMA' | translate }}
+        </button>
     </nav>
 
     <div class="hero-content">
       <div class="text-content">
-        <h1><br><span>Pilates </span>no es Solo Ejercicio<br>Es un Estilo<span> de Vida</span></h1>
+        <h1>
+          <br>
+          <span>{{ 'HERO.TITLE_PART1' | translate }}</span>
+          {{ 'HERO.TITLE_PART2' | translate }}
+          <br>
+          {{ 'HERO.TITLE_PART3' | translate }}
+          <span>{{ 'HERO.TITLE_PART4' | translate }}</span>
+        </h1>
         <div class="buttons">
-          <a routerLink="/login" class="btn-started">Únete a Nosotros</a>
+          <a routerLink="/login" class="btn-started">{{ 'HERO.JOIN_US' | translate }}</a>
         </div>
       </div>
     </div>
+
   </section>
 
   <section class="about" id="nosotros">
@@ -34,11 +47,9 @@
 
       <!-- Texto -->
       <div class="about-text">
-        <h5>Sobre Nosotros</h5>
-        <h2>Bienvenido a Qore Wellness Lab</h2>
-        <p>Un estudio boutique de Pilates donde cada movimiento se convierte en un espacio de conexión contigo mismo. 
-          Nuestro enfoque es semipersonalizado (máximo 3 personas por clase), lo que nos permite brindarte acompañamiento cercano, adaptado a tu nivel y objetivos.
-          Aquí encontrarás un lugar seguro, inspirador y diseñado para potenciar tu bienestar físico, mental y emocional.</p>
+        <h5>{{ 'ABOUT.SUBTITLE' | translate }}</h5>
+        <h2>{{ 'ABOUT.TITLE' | translate }}</h2>
+        <p>{{ 'ABOUT.DESCRIPTION' | translate }}</p>
       </div>
 
     </div>
@@ -47,12 +58,11 @@
   <section class="mission">
     <div class="mission-container">
       <div class="mission-text">
-        <h5>Quiénes Somos</h5>
-        <h2>Mejoramos tu bienestar mediante la práctica de Pilates</h2>
-        <p>En Qore Wellness Lab creemos que el bienestar no se trata solo de entrenar, sino de cultivar un estilo de vida consciente.
-Nuestro equipo está conformado por instructores certificados en Pilates, apasionados por guiar a cada persona en su propio proceso de transformación. <br> Nos especializamos en clases de Pilates Mat,
-Spine Corrector, Reformer, Cadillac y Fitball, ofreciendo un enfoque integral que trabaja fuerza, flexibilidad, postura y respiración. <br>Más que un estudio, somos una comunidad donde aprenderás a moverte con inteligencia corporal, prevenir lesiones, mejorar tu energía y reconectar con tu cuerpo desde el respeto y la consciencia.</p>
+        <h5>{{ 'MISSION.SUBTITLE' | translate }}</h5>
+        <h2>{{ 'MISSION.TITLE' | translate }}</h2>
+        <p [innerHTML]="'MISSION.DESCRIPTION' | translate"></p>
       </div>
+
 
       <div class="mission-image">
         <img src="assets/section-mission/mision.jpeg" alt="Our Mission">
@@ -61,7 +71,7 @@ Spine Corrector, Reformer, Cadillac y Fitball, ofreciendo un enfoque integral qu
     </div>
 
     <div class="text-valores">
-      <h2>Filosofía y Valores</h2>
+      <h2>{{ 'VALUES.TITLE' | translate }}</h2>
     </div>  
       <div class="barra"  id="sobre-nosotros">
         <div class="barra-container"> 
@@ -72,7 +82,7 @@ Spine Corrector, Reformer, Cadillac y Fitball, ofreciendo un enfoque integral qu
                     <img src="assets/section-mission/human.png" alt="">
                 </div>
                 <div class="hijo2">
-                  <span>Movimiento consciente</span>
+                  <span>{{ 'VALUES.MOVEMENT' | translate }}</span>
                 </div>
               </div>
             </div>
@@ -84,7 +94,7 @@ Spine Corrector, Reformer, Cadillac y Fitball, ofreciendo un enfoque integral qu
                   <img src="assets/section-mission/balcony.png" alt="">
                 </div>  
                 <div class="hijo2">
-                  <span>Acompañamiento cercano</span>
+                  <span>{{ 'VALUES.SUPPORT' | translate }}</span>
                 </div>
               </div>          
             </div>
@@ -96,7 +106,7 @@ Spine Corrector, Reformer, Cadillac y Fitball, ofreciendo un enfoque integral qu
                   <img src="assets/section-mission/balance.png" alt="">
                 </div>       
                 <div class="hijo2">
-                  <span>Constancia con equilibrio</span>
+                  <span>{{ 'VALUES.CONSISTENCY' | translate }}</span>
                 </div>
               </div>        
             </div>
@@ -109,7 +119,7 @@ Spine Corrector, Reformer, Cadillac y Fitball, ofreciendo un enfoque integral qu
                 </div>
             
                 <div class="hijo2">
-                  <span>Bienestar integral</span>
+                  <span>{{ 'VALUES.WELLNESS' | translate }}</span>
                 </div>
               </div>
             </div>
@@ -119,12 +129,11 @@ Spine Corrector, Reformer, Cadillac y Fitball, ofreciendo un enfoque integral qu
 
   <section class="programs" id="paquetes">
     <div class="programs-header">
-      <p class="subtitle">Nuestros Paquetes Grupales</p>
-      <h2>Reserva tu clase de evaluación y empieza ya!</h2>
-      <p class="description">
-        Con el objetivo de analizar y ofrecer el mejor servicio posible a nuestros clientes, cada paquete requiere de una clase de evaluación previa. 
-      </p>
+      <p class="subtitle">{{ 'PACKAGES.SUBTITLE' | translate }}</p>
+      <h2>{{ 'PACKAGES.TITLE' | translate }}</h2>
+      <p class="description">{{ 'PACKAGES.DESCRIPTION' | translate }}</p>
     </div>
+
 
     <div class="programs-cards">
       <div class="card" *ngFor="let plan of plans | slice:0:4">
@@ -137,11 +146,13 @@ Spine Corrector, Reformer, Cadillac y Fitball, ofreciendo un enfoque integral qu
       </div>
     </div>
     <div class="evatext">
-      <h3>La clase de evaluación tiene un costo de S/60</h3>
+      <h3>{{ 'EVALUATION.COST' | translate }}</h3>
     </div>
+
     <div class="programs-header">
-      <p class="subtitle">Nuestros Paquetes Privados</p>
+      <p class="subtitle">{{ 'PRIVATE_PACKAGES.SUBTITLE' | translate }}</p>
     </div>
+
     <div class="programs-cards" style="padding-top: 50px;">
       <div class="card" *ngFor="let plan of plans | slice:4:7">
         <div class="icon">S/{{plan.price}}</div>
@@ -159,15 +170,14 @@ Spine Corrector, Reformer, Cadillac y Fitball, ofreciendo un enfoque integral qu
     <div class="testimonials-container">
 
       <div class="testimonials-info">
-        <p class="subtitle">Conoce lo que nuestros clientes dicen</p>
-        <h2>Testimonios</h2>
-        <p class="description">
-          Tu opinión nos importa. <br>Nos adaptamos a tu ritmo para lograr tus objetivos.
-        </p>
+        <p class="subtitle">{{ 'TESTIMONIALS.SUBTITLE' | translate }}</p>
+        <h2>{{ 'TESTIMONIALS.TITLE' | translate }}</h2>
+        <p class="description" [innerHTML]="'TESTIMONIALS.DESCRIPTION' | translate"></p>
         <div class="buttons">
-          <a class="btn-primary" routerLink="/login">Únete Ahora</a>
+          <a class="btn-primary" routerLink="/login">{{ 'TESTIMONIALS.BUTTON' | translate }}</a>
         </div>
       </div>
+
 
       <div class="testimonials-slider">
         <div class="slider-wrapper">
@@ -195,10 +205,9 @@ Spine Corrector, Reformer, Cadillac y Fitball, ofreciendo un enfoque integral qu
   <section class="articles" id="articulos">
     <div class="articles-header">
       <div>
-        <span class="subtitle">Artículos</span>
-        <h2>Bienestar y Pilates</h2>
-        <p>Un espacio para inspirar tu práctica y tu autocuidado. Conoce algunos de nuestros tips más importantes a la hora de practicar Pilates.
-        </p>
+        <span class="subtitle">{{ 'ARTICLES.SUBTITLE' | translate }}</span>
+        <h2>{{ 'ARTICLES.TITLE' | translate }}</h2>
+        <p>{{ 'ARTICLES.DESCRIPTION' | translate }}</p>
       </div>
     </div>
 
@@ -206,127 +215,133 @@ Spine Corrector, Reformer, Cadillac y Fitball, ofreciendo un enfoque integral qu
       <article class="card-article">
         <img src="assets/section-article/article1.jpeg" alt="">
         <div class="card-body">
-          <h3>La importancia de la hidratación en tu práctica de Pilates</h3>
-          <p>Durante una clase de Pilates, aunque no transpiremos tanto como en disciplinas más
-            intensas, igualmente se pierde agua a través de la respiración y la sudoración. Una
-            deshidratación leve puede provocar fatiga, falta de concentración, calambres musculares
-            o dolor de cabeza.</p>
+          <h3>{{ 'ARTICLESITEM.ITEM1.TITLE' | translate }}</h3>
+          <p>{{ 'ARTICLESITEM.ITEM1.DESCRIPTION' | translate }}</p>
         </div>
       </article>
 
       <article class="card-article">
         <img src="assets/section-article/article2.png" alt="">
         <div class="card-body">
-          <h3>Recomendaciones simples para no caer en comidas pesadas antes y después de Pilates</h3>
-          <p>Una alimentación ligera y consciente es la clave para que tu cuerpo se sienta con energía,
-          sin pesadez y con mayor capacidad de movimiento. En Pilates, donde la precisión y la
-          respiración son fundamentales, comer en exceso puede jugar en contra.</p>
+          <h3>{{ 'ARTICLESITEM.ITEM2.TITLE' | translate }}</h3>
+          <p>{{ 'ARTICLESITEM.ITEM2.DESCRIPTION' | translate }}</p>
         </div>
       </article>
 
       <article class="card-article">
         <img src="assets/section-article/article3.JPG" alt="">
         <div class="card-body">
-          <h3>Suplementos que pueden potenciar tu práctica de Pilates</h3>
-          <p> Muchas personas se preguntan si necesitan suplementos para mejorar su bienestar y
-          rendimiento en Pilates. La realidad es que los suplementos no sustituyen una
-          alimentación equilibrada, pero sí pueden ser un apoyo interesante en ciertas etapas de la
-          vida o cuando la demanda física es mayor.</p>
+          <h3>{{ 'ARTICLESITEM.ITEM3.TITLE' | translate }}</h3>
+          <p>{{ 'ARTICLESITEM.ITEM3.DESCRIPTION' | translate }}</p>
         </div>
       </article>
 
       <article class="card-article">
         <img src="assets/section-article/article4.jpeg" alt="">
         <div class="card-body">
-          <h3>Cómo contribuyen al bienestar articular, energía y recuperación muscular</h3>
-          <p> El bienestar articular y muscular es fundamental para practicar Pilates con comodidad y
-          continuidad. Esta disciplina fortalece músculos profundos, mejora la postura y aumenta la
-          movilidad. Sin embargo, más allá del ejercicio, la nutrición y el estilo de vida juegan un
-          papel crucial.</p>
+          <h3>{{ 'ARTICLESITEM.ITEM4.TITLE' | translate }}</h3>
+          <p>{{ 'ARTICLESITEM.ITEM4.DESCRIPTION' | translate }}</p>
         </div>
       </article>
 
       <article class="card-article">
         <img src="assets/section-article/article5.jpeg" alt="">
         <div class="card-body">
-          <h3>Medias antideslizantes o barefoot en Pilates: pros y contras</h3>
-          <p> Las medias antideslizantes ofrecen seguridad extra, evitan resbalones y brindan
-          protección contra el frío. Son ideales para quienes recién
-          empiezan o prefieren sentirse más cubiertos. En Qore Wellness Lab apoyamos la práctica barefoot porque creemos que conecta mejor
-          con la esencia del Pilates.</p>
+          <h3>{{ 'ARTICLESITEM.ITEM5.TITLE' | translate }}</h3>
+          <p>{{ 'ARTICLESITEM.ITEM5.DESCRIPTION' | translate }}</p>
         </div>
       </article>
 
       <article class="card-article">
         <img src="assets/section-article/article6.jpeg" alt="">
         <div class="card-body">
-          <h3>Estilo que motiva: cómo elegir tu ropa para Pilates</h3>
-          <p>La ropa deportiva no solo cumple una función estética, también influye en la motivación y
-          el desempeño durante tu práctica de Pilates. En Pilates, recomendamos prendas ajustadas o enterizos. Este tipo de ropa permite
-          observar la postura con claridad, facilita las correcciones del instructor y evita que las
-          telas se enreden o incomoden en los aparatos.</p>
+          <h3>{{ 'ARTICLESITEM.ITEM6.TITLE' | translate }}</h3>
+          <p>{{ 'ARTICLESITEM.ITEM6.DESCRIPTION' | translate }}</p>
         </div>
       </article>
     </div>
+
   </section>
 
-  <section class="faq" id="faq">
-    <div class="faq-header">
-      <span class="subtitle">FAQ</span>
-      <h2>Preguntas Frecuentes</h2>
+<section class="faq" id="faq">
+  <div class="faq-header">
+    <span class="subtitle">{{ 'FAQ.SUBTITLE' | translate }}</span>
+    <h2>{{ 'FAQ.TITLE' | translate }}</h2>
+    <p>{{ 'FAQ.DESCRIPTION' | translate }}</p>
+  </div>
+
+  <div class="faq-grid">
+    <div class="faq-item" *ngFor="let faq of faqs; let i = index" [class.active]="faqsOpen[i]">
+      <button class="faq-question" (click)="toggleFaq(i)">
+        <span>{{ faq.QUESTION }}</span>
+        <span class="icon">{{ faqsOpen[i] ? '×' : '+' }}</span>
+      </button>
+      <div class="faq-answer">
+        <p>{{ faq.ANSWER }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+ <section class="footer" id="footer">
+  <div class="footer-container">
+
+    <!-- Contacto -->
+    <div class="footer-col col-contacto">
+      <h3>{{ 'FOOTER.CONTACT.TITLE' | translate }}</h3>
       <p>
-        Algunos de los temas que más preguntan antes de unirse a nosotros.
+        <i class="fa-solid fa-phone"></i>
+        <span> {{ 'FOOTER.CONTACT.PHONE' | translate }}</span>
+      </p>
+      <p id="mailfooter">
+        <i class="fa-solid fa-envelope"></i>
+        <a href="mailto:ventas@postealab.com">
+          <span> {{ 'FOOTER.CONTACT.EMAIL' | translate }}</span>
+        </a>
+      </p>
+      <p id="perulocs">
+        <i class="fa-solid fa-location-dot"></i>
+        <span> {{ 'FOOTER.CONTACT.LOCATION' | translate }}</span>
       </p>
     </div>
 
-    <div class="faq-grid">
-      <div class="faq-item" *ngFor="let faq of faqs; let i = index" [class.active]="faq.open">
-        <button class="faq-question" (click)="toggleFaq(i)">
-          <span>{{ faq.question }}</span>
-          <span class="icon">{{ faq.open ? '×' : '+' }}</span>
-        </button>
-        <div class="faq-answer">
-          <p>{{ faq.answer }}</p>
-        </div>
+    <!-- Navegación -->
+    <div class="footer-col col-navegacion">
+      <h3>{{ 'FOOTER.EXPLORE.TITLE' | translate }}</h3>
+      <ul>
+        <li><i class="fas fa-angle-right"></i><a href="#nosotros">{{ 'FOOTER.EXPLORE.ABOUT' | translate }}</a></li>
+        <li><i class="fas fa-angle-right"></i><a href="#paquetes">{{ 'FOOTER.EXPLORE.SERVICES' | translate }}</a></li>
+        <li><i class="fas fa-angle-right"></i><a href="#testimonios">{{ 'FOOTER.EXPLORE.PORTFOLIO' | translate }}</a></li>
+        <li><i class="fas fa-angle-right"></i><a href="#articulos">{{ 'FOOTER.EXPLORE.ARTICLES' | translate }}</a></li>
+        <li>
+          <i class="fas fa-angle-right"></i>
+          <a target="_blank" href="https://api.whatsapp.com/send?phone=51&text=Hola,%20me%20gustaria%20Obtener%20m%C3%A1s%20informaci%C3%B3n">
+            {{ 'FOOTER.EXPLORE.CONTACT' | translate }}
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Redes sociales -->
+    <div class="footer-col col-blog">
+      <h3>{{ 'FOOTER.SOCIAL.TITLE' | translate }}</h3>
+      <div class="footer-social">
+        <a href="https://www.instagram.com/qore.pe/" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.facebook.com/profile.php?id=61560639582216#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.tiktok.com/@qore.wellness.lab" target="_blank"><i class="fab fa-tiktok"></i></a>
       </div>
     </div>
-  </section>
 
+  </div>
 
-  <section class="footer" id="footer">
-            <div class="footer-container">
-                <div class="footer-col col-contacto">
-                    <h3 data-i18n="footer.contact.title">Contacto</h3>
-                    <p><i class="fa-solid fa-phone"></i><span data-i18n="footer.contact.phone"> +51 957 718 273</span></p>
-                    <p id="mailfooter"><i class="fa-solid fa-envelope"></i><a id="mailfooter" href="mailto:ventas@postealab.com"><span data-i18n="footer.contact.email"> qorewellnesslab@gmail.com</span> </a></p>
-                    <p id="perulocs"><i class="fa-solid fa-location-dot"></i><span data-i18n="footer.contact.location">Los Granados 551, Urb. California
-<br>Víctor Larco Herrera Trujillo, Perú</span></p>
-                </div>
+  <!-- Footer bottom -->
+  <div class="footer-bottom">
+    <hr/>
+    <p>{{ 'FOOTER.BOTTOM' | translate }}</p>
+  </div>
+</section>
 
-                <div class="footer-col col-navegacion">
-                <h3 data-i18n="footer.explore.title">Explora</h3>
-                <ul>
-                    <li><i class="fas fa-angle-right"></i><a href="#nosotros" data-i18n="footer.explore.about">Nosotros</a></li>
-                    <li><i class="fas fa-angle-right"></i><a href="#paquetes" data-i18n="footer.explore.services">Paquetes</a></li>
-                    <li><i class="fas fa-angle-right"></i><a href="#testimonios" data-i18n="footer.explore.portfolio">Testimonios</a></li>
-                    <li><i class="fas fa-angle-right"></i><a href="#articulos" data-i18n="footer.explore.portfolio">Artículos</a></li>
-                    <li><i class="fas fa-angle-right"></i><a target="_blank" href="https://api.whatsapp.com/send?phone=51&text=Hola,%20me%20gustaria%20Obtener%20m%C3%A1s%20informaci%C3%B3n" data-i18n="footer.explore.contact">Contacto</a></li>
-                </ul>
-                </div>
-
-                <div class="footer-col col-blog">
-                    <h3 data-i18n="footer.social.title">Redes Sociales</h3>
-                    <div class="footer-social">
-                        <a href="https://www.instagram.com/qore.pe/" target="_blank"><i class="fab fa-instagram"></i></a>
-                        <a href="https://www.facebook.com/profile.php?id=61560639582216#" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://www.tiktok.com/@qore.wellness.lab" target="_blank"><i class="fab fa-tiktok"></i></a>
-                    </div>                  
-                </div>
-            </div>
-
-            <div class="footer-bottom">
-                <hr/>
-                <p data-i18n="footer.bottom">©2025 Qore Wellness Lab - Todos los derechos reservados</p>
-            </div>
-        </section>
 </div>
