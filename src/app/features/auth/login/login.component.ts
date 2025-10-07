@@ -3,7 +3,7 @@ import { AuthRequest, RegisterRequest } from '../../../core/models/auth.model';
 import { AuthService } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { RecuperarPass } from '../recuperar-pass/recuperar-pass';
 
 @Component({
@@ -54,9 +54,7 @@ onSubmit(): void {
   });
 }
 
-
 //Registro
-
   credentialsRegister: RegisterRequest = {
     email: '',
     password: '',
@@ -75,18 +73,27 @@ onSubmit(): void {
   emailError: string = '';
   dniError: string = '';
 
-  onSubmitRegister(): void {
-    this.authService.register(this.credentialsRegister).subscribe({
-      next: (res) => {
-        this.router.navigate(['/login']); 
-      },
-      error: (err) => {
-        console.log('Error recibido:', err.error.message);
-        this.error = err.error.message;
-        this.cdRef.detectChanges();
-      }
-    })
-  }
+registrationSuccess: boolean = false;
+
+onSubmitRegister(form: NgForm): void {
+  this.authService.register(this.credentialsRegister).subscribe({
+    next: (res) => {
+      form.resetForm();  
+      this.error = null;
+      this.registrationSuccess = true;
+      this.activateLogin();
+
+      setTimeout(() => {
+        this.registrationSuccess = false;
+      }, 2500);
+    },
+    error: (err) => {
+      console.log('Error recibido:', err.error.message);
+      this.error = err.error.message;
+      this.cdRef.detectChanges();
+    }
+  })
+}
 
   validateBirthday():void{
     const actualDate = new Date();

@@ -1,6 +1,11 @@
 <div class="body">
   <div class="container" [class.active]="isActive">
     
+  <div class="tab-header mobile-only">
+      <button [class.active]="!isActive" (click)="activateLogin()">Inicia Sesión</button>
+      <button [class.active]="isActive" (click)="activateRegister()">Regístrate</button>
+  </div>
+
   <div class="form-box login">
     <button type="button" class="back-btn" (click)="goBack()">
       <i class="fa fa-arrow-left"></i>
@@ -58,7 +63,7 @@
     <button type="button" class="back-btn" (click)="goBack()">
       <i class="fa fa-arrow-left"></i>
     </button>
-      <form (ngSubmit)="onSubmitRegister()" #registerForm="ngForm">
+      <form (ngSubmit)="onSubmitRegister(registerForm)" #registerForm="ngForm"> 
         <div class="logoQore">
           <img src="/assets/logoQore.png" width="150px" alt="">
         </div>
@@ -229,6 +234,14 @@
         <p class="error" *ngIf="error">{{ error }}</p>
       </form>
   </div>
+
+<div class="modal-overlay" *ngIf="registrationSuccess">
+  <div class="modal-content">
+    <h2>Registro Exitoso!</h2>
+    <p>Redirigiendote a Inicio de Sesión</p>
+    <i class="fa-regular fa-circle-check" style="font-size: 30px;"></i>
+    </div>   
+</div>
 
   <div class="toggle-box"></div>
 
