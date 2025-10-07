@@ -388,6 +388,17 @@ main .recent-orders a {
     font-family: 'MontBold';
 }
 
+.update .row, h3{
+    align-items: center;
+    display: flex;
+    font-size: 15px;
+    justify-content: space-between;
+}
+
+.update span {
+    font-family: 'MontBold';
+}
+
 .right .recent-updates .updates {
     background: var(--color-white);
     padding: var(--card-padding);

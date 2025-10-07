@@ -651,3 +651,13 @@ main .recent-orders a {
 .comprarButton:hover {
   background: var(--color-ivory);
 }
+
+::ng-deep pagination-controls .ngx-pagination li a {
+  color: blue !important;
+}
+
+::ng-deep pagination-controls .ngx-pagination li.current {
+  background-color: var(--color-ivory) !important;
+  color: white !important;
+  border-radius: 4px;
+}
