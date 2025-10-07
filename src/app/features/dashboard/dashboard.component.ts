@@ -8,11 +8,12 @@ import { Client, ClientRegisterNewDTO, ClientSubscriptionEndedDTO } from '../../
 import { ClientEndingSoon } from '../../core/models/class.model';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { WorkersService } from '../../core/services/workers.service';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
   selector: 'app-dashboard.component',
-  imports: [CommonModule, NgxPaginationModule],
+  imports: [CommonModule, NgxPaginationModule, RouterLink],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
