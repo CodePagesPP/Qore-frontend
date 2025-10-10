@@ -256,6 +256,7 @@
 .about-text h5 {
   color: var(--color-gold);
   font-family: 'MontBold';
+  text-align: center;
   font-size: 40px;
   margin-bottom: 10px;
 }
@@ -263,14 +264,15 @@
 .about-text h2 {
   font-size: 36px;
   font-weight: 800;
-  color: #1f2d3d;
+  color: #d0b4c7;
+  font-family: 'MontBold';
   margin-bottom: 20px;
 }
 
 .about-text p {
   color: #555;
   line-height: 1.7;
-  font-size: 15px;
+  font-size: 17px;
   margin-bottom: 30px;
 }
 
@@ -364,19 +366,21 @@
   font-family: 'MontBold';
   font-size: 40px;
   margin-bottom: 10px;
+  text-align: center;
 }
 
 .mission-text h2 {
   font-size: 36px;
   font-weight: 800;
-  color: #1f2d3d;
+  color: #d0b4c7;
   margin-bottom: 20px;
+  font-family: 'MontBold';
 }
 
 .mission-text p {
   color: #555;
   line-height: 1.7;
-  font-size: 15px;
+  font-size: 17px;
   margin-bottom: 30px;
 }
 

@@ -26,7 +26,7 @@
 }
 
 .header {
-  display: flex;
+  display: block;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
@@ -404,4 +404,176 @@ smart-radio-button {
 
 .btn-clear:hover {
   background: #e5e5e5;
+}
+
+/* Contenedor principal de la nueva vista */
+.calendar-view-container {
+  padding: 24px;
+  padding-top: 0;
+  background-color: var(--color-stone); /* Un fondo suave */
+  font-family: 'Mont', sans-serif; /* Usando tu fuente */
+}
+
+.calendar-header {
+  display: flex;
+  flex-direction: column; /* Pone los elementos en una columna (navegación arriba, filtros abajo) */
+  align-items: stretch;   /* Asegura que los hijos ocupen todo el ancho disponible */
+  gap: 15px;              /* Espacio entre la barra de navegación y la de filtros */
+  margin-bottom: 20px;
+}
+
+/* Barra de navegación de la semana (< >) */
+.week-navigation {
+  display: flex;
+  justify-content: center; /* Centra las flechas y la fecha */
+  align-items: center;
+  gap: 10px;
+  width: 100%; /* Ocupa todo el ancho */
+}
+
+.week-navigation h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.nav-arrow {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+.nav-arrow:hover {
+  background: #f0f0f0;
+}
+
+.filters {
+  display: flex;    /* Pone los filtros en una fila horizontal */
+  gap: 10px;        /* Espacio entre cada filtro */
+  align-items: center;
+}
+
+/* Estilo para los campos de filtro y el botón */
+.filters input,
+.filters select {
+  flex: 1; /* ¡Esta es la clave! Hace que los campos se expandan para ocupar el espacio disponible */
+  padding: 8px 12px; /* Un poco más pequeños que antes */
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.filters .btn-clear {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  background-color: #e0e0e0;
+  cursor: pointer;
+  font-weight: 600;
+  /* flex: 0 0 auto; */ /* Se asegura que el botón no se estire */
+}
+
+.filters .btn-clear:hover {
+  background: #d0d0d0;
+}
+
+/* Grilla de la semana */
+.week-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* 7 columnas iguales */
+  gap: 10px;
+  width: 100%;
+}
+
+.day-column {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  border: 1px solid #eee;
+}
+
+.day-header {
+  padding: 12px;
+  text-align: center;
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.classes-list {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 400px; /* Para que las columnas tengan una altura mínima */
+}
+
+/* Tarjeta de Clase (¡Lo más importante!) */
+.class-card {
+  background: var(--color-ivory, #fdfdfa);
+  border: 1px solid #e0e0e0;
+  border-left: 5px solid var(--color-gold, #c5b358); /* Acento de color */
+  border-radius: 8px;
+  padding: 12px;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.class-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
+}
+
+.class-title {
+  font-weight: bold;
+  font-size: 0.95rem;
+  color: #222;
+}
+
+.class-instructor {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.class-details {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: #777;
+  margin-bottom: 8px;
+}
+
+.class-occupancy {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #444;
+}
+
+/* Responsive: En pantallas pequeñas, apilamos los días */
+@media (max-width: 1200px) {
+  .week-grid {
+    grid-template-columns: repeat(4, 1fr); /* Muestra 4 días y el resto abajo */
+  }
+}
+
+@media (max-width: 768px) {
+  .calendar-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .week-grid {
+    grid-template-columns: 1fr; /* Una sola columna, un día debajo de otro */
+  }
 }
