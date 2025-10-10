@@ -1,71 +1,61 @@
 <div class="clases-container">
   <div class="header">
     <h2>Clases</h2>
-    <h3><span>Nota:</span> La reprogramación que incluye el paquete, se realiza mínimo con 12 horas de anticipación.</h3>
+    <h3><span>Nota:</span> La reprogramación que incluye el paquete, se realiza mínimo con 12 horas de anticipación.
+    </h3>
   </div>
 
-  <div class="clases-layout">
-    <!-- Columna izquierda (Calendario) -->
-    <div class="calendar-side">
-      <smart-calendar
-        class="calendar-views" 
-        view="landscape"
-        [viewSections]='["title", "header"]'
-        selection-mode="one"
-        (change)="onDateSelect($event)">
-      </smart-calendar>
-      <div class="options">
-        <div class="caption">Vista</div>
-        <div class="option">
-          <smart-radio-button 
-            [checked]="calendarView === 'week'" 
-            (change)="setView('week')">
-            Semana
-          </smart-radio-button>
-          <smart-radio-button 
-            [checked]="calendarView === 'month'" 
-            (change)="setView('month')">
-            Mes
-          </smart-radio-button>
-        </div>
-        <div class="option">    
-          <button class="btn-clear" (click)="clearFilter()">
-            Limpiar filtro
-          </button>
-        </div>
+  <div class="calendar-view-container">
+
+    <div class="calendar-header">
+      <div class="week-navigation">
+        <button class="nav-arrow" (click)="previousWeek()">&lt;</button>
+        <h4>{{ getWeekTitle() }}</h4>
+        <button class="nav-arrow" (click)="nextWeek()">&gt;</button>
+      </div>
+      <div class="filters">
+        <input 
+          type="text" 
+          placeholder="Buscar por nombre..."
+          [(ngModel)]="searchText"
+          (input)="applyFilters()">
+
+        <select [(ngModel)]="selectedDisciplineId" (change)="applyFilters()">
+          <option [ngValue]="null">Todas las Disciplinas</option>
+
+          <option *ngFor="let discipline of disciplines" [ngValue]="discipline.id">
+            {{ discipline.name }}
+          </option>
+        </select>
+
+        <select [(ngModel)]="selectedInstructorId" (change)="applyFilters()"> 
+          <option [ngValue]="null">Todos los Instructores</option>
+
+          <option *ngFor="let instructor of instructors" [ngValue]="instructor.id">
+            {{ instructor.name }}
+          </option>
+        </select>
+
+        <button class="btn-clear" (click)="clearFilters()">LIMPIAR</button>
       </div>
     </div>
 
-    <!-- Columna derecha (crear clases + tabla) -->
-    <div class="classes-side">
-      <div class="table">
-        <div class="row header">
-          <div>Nombre</div>
-          <div>Disciplina</div>
-          <div>Sala</div>
-          <div>Capacidad</div>
-          <div>Inicio</div>
-          <div>Hora</div>
-          <div class="actions">Estado</div>
-          <div class="actions">Join</div>
+    <div class="week-grid">
+      <div *ngFor="let day of weekDays" class="day-column">
+        <div class="day-header">
+          {{ day | date:'E d/M' | uppercase }} 
         </div>
-
-        <div class="row" *ngFor="let c of (selectedDate ? filteredByDate : clases)">
-          <div>{{ c.name }}</div>
-          <div>{{ getDisciplineName(c.disciplineId) }}</div>
-          <div>{{ getRoomName(c.roomId) }}</div>
-          <div>{{ c.capacity }}</div>
-          <div>{{ c.startDate }}</div>
-          <div>{{ c.startTime }} - {{ c.endTime }}</div>
-          <div>{{ c.estado}}</div>
-          <button 
-                *ngIf="!c.joined" 
-                (click)="openJoinModal(c)">
-                Unirse
-            </button>
-
-  <span *ngIf="c.joined" class="joined-label">Ya inscrito</span>
-
+        <div class="classes-list">
+          <div *ngFor="let clase of getClassesForDay(day)" class="class-card" (click)="openJoinModal(clase)">
+            <div class="class-title">{{ clase.name }}</div>
+            <div class="class-instructor">{{ getInstructorName(clase.instructorId) }}</div> <div class="class-details">
+              <span>{{ clase.startTime }}</span>
+              <span>{{ clase.endTime }} min</span>
+            </div>
+            <div class="class-occupancy">
+              <i class="fa-solid fa-user-group"></i>
+              <span>{{ clase.capacity }}</span> </div>
+          </div>
         </div>
       </div>
     </div>
