@@ -49,21 +49,6 @@
         rows="3"
       ></textarea>
 
-      <label>Hora de inicio</label>
-      <input
-        type="time"
-        [(ngModel)]="currentDiscipline.startTime"
-        name="startTime"
-        required
-      />
-
-      <label>Hora de fin</label>
-      <input
-        type="time"
-        [(ngModel)]="currentDiscipline.endTime"
-        name="endTime"
-        required
-      />
 
       <div class="modal-actions">
         <button type="submit" class="btn-primary">{{ isEditing ? 'Actualizar' : 'Crear' }}</button>

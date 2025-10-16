@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 })
 export class Disciplines implements OnInit{
 disciplines: Discipline[] = [];
-  currentDiscipline: Discipline = { name: '', description: '', endTime: '', startTime:''};
+  currentDiscipline: Discipline = { name: '', description: ''};
   isEditing = false;
 
   // Modal
@@ -33,7 +33,7 @@ disciplines: Discipline[] = [];
       this.currentDiscipline = { ...discipline };
       this.isEditing = true;
     } else {
-      this.currentDiscipline = { name: '', description: '', endTime: '', startTime:'' };
+      this.currentDiscipline = { name: '', description: ''};
       this.isEditing = false;
     }
     this.isModalOpen = true;
@@ -41,7 +41,7 @@ disciplines: Discipline[] = [];
 
   closeModal() {
     this.isModalOpen = false;
-    this.currentDiscipline = { name: '', description: '' , endTime: '', startTime:''};
+    this.currentDiscipline = { name: '', description: ''};
     this.isEditing = false;
   }
 

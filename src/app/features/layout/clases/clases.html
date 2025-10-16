@@ -145,12 +145,12 @@
 
         <label for="startTime">
           <span>Hora inicio</span>
-          <input id="startTime" type="time" [(ngModel)]="form.startTime" name="startTime" required [disabled]="true" />
+          <input id="startTime" type="time" [(ngModel)]="form.startTime" name="startTime" required />
         </label>
         
         <label for="endTime">
           <span>Hora fin</span>
-          <input id="endTime" type="time" [(ngModel)]="form.endTime" name="endTime" required [disabled]="true" />
+          <input id="endTime" type="time" [(ngModel)]="form.endTime" name="endTime" required />
         </label>
 
         <label for="repeat" class="checkline">
@@ -164,12 +164,20 @@
             <input id="repeatUntil" type="date" [(ngModel)]="form.repeatUntil" name="repeatUntil" />
           </label>
 
-        <label for="repeatDay" *ngIf="form.repeat">
-          <span>Día de la semana</span>
-          <select id="repeatDay" [(ngModel)]="form.repeatDay" name="repeatDay">
-            <option *ngFor="let d of daysOfWeek" [value]="d.value">{{ d.label }}</option>
-          </select>
-        </label>
+          <div *ngIf="form.repeat" class="repeat-days">
+            <span>Días de la semana</span>
+            <div class="days-grid">
+              <label *ngFor="let d of daysOfWeek" class="day-check">
+                <input
+                  type="checkbox"
+                  [value]="d.value"
+                  (change)="onToggleRepeatDay($event, d.value)"
+                  [checked]="form.repeatDays.includes(d.value)"
+                />
+                {{ d.label }}
+              </label>
+            </div>
+          </div>
 
 
           <label for="repeatInterval">
