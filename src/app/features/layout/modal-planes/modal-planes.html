@@ -2,16 +2,17 @@
 <div class="modal-backdrop" *ngIf="showModal">
   <div class="modal">
     <div class="modal-header">
-      <h2>Elige un plan</h2>
+      <h2>Elige tu plan!</h2>
+      <h3>Únete a la comunidad de Qore y alcanza tus metas</h3>
       <button class="close-btn" (click)="onClose()">✕</button>
     </div>
 
     <div class="modal-body">
       <div class="plans-grid">
         <div class="plan-card" *ngFor="let plan of plans">
-          <h3>{{ plan.name }}</h3>
+          <h3>{{ plan.sessions }}</h3>
+          <h2>Clases</h2>
           <p>{{ plan.description }}</p>
-          <p><strong>Sesiones:</strong> {{ plan.sessions }}</p>
           <p><strong>Duración:</strong> {{ plan.duration }} días</p>
           <p><strong>Precio:</strong> S/ {{ plan.price }}</p>
           <button (click)="onSelect(plan)">Seleccionar</button>
