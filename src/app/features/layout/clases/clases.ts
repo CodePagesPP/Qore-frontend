@@ -130,8 +130,10 @@ export class Clases implements AfterViewInit  {
       endTime: '',
       repeat: false,
       repeatUntil: null,      // YYYY-MM-DD
-      repeatDay: null,    // MONDAY, TUESDAY… (DayOfWeek)
-      repeatInterval: 0,
+
+  repeatDays: [],    // MONDAY, TUESDAY… (DayOfWeek)
+  repeatInterval: 1,
+
       estado: '',
       clientIds: []
     };
@@ -184,10 +186,6 @@ export class Clases implements AfterViewInit  {
 
   onDisciplineChange() {
   const discipline = this.disciplines.find(d => d.id === this.form.disciplineId);
-  if (discipline) {
-    this.form.startTime = discipline.startTime;
-    this.form.endTime = discipline.endTime;
-  }
 }
 
   loadCatalogs() {
@@ -212,6 +210,13 @@ getRoomName(id: number): string {
   return room ? room.name : id.toString();
 }
 
+onToggleRepeatDay(event: any, value: string) {
+  if (event.target.checked) {
+    this.form.repeatDays.push(value);
+  } else {
+    this.form.repeatDays = this.form.repeatDays.filter(d => d !== value);
+  }
+}
 
   
   openCreate() {
@@ -225,7 +230,7 @@ getRoomName(id: number): string {
   this.form = { 
     ...c, 
     clientIds: c.clientIds ? [...c.clientIds] : [], 
-    repeatDay: c.repeatDay ?? null 
+    repeatDays: c.repeatDays ?? null 
   };
   this.openClassModal();
 }

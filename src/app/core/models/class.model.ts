@@ -12,7 +12,7 @@ export interface ClassSession {
   repeat: boolean;
   comentario?: string;
   repeatUntil?: string | null;        // YYYY-MM-DD
-  repeatDay?: string| null;          // MONDAY, TUESDAY… (DayOfWeek)
+  repeatDays: string[];          // MONDAY, TUESDAY… (DayOfWeek)
   repeatInterval?: number| null;
   clientIds?: number[];
 
