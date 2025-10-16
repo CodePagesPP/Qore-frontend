@@ -12,6 +12,8 @@ import { CalendarComponent } from 'smart-webcomponents-angular/calendar';
 import { RadioButtonComponent } from 'smart-webcomponents-angular/radiobutton';
 import { RouterOutlet } from '@angular/router';
 import { CalendarModule } from 'smart-webcomponents-angular/calendar';import { RadioButtonModule } from 'smart-webcomponents-angular/radiobutton';
+import { addDays, format, startOfWeek, subDays } from 'date-fns';
+import { es } from 'date-fns/locale';
 
 @Component({
   selector: 'app-clases',
@@ -21,12 +23,17 @@ import { CalendarModule } from 'smart-webcomponents-angular/calendar';import { R
 })
 export class Clases implements AfterViewInit  {
   clases: ClassSession[] = [];
-
+  currentDate: Date = new Date();
+  weekDays: Date[] = [];
   disciplines: Discipline[] = [];
   instructors: Instructor[] = [];
   rooms: Room[] = [];
-
-
+  filteredClases: ClassSession[] = []; // La lista que se mostrará en el calendario
+  currentClientId!: number; 
+  // --- Propiedades para los filtros ---
+  searchText: string = '';
+  selectedDisciplineId: number | null = null;
+  selectedInstructorId: number | null = null;
   showClassModal = false;
   editing: boolean = false;
   form: ClassSession = this.emptyForm();
@@ -60,7 +67,55 @@ export class Clases implements AfterViewInit  {
   ngOnInit(): void {
     this.loadClases();
     this.loadCatalogs();
+    this.generateWeek();
+  }
 
+    generateWeek() {
+      // Obtenemos el Lunes de la semana de 'currentDate'
+      // { weekStartsOn: 1 } le dice que la semana empieza el Lunes
+      const monday = startOfWeek(this.currentDate, { weekStartsOn: 1 });
+  
+      this.weekDays = [];
+      for (let i = 0; i < 7; i++) {
+        // Añadimos cada día de la semana a partir del Lunes
+        this.weekDays.push(addDays(monday, i));
+      }
+    }
+  
+    previousWeek() {
+      // Restamos 7 días (una semana)
+      this.currentDate = subDays(this.currentDate, 7);
+      this.generateWeek();
+    }
+  
+    nextWeek() {
+      // Sumamos 7 días
+      this.currentDate = addDays(this.currentDate, 7);
+      this.generateWeek();
+    }
+  
+    // Función extra para formatear el título de la semana en español
+    getWeekTitle(): string {
+      if (this.weekDays.length === 0) return '';
+      const start = this.weekDays[0];
+      const end = this.weekDays[6];
+      // Ejemplo: "6 de octubre - 12 de octubre, 2025"
+      return `${format(start, "d 'de' MMMM", { locale: es })} - ${format(
+        end,
+        "d 'de' MMMM, y",
+        { locale: es }
+      )}`;
+    }
+  
+    // Coloca esta función dentro de la clase ClasesClient
+  getClassesForDay(day: Date): ClassSession[] {
+    return this.filteredClases.filter(clase => {
+      // Si startDate es un string "YYYY-MM-DD", le añadimos T00:00:00
+      // para que se interprete en la zona horaria del navegador (local).
+      const claseDate = new Date(clase.startDate + 'T00:00:00'); 
+      
+      return claseDate.toDateString() === day.toDateString();
+    });
   }
 
   private emptyForm(): ClassSession {
@@ -75,20 +130,59 @@ export class Clases implements AfterViewInit  {
       endTime: '',
       repeat: false,
       repeatUntil: null,      // YYYY-MM-DD
+
   repeatDays: [],    // MONDAY, TUESDAY… (DayOfWeek)
   repeatInterval: 1,
+
       estado: '',
       clientIds: []
     };
   }
 
   loadClases() {
-  this.classService.getAll().subscribe(data => {
-    this.clases = data;
-    this.filteredByDate = [...this.clases]; // inicializar aquí cuando ya hay datos
-  });
-}
+    this.classService.getAll().subscribe({
+      next: (data) => {
+        this.clases = data;
+        this.filteredClases = data; // Inicialmente, las clases filtradas son todas las clases
+      },
+      error: (err) => console.error('Error al cargar clases', err)
+    });
+  }
 
+  applyFilters() {
+    // 1. Empezamos con la lista completa de clases
+    let tempClases = [...this.clases];
+
+    // 2. Filtramos por texto de búsqueda (si hay algo escrito)
+    if (this.searchText) {
+      tempClases = tempClases.filter(clase =>
+        clase.name.toLowerCase().includes(this.searchText.toLowerCase())
+      );
+    }
+
+    // 3. Filtramos por disciplina (si se ha seleccionado una)
+    if (this.selectedDisciplineId) {
+      tempClases = tempClases.filter(clase => clase.disciplineId === this.selectedDisciplineId);
+    }
+
+    // 4. Filtramos por instructor (si se ha seleccionado uno)
+    if (this.selectedInstructorId) {
+      tempClases = tempClases.filter(clase => clase.instructorId === this.selectedInstructorId);
+    }
+
+    // 5. Actualizamos la lista de clases que se mostrará en la vista
+    this.filteredClases = tempClases;
+  }
+
+  clearFilters() {
+    // Reseteamos los valores de los filtros
+    this.searchText = '';
+    this.selectedDisciplineId = null;
+    this.selectedInstructorId = null;
+    
+    // Aplicamos los filtros para que se muestren todas las clases de nuevo
+    this.applyFilters();
+  }
 
   onDisciplineChange() {
   const discipline = this.disciplines.find(d => d.id === this.form.disciplineId);

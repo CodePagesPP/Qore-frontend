@@ -1,88 +1,72 @@
 <div class="clases-container">
   <div class="header">
     <h2>Clases</h2>
+    <button class="btn-open" (click)="openCreate()">
+        <i class="fa fa-plus-square"></i> Crear clase
+    </button>
   </div>
 
-  <div class="clases-layout">
-    <!-- Columna izquierda (Calendario) -->
-    <div class="calendar-side">
-      <smart-calendar
-        class="calendar-views" 
-        view="landscape"
-        [viewSections]='["title", "header"]'
-        selection-mode="one"
-        (change)="onDateSelect($event)">
-      </smart-calendar>
-      <div class="options">
-        <div class="caption">Vista</div>
-        <div class="option">
-          <smart-radio-button 
-            [checked]="calendarView === 'day'" 
-            (change)="setView('day')">
-            Día
-          </smart-radio-button>
-          <smart-radio-button 
-            [checked]="calendarView === 'week'" 
-            (change)="setView('week')">
-            Semana
-          </smart-radio-button>
-          
-        </div>
-        <div class="option">
-          <button class="btn-clear" (click)="clearFilter()">
-            Limpiar filtro
-          </button>
-        </div>
+  <div class="calendar-view-container">
+    <div class="calendar-header">
+      <div class="week-navigation">
+        <button class="nav-arrow" (click)="previousWeek()">&lt;</button>
+        <h4>{{ getWeekTitle() }}</h4>
+        <button class="nav-arrow" (click)="nextWeek()">&gt;</button>
+      </div>
+      <div class="filters">
+        <input 
+          type="text" 
+          placeholder="Buscar por nombre..."
+          [(ngModel)]="searchText"
+          (input)="applyFilters()">
+
+        <select [(ngModel)]="selectedDisciplineId" (change)="applyFilters()">
+          <option [ngValue]="null">Todas las Disciplinas</option>
+
+          <option *ngFor="let discipline of disciplines" [ngValue]="discipline.id">
+            {{ discipline.name }}
+          </option>
+        </select>
+
+        <select [(ngModel)]="selectedInstructorId" (change)="applyFilters()"> 
+          <option [ngValue]="null">Todos los Instructores</option>
+
+          <option *ngFor="let instructor of instructors" [ngValue]="instructor.id">
+            {{ instructor.name }}
+          </option>
+        </select>
+
+        <button class="btn-clear" (click)="clearFilters()">LIMPIAR</button>
       </div>
     </div>
 
-    <!-- Columna derecha (crear clases + tabla) -->
-    <div class="classes-side">
-      <button class="btn-open" (click)="openCreate()">
-        <i class="fa fa-plus-square"></i> Crear clase
-      </button>
-
-      <div class="table">
-        <div class="row header">
-          <div>Nombre</div>
-          <div>Disciplina</div>
-          <div>Instructor</div>
-          <div>Sala</div>
-          <div>Capacidad</div>
-          <div>Inicio</div>
-          <div>Hora</div>
-          <div class="actions">Acciones</div>
+    <div class="week-grid">
+      <div *ngFor="let day of weekDays" class="day-column">
+        <div class="day-header">
+          {{ day | date:'E d/M' | uppercase }} 
         </div>
-
-        <div *ngIf="filteredByDate.length > 0; else noClasses">
-          <div class="row" *ngFor="let c of filteredByDate">
-            <div>{{ c.name }}</div>
-            <div>{{ getDisciplineName(c.disciplineId) }}</div>
-            <div>{{ getInstructorName(c.instructorId) }}</div>
-            <div>{{ getRoomName(c.roomId) }}</div>
-            <div>{{ c.capacity }}</div>
-            <div>{{ c.startDate }}</div>
-            <div>{{ c.startTime }} - {{ c.endTime }}</div>
-            <div class="actions">
-              <button class="icon-btn" (click)="openEdit(c)">
-                <i class="fa-solid fa-pen-to-square"></i>
-              </button>
-              <button class="icon-btn danger" (click)="deleteClase(c.id)">
+        <div class="classes-list">
+          <div *ngFor="let clase of getClassesForDay(day)" class="class-card">
+            <div (click)="openEdit(clase)">
+              <div class="class-title">{{ clase.name }}</div>
+              <div class="class-instructor">{{ getInstructorName(clase.instructorId) }}</div> 
+              <div class="class-details">
+                <span>{{ clase.startTime }} -</span>
+                <span>{{ clase.endTime }}</span>
+              </div>
+            </div>
+            
+            <div class="class-occupancy">
+              <div (click)="openClients(clase)">
+                <i class="fa-solid fa-user-group"></i>
+                <span>{{ clase.capacity }}</span>
+              </div>
+              <div (click)="deleteClase(clase.id)">
                 <i class="fa-solid fa-trash"></i>
-              </button>
-              <button class="icon-btn" (click)="openClients(c)">
-                <i class="fa fa-users" aria-hidden="true"></i>
-              </button>
+              </div>
             </div>
           </div>
         </div>
-        <ng-template #noClasses>
-          <div class="row">
-            <div class="empty" style="grid-column: 1 / -1; text-align: center; padding: 1rem; color: #666;">
-              No hay clases para la fecha/semana seleccionada.
-            </div>
-          </div>
-        </ng-template>
       </div>
     </div>
   </div>
