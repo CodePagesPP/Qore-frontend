@@ -75,10 +75,11 @@ onSubmit(): void {
 
 registrationSuccess: boolean = false;
 
+// En tu archivo .ts
 onSubmitRegister(form: NgForm): void {
   this.authService.register(this.credentialsRegister).subscribe({
     next: (res) => {
-      form.resetForm();  
+      form.resetForm();
       this.error = null;
       this.registrationSuccess = true;
       this.activateLogin();
@@ -89,7 +90,20 @@ onSubmitRegister(form: NgForm): void {
     },
     error: (err) => {
       console.log('Error recibido:', err.error.message);
-      this.error = err.error.message;
+      let errorMessage = err.error.message;
+
+      // "Traducimos" el error de la base de datos
+      if (typeof errorMessage === 'string' && errorMessage.includes('llave duplicada') && errorMessage.includes('(dni)')) {
+          this.error = 'El DNI ingresado ya se encuentra registrado.';
+      } else if (typeof errorMessage === 'string' && errorMessage.includes('llave duplicada') && errorMessage.includes('(phone_number)')) {
+          this.error = 'El teléfono ingresado ya se encuentra registrado.';
+      } else if (typeof errorMessage === 'string' && errorMessage.includes('llave duplicada') && errorMessage.includes('(email)')) {
+          this.error = 'El email ingresado ya se encuentra registrado.';
+      }    
+      else {
+          this.error = errorMessage; // Muestra el error original si no es el del DNI
+      }
+
       this.cdRef.detectChanges();
     }
   })
