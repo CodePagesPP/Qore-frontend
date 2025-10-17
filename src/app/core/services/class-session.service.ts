@@ -3,6 +3,7 @@ import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ClassSession, Room } from '../models/class.model';
 import { Observable } from 'rxjs';
+import { Client } from '../models/auth.model';
 
 @Injectable({
   providedIn: 'root'
@@ -67,6 +68,13 @@ getClientByDiscipline(ClientId: number): Observable<ClassSession[]> {
 
 joinClass(classId: number, clientId: number): Observable<any> {
   return this.http.post(`${this.classApiUrl}/${classId}/join/${clientId}`, {}, { headers: this.getAuthHeaders() });
+}
+
+
+getClientsByClass(classId: number): Observable<Client[]> {
+  return this.http.get<Client[]>(`${this.classApiUrl}/${classId}/clients`, {
+    headers: this.getAuthHeaders()
+  });
 }
 
 

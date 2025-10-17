@@ -18,6 +18,12 @@ export interface ClassSession {
 
   joined?: boolean;
 }
+export interface AttendanceDTO {
+  clientId: number;
+  name: string;
+  email: string;
+  status: string;
+}
 
 export interface Room{
     id?: number;

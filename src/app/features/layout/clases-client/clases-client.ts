@@ -4,9 +4,8 @@ import { Discipline, Instructor } from '../../../core/models/auth.model';
 import { ClassSessionService } from '../../../core/services/class-session.service';
 import { WorkersService } from '../../../core/services/workers.service';
 import { AuthService } from '../../../core/services/auth.service';
-import { InstructorService } from '../../../core/services/instructor.service';
-import { CalendarComponent, CalendarModule } from 'smart-webcomponents-angular/calendar';
-import { RadioButtonComponent, RadioButtonModule } from 'smart-webcomponents-angular/radiobutton';
+import {CalendarModule } from 'smart-webcomponents-angular/calendar';
+import { RadioButtonModule } from 'smart-webcomponents-angular/radiobutton';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { addDays, format, startOfWeek, subDays } from 'date-fns';
@@ -37,6 +36,11 @@ export class ClasesClient {
 
   confirmJoinModal = false;
   successModal = false;
+  messageModal = false;
+messageTitle = '';
+messageText = '';
+messageType: 'success' | 'error' = 'success';
+
 
   constructor(
     private classService: ClassSessionService,
@@ -56,6 +60,18 @@ export class ClasesClient {
     this.loadCatalogs();
     this.generateWeek();
   }
+
+  openMessageModal(title: string, text: string, type: 'success' | 'error' = 'success') {
+  this.messageTitle = title;
+  this.messageText = text;
+  this.messageType = type;
+  this.messageModal = true;
+}
+
+closeMessageModal() {
+  this.messageModal = false;
+}
+
 
   generateWeek() {
     // Obtenemos el Lunes de la semana de 'currentDate'
@@ -99,7 +115,8 @@ export class ClasesClient {
     // Filtra el array principal de clases
     return this.clases.filter((clase) => {
       // Compara si la fecha de la clase (sin la hora) es igual a la del día que se está renderizando
-      const claseDate = new Date(clase.startDate);
+      const parts = clase.startDate.split('-');
+      const claseDate = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
       return claseDate.toDateString() === day.toDateString();
     });
   }
@@ -121,43 +138,64 @@ export class ClasesClient {
     this.selectedClass = undefined;
   }
 
-  confirmJoin() {
-    if (!this.selectedClass || this.selectedClass.id === undefined) {
-      console.error('Clase inválida o sin ID');
-      return;
-    }
-
-    this.authService.getUserInfo().subscribe((profile) => {
-      const clientId = profile.id;
-
-      this.classService.joinClass(this.selectedClass!.id!, clientId).subscribe({
-        next: (res) => {
-          console.log(res.message);
-
-          // marcar como inscrito en UI
-          this.selectedClass!.joined = true;
-
-          this.confirmJoinModal = false;
-          this.successModal = true;
-        },
-        error: (err) => console.error('Error al unirse a la clase', err),
-      });
-    });
+confirmJoin() {
+  if (!this.selectedClass || this.selectedClass.id === undefined) {
+    this.openMessageModal('Error', 'Clase inválida', 'error');
+    return;
   }
+
+  const clientId = this.currentClientId;
+
+  // Evitar que el usuario se vuelva a unir si ya está inscrito
+  if (this.selectedClass.clientIds?.includes(clientId)) {
+    this.openMessageModal('Aviso', 'Ya estás inscrito en esta clase.', 'error');
+    this.confirmJoinModal = false;
+    return;
+  }
+
+  // Evitar unirse si la clase está llena
+  if ((this.selectedClass.clientIds?.length || 0) >= this.selectedClass.capacity) {
+    this.openMessageModal('Error', 'La clase ya alcanzó su capacidad máxima', 'error');
+    this.confirmJoinModal = false;
+    return;
+  }
+
+  this.classService.joinClass(this.selectedClass.id!, clientId).subscribe({
+    next: (res: any) => {
+      // marcar como inscrito en UI
+      this.selectedClass!.joined = true;
+      this.selectedClass!.clientIds = [...(this.selectedClass!.clientIds || []), clientId];
+
+      this.confirmJoinModal = false;
+      this.openMessageModal('Éxito', 'Te has inscrito correctamente en la clase.', 'success');
+    },
+    error: (err) => {
+      // Si el backend manda 400 con mensaje
+      const msg = err.error?.message || 'Error al unirse a la clase';
+      this.openMessageModal('Error', msg, 'error');
+      this.confirmJoinModal = false;
+    },
+  });
+}
+
 
   closeSuccessModal() {
     this.successModal = false;
   }
 
-  loadClases() {
-    this.classService.getClientByDiscipline(this.currentClientId).subscribe({
-      next: (data) => {
-        this.clases = data;
-        this.filteredClases = data; // Inicialmente, las clases filtradas son todas las clases
-      },
-      error: (err) => console.error('Error al cargar clases', err)
-    });
-  }
+loadClases() {
+  this.classService.getClientByDiscipline(this.currentClientId).subscribe({
+    next: (data) => {
+      this.clases = data.map(clase => ({
+        ...clase,
+        joined: clase.clientIds?.includes(this.currentClientId)
+      }));
+      this.filteredClases = [...this.clases];
+    },
+    error: (err) => console.error('Error al cargar clases', err)
+  });
+}
+
 
   applyFilters() {
     // 1. Empezamos con la lista completa de clases
@@ -219,5 +257,4 @@ export class ClasesClient {
     return room ? room.name : id.toString();
   }
 
-  calendarView: 'week' | 'month' = 'month';
 }

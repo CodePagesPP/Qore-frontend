@@ -46,16 +46,36 @@
           {{ day | date:'E d/M' | uppercase }} 
         </div>
         <div class="classes-list">
-          <div *ngFor="let clase of getClassesForDay(day)" class="class-card" (click)="openJoinModal(clase)">
-            <div class="class-title">{{ clase.name }}</div>
-            <div class="class-instructor">{{ getInstructorName(clase.instructorId) }}</div> <div class="class-details">
-              <span>{{ clase.startTime }}</span>
-              <span>{{ clase.endTime }} min</span>
-            </div>
-            <div class="class-occupancy">
-              <i class="fa-solid fa-user-group"></i>
-              <span>{{ clase.capacity }}</span> </div>
-          </div>
+<div *ngFor="let clase of getClassesForDay(day)" 
+     class="class-card" 
+     (click)="!clase.joined && openJoinModal(clase)"
+     [class.joined]="clase.joined">
+
+  <div class="class-title">{{ clase.name }}</div>
+  <div class="class-instructor">{{ getInstructorName(clase.instructorId) }}</div> 
+  <div class="class-details">
+    <span>{{ clase.startTime }}</span>
+    <span>-{{ clase.endTime }}</span>
+  </div>
+  <div class="class-occupancy">
+    <i class="fa-solid fa-user-group"></i>
+    <span 
+      [class.full]="(clase.clientIds?.length || 0) === clase.capacity"
+      [class.almost-full]="
+        (clase.clientIds?.length || 0) >= clase.capacity * 0.8 &&
+        (clase.clientIds?.length || 0) < clase.capacity
+      "
+    >
+      {{ clase.clientIds?.length || 0 }}/{{ clase.capacity }}
+    </span>
+  </div>
+
+  <!-- Mensaje INSCRITO -->
+  <div *ngIf="clase.joined" class="badge-inscrito">
+    INSCRITO
+  </div>
+</div>
+
         </div>
       </div>
     </div>
@@ -74,12 +94,13 @@
   </div>
 </div>
 
-<!-- Modal de éxito -->
-<div class="modalconfirm" [class.show]="successModal">
-  <div class="modal-content success">
-    <span class="check-icon"><i class="fa-regular fa-circle-check"></i></span>
-    <h3>Registro exitoso</h3>
-    <p>Te has inscrito correctamente en la clase.</p>
-    <button class="modal-button" (click)="closeSuccessModal()">Cerrar</button>
+
+
+<!-- Modal de mensaje -->
+<div class="modalconfirm" [class.show]="messageModal">
+  <div class="modal-content" [ngClass]="messageType">
+    <h3>{{ messageTitle }}</h3>
+    <p>{{ messageText }}</p>
+    <button class="modal-button" (click)="closeMessageModal()">Cerrar</button>
   </div>
 </div>
