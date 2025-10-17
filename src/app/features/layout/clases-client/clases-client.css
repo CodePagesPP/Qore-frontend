@@ -694,3 +694,33 @@ smart-radio-button {
     grid-template-columns: 1fr; /* Una sola columna, un día debajo de otro */
   }
 }
+
+.class-occupancy span.full {
+  color: #e63946; /* rojo si está llena */
+  font-weight: bold;
+}
+
+.class-occupancy span.almost-full {
+  color: #ffb703; /* amarillo si casi llena */
+}
+
+.success { background-color: #e0ffe0; color: #006600; }
+.error { background-color: #ffe0e0; color: #990000; }
+
+
+.class-card.joined {
+  pointer-events: none; /* Evita abrir modal al click */
+  opacity: 0.8;
+  position: relative;
+}
+
+.badge-inscrito {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: #4caf50;
+  color: white;
+  padding: 2px 6px;
+  font-size: 0.6rem;
+  border-radius: 4px;
+}

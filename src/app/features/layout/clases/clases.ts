@@ -2,18 +2,14 @@ import { Component } from '@angular/core';
 import { ClassSession, Room } from '../../../core/models/class.model';
 import { ClassSessionService } from '../../../core/services/class-session.service';
 import { Client, Discipline, Instructor } from '../../../core/models/auth.model';
-import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { WorkersService } from '../../../core/services/workers.service';
 import { AdminService } from '../../../core/services/admin.service';
-import { ViewChild, OnInit, AfterViewInit } from '@angular/core';
-import { CalendarComponent } from 'smart-webcomponents-angular/calendar';
-import { RadioButtonComponent } from 'smart-webcomponents-angular/radiobutton';
-import { RouterOutlet } from '@angular/router';
 import { CalendarModule } from 'smart-webcomponents-angular/calendar';import { RadioButtonModule } from 'smart-webcomponents-angular/radiobutton';
 import { addDays, format, startOfWeek, subDays } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { AttendanceService } from '../../../core/services/attendance.service';
 
 @Component({
   selector: 'app-clases',
@@ -21,7 +17,7 @@ import { es } from 'date-fns/locale';
   templateUrl: './clases.html',
   styleUrl: './clases.css'
 })
-export class Clases implements AfterViewInit  {
+export class Clases   {
   clases: ClassSession[] = [];
   currentDate: Date = new Date();
   weekDays: Date[] = [];
@@ -56,12 +52,15 @@ export class Clases implements AfterViewInit  {
   { value: 'SUNDAY', label: 'Domingo' },
 ];
 
-
+showAttendanceModal = false;
+attendanceMap: { [clientId: number]: string } = {};
+currentClients: Client[] = [];
 
   constructor(
     private classService: ClassSessionService,
     private workerService: WorkersService,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private attendanceService: AttendanceService
   ) {}
 
   ngOnInit(): void {
@@ -70,6 +69,42 @@ export class Clases implements AfterViewInit  {
     this.generateWeek();
   }
 
+
+openAttendance(c: ClassSession) {
+  this.currentClass = c;
+
+  this.classService.getClientsByClass(c.id!).subscribe(clients => {
+    this.attendanceService.getByClass(c.id!).subscribe(attendances => {
+      this.currentClients = clients;
+      this.attendanceMap = {};
+
+      clients.forEach(cli => {
+        const found = attendances.find(a => a.clientId === cli.id);
+        this.attendanceMap[cli.id] = found ? found.status : '';
+      });
+
+      this.showAttendanceModal = true;
+    });
+  });
+}
+
+
+
+closeAttendanceModal() {
+  this.showAttendanceModal = false;
+}
+
+saveAttendance() {
+  if (!this.currentClass) return;
+  const classId = this.currentClass.id!;
+  const entries = Object.entries(this.attendanceMap);
+
+  entries.forEach(([clientId, status]) => {
+    this.attendanceService.markAttendance(classId, Number(clientId), status).subscribe();
+  });
+
+  this.closeAttendanceModal();
+}
     generateWeek() {
       // Obtenemos el Lunes de la semana de 'currentDate'
       // { weekStartsOn: 1 } le dice que la semana empieza el Lunes
@@ -265,17 +300,24 @@ onToggleRepeatDay(event: any, value: string) {
   }
 
   
-  openClients(c: ClassSession) {
-    this.currentClass = c;
-    this.selectedClientIds = new Set(c.clientIds ?? []);
-    this.clientSearch = '';
+openClients(c: ClassSession) {
+  this.currentClass = c;
+  this.selectedClientIds = new Set(c.clientIds ?? []);
+  this.clientSearch = '';
+
+  this.adminService.getAllActiveClients().subscribe(list => {
     
-    this.adminService.getAllActiveClients().subscribe(list => {
-      this.clients = list;
-      this.filteredClients = list;
-      this.openClientsModal();
-    });
-  }
+    this.clients = list.filter(cli =>
+      cli.disciplines?.some(d => d.id === c.disciplineId)
+    );
+
+    this.filteredClients = [...this.clients];
+    this.openClientsModal();
+  });
+}
+
+
+
   openClientsModal() {
     this.showClientsModal = true;
     document.body.style.overflow = 'hidden';
@@ -327,114 +369,5 @@ onToggleRepeatDay(event: any, value: string) {
     this.loadClases();
   }
 
-  @ViewChild('calendar', { static: false }) calendar!: CalendarComponent;
-  @ViewChild('landscape', { static: false }) landscape!: RadioButtonComponent;
-  @ViewChild('portrait', { static: false }) portrait!: RadioButtonComponent;
-
-  ngAfterViewInit(): void {
-    this.init();
-  }
-
-  init(): void {
-  this.landscape.addEventListener('change', () => {
-    if (this.landscape.checked) {
-      this.calendar.nativeElement.view = 'landscape';
-    }
-  });
-
-  this.portrait.addEventListener('change', () => {
-    if (this.portrait.checked) {
-      this.calendar.nativeElement.view = 'portrait';
-    }
-  });
-  }
-
-calendarView: 'day' | 'week' | 'month' = 'month';
-
-setView(view: 'day' | 'week' | 'month') {
-  this.calendarView = view;
-  this.filterClases();
-}
-
-selectedDate: string | null = null; // YYYY-MM-DD
-filteredByDate: any[] = [];
-
-onDateSelect(event: any) {
-  const selected = event.detail.value; // array de Date
-  if (selected && selected.length > 0) {
-    const dateObj: Date = selected[0]; 
-    this.selectedDate = dateObj.toISOString().split('T')[0]; 
-    this.filterClases();
-  }
-}
-
-// Helper: convierte "YYYY-MM-DD" o "YYYY-MM-DDTHH:MM:..." o Date a Date local con horas 00:00
-private parseDateOnly(value: string | Date): Date {
-  if (value instanceof Date) {
-    return new Date(value.getFullYear(), value.getMonth(), value.getDate());
-  }
-  if (typeof value === 'string') {
-    // tomar solo la parte fecha antes de la 'T' si existe
-    const isoDate = value.split('T')[0]; // "YYYY-MM-DD"
-    const parts = isoDate.split('-').map(p => Number(p));
-    if (parts.length === 3 && parts.every(n => !isNaN(n))) {
-      return new Date(parts[0], parts[1] - 1, parts[2]); // local midnight
-    }
-    // fallback
-    const d = new Date(value);
-    return new Date(d.getFullYear(), d.getMonth(), d.getDate());
-  }
-  return new Date();
-}
-
-filterClases() {
-  if (!this.selectedDate) {
-    this.filteredByDate = [...this.clases];
-    return;
-  }
-
-  const dateObj = this.parseDateOnly(this.selectedDate);
-
-  if (this.calendarView === 'day') {
-    const selectedDay = dateObj;
-
-    this.filteredByDate = this.clases.filter(c => {
-      const classDate = this.parseDateOnly(c.startDate);
-      const same =
-        classDate.getFullYear() === selectedDay.getFullYear() &&
-        classDate.getMonth() === selectedDay.getMonth() &&
-        classDate.getDate() === selectedDay.getDate();
-
-      return same;
-    });
-
-  } else if (this.calendarView === 'week') {
-   
-    const day = dateObj.getDay(); 
-    const diffToMonday = (day === 0 ? -6 : 1 - day);
-    const firstDay = new Date(dateObj);
-    firstDay.setDate(dateObj.getDate() + diffToMonday);
-    firstDay.setHours(0, 0, 0, 0);
-
-    const lastDay = new Date(firstDay);
-    lastDay.setDate(firstDay.getDate() + 6);
-    lastDay.setHours(23, 59, 59, 999);
-
-    this.filteredByDate = this.clases.filter(c => {
-      const classDate = this.parseDateOnly(c.startDate);
-      const inside = classDate >= firstDay && classDate <= lastDay;
-
-      return inside;
-    });
-  }
-}
-
-  clearFilter() {
-    this.selectedDate = null;       
-    this.calendarView = 'month';  
-    this.filteredByDate = [...this.clases];
-    if (this.calendar) {
-      this.calendar.clearSelection(); 
-    }
-  }
+ 
 }

@@ -2,62 +2,65 @@
   <div class="header">
     <h2>Clases</h2>
   </div>
+    <div class="calendar-view-container">
 
-  <div class="clases-layout">
-    <!-- Columna izquierda (Calendario) -->
-    <div class="calendar-side">
-      <smart-calendar
-        class="calendar-views" 
-        view="landscape"
-        [viewSections]='["title", "header"]'
-        selection-mode="one"
-        (change)="onDateSelect($event)">
-      </smart-calendar>
-      <div class="options">
-        <div class="caption">Vista</div>
-        <div class="option">
-          <smart-radio-button 
-            [checked]="calendarView === 'week'" 
-            (change)="setView('week')">
-            Semana
-          </smart-radio-button>
-          <smart-radio-button 
-            [checked]="calendarView === 'month'" 
-            (change)="setView('month')">
-            Mes
-          </smart-radio-button>
-        </div>
+    <div class="calendar-header">
+      <div class="week-navigation">
+        <button class="nav-arrow" (click)="previousWeek()">&lt;</button>
+        <h4>{{ getWeekTitle() }}</h4>
+        <button class="nav-arrow" (click)="nextWeek()">&gt;</button>
+      </div>
+      <div class="filters">
+        <input 
+          type="text" 
+          placeholder="Buscar por nombre..."
+          [(ngModel)]="searchText"
+          (input)="applyFilters()">
+
+        <select [(ngModel)]="selectedDisciplineId" (change)="applyFilters()">
+          <option [ngValue]="null">Todas las Disciplinas</option>
+
+          <option *ngFor="let discipline of disciplines" [ngValue]="discipline.id">
+            {{ discipline.name }}
+          </option>
+        </select>
+
+        <button class="btn-clear" (click)="clearFilters()">LIMPIAR</button>
       </div>
     </div>
 
-    <!-- Columna derecha (crear clases + tabla) -->
-    <div class="classes-side">
-
-
-      <div class="table">
-        <div class="row header">
-          <div>Nombre</div>
-          <div>Disciplina</div>
-          <div>Sala</div>
-          <div>Capacidad</div>
-          <div>Inicio (YYYY/MM/DD) </div>
-          <div>Hora</div>
-          <div class="actions">Estado</div>
-          <div class="actions">Comentario</div>
+    <div class="week-grid">
+      <div *ngFor="let day of weekDays" class="day-column">
+        <div class="day-header">
+          {{ day | date:'E d/M' | uppercase }} 
         </div>
+        <div class="classes-list">
+          <div *ngFor="let clase of getClassesForDay(day)" class="class-card" >
+            <div class="class-title">{{ clase.name }}</div>
+            <div class="class-instructor">{{ getInstructorName(clase.instructorId) }}</div> 
+            <div class="class-details">
+              <span>{{ clase.startTime }}</span>
+              <span>{{ clase.endTime }}</span>
+            </div>
+            <div>
+              <span>{{clase.estado}}</span>
+            </div>
+            <div class="class-occupancy">
+              <i class="fa-solid fa-user-group"></i>
+              <span 
+                [class.full]="(clase.clientIds?.length || 0) === clase.capacity"
+                [class.almost-full]="
+                  (clase.clientIds?.length || 0) >= clase.capacity * 0.8 &&
+                  (clase.clientIds?.length || 0) < clase.capacity
+                "
+              >
+                {{ clase.clientIds?.length || 0 }}/{{ clase.capacity }}
+              </span>
 
-        <div class="row" *ngFor="let c of (selectedDate ? filteredByDate : clases)">
-          <div>{{ c.name }}</div>
-          <div>{{ getDisciplineName(c.disciplineId) }}</div>
-          <div>{{ getRoomName(c.roomId) }}</div>
-          <div>{{ c.capacity }}</div>
-          <div>{{ c.startDate }}</div>
-          <div>{{ c.startTime }} - {{ c.endTime }}</div>
-          <div>{{ c.estado}}</div>
-          <div class="actions">
-            <button class="icon-btn" *ngIf="c.estado === 'DICTADA'" (click)="openModal(c)">
+              <button class="icon-btn" *ngIf="clase.estado === 'DICTADA'" (click)="openModal(clase)">
               <i class="fa-solid fa-pen-to-square"></i>
             </button>
+            </div>
           </div>
         </div>
       </div>
