@@ -14,11 +14,7 @@
         <button class="nav-arrow" (click)="nextWeek()">&gt;</button>
       </div>
       <div class="filters">
-        <input 
-          type="text" 
-          placeholder="Buscar por nombre..."
-          [(ngModel)]="searchText"
-          (input)="applyFilters()">
+        <input type="text" placeholder="Buscar por nombre..." [(ngModel)]="searchText" (input)="applyFilters()">
 
         <select [(ngModel)]="selectedDisciplineId" (change)="applyFilters()">
           <option [ngValue]="null">Todas las Disciplinas</option>
@@ -28,7 +24,7 @@
           </option>
         </select>
 
-        <select [(ngModel)]="selectedInstructorId" (change)="applyFilters()"> 
+        <select [(ngModel)]="selectedInstructorId" (change)="applyFilters()">
           <option [ngValue]="null">Todos los Instructores</option>
 
           <option *ngFor="let instructor of instructors" [ngValue]="instructor.id">
@@ -43,38 +39,42 @@
     <div class="week-grid">
       <div *ngFor="let day of weekDays" class="day-column">
         <div class="day-header">
-          {{ day | date:'E d/M' | uppercase }} 
+          {{ day | date:'E d/M' | uppercase }}
         </div>
         <div class="classes-list">
-<div *ngFor="let clase of getClassesForDay(day)" 
-     class="class-card" 
-     (click)="!clase.joined && openJoinModal(clase)"
-     [class.joined]="clase.joined">
+          <div *ngFor="let clase of getClassesForDay(day)" class="class-card" (click)="
+       !clase.joined && 
+       clase.estado !== 'DICTADA' && 
+       openJoinModal(clase)
+     " [class.joined]="clase.joined" [class.dictada]="clase.estado === 'DICTADA'">
 
-  <div class="class-title">{{ clase.name }}</div>
-  <div class="class-instructor">{{ getInstructorName(clase.instructorId) }}</div> 
-  <div class="class-details">
-    <span>{{ clase.startTime }}</span>
-    <span>-{{ clase.endTime }}</span>
-  </div>
-  <div class="class-occupancy">
-    <i class="fa-solid fa-user-group"></i>
-    <span 
-      [class.full]="(clase.clientIds?.length || 0) === clase.capacity"
-      [class.almost-full]="
+            <div class="class-title">{{ clase.name }}</div>
+            <div class="class-instructor">{{ getInstructorName(clase.instructorId) }}</div>
+            <div class="class-details">
+              <span>{{ clase.startTime }}</span>
+              <span>-{{ clase.endTime }}</span>
+
+            </div>
+            <span class="estado" [class.dictada-text]="clase.estado === 'DICTADA'">
+              {{ clase.estado }}
+            </span>
+            <div class="class-occupancy">
+              <i class="fa-solid fa-user-group"></i>
+              <span [class.full]="(clase.clientIds?.length || 0) === clase.capacity" [class.almost-full]="
         (clase.clientIds?.length || 0) >= clase.capacity * 0.8 &&
         (clase.clientIds?.length || 0) < clase.capacity
-      "
-    >
-      {{ clase.clientIds?.length || 0 }}/{{ clase.capacity }}
-    </span>
-  </div>
+      ">
+                {{ clase.clientIds?.length || 0 }}/{{ clase.capacity }}
+              </span>
+            </div>
 
-  <!-- Mensaje INSCRITO -->
-  <div *ngIf="clase.joined" class="badge-inscrito">
-    INSCRITO
-  </div>
-</div>
+            <!-- Mensaje INSCRITO -->
+            <div *ngIf="clase.joined" class="badge-inscrito">
+              INSCRITO
+            </div>
+
+            
+          </div>
 
         </div>
       </div>

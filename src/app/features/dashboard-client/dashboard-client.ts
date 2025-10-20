@@ -32,17 +32,23 @@ export class DashboardClient implements  OnInit{
         this.currentClientId = profile.id;
         this.clientService.getClientPlanInfo(profile.id).subscribe(planInfo => {
         this.clientPlanInfo = planInfo;
+        console.log(this.clientPlanInfo)
       });
       },
       error: (err) => console.error('Error al obtener perfil', err),
     });
   }
 
-  getclasses(){
-    this.clientService.getMyClasses().subscribe(classes => {
-    this.myClasses = classes;
+ getclasses() {
+  this.clientService.getMyClasses().subscribe(classes => {
+    this.myClasses = classes.map(c => ({
+      ...c,
+      startTime: c.startTime ? c.startTime.substring(0, 5) : '',
+      endTime: c.endTime ? c.endTime.substring(0, 5) : ''
+    }));
   });
-  }
+}
+
 
 openModal() {
   this.showPlansModal = true;

@@ -188,7 +188,9 @@ loadClases() {
     next: (data) => {
       this.clases = data.map(clase => ({
         ...clase,
-        joined: clase.clientIds?.includes(this.currentClientId)
+        joined: clase.clientIds?.includes(this.currentClientId),
+        startTime: clase.startTime ? clase.startTime.substring(0,5) : '',
+        endTime: clase.endTime ? clase.endTime.substring(0,5) : ''
       }));
       this.filteredClases = [...this.clases];
     },

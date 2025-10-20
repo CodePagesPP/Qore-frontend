@@ -606,7 +606,7 @@ main .recent-orders a {
 }
 
 ::ng-deep pagination-controls .ngx-pagination li a {
-  color: blue !important;
+  color: var(--color-gold) !important;
 }
 
 ::ng-deep pagination-controls .ngx-pagination li.current {

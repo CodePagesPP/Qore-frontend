@@ -610,3 +610,172 @@ smart-radio-button {
   color: #e63946; /* rojo si está llena */
   font-weight: bold;
 }
+
+
+/* Fondo semitransparente que cubre toda la pantalla */
+.modalconfirm {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: none; /* por defecto oculto */
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* asegúrate que esté encima de todo */
+}
+
+/* Cuando el modal está activo */
+.modalconfirm.show {
+  display: flex;
+}
+
+/* Contenedor del contenido del modal */
+.modal-content {
+  background: var(--color-ivory);
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.18);
+  padding: 2rem;
+  padding: 24px 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* Animación simple */
+@keyframes fadeIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Tipos de mensaje */
+.modal-content.error {
+  
+  color: #e63946;
+}
+
+.modal-content.success {
+  
+  color: #2a9d8f;
+}
+
+/* Botón de cierre */
+.modal-button {
+  margin-top: 20px;
+  background-color: #333;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.modal-button:hover {
+  background-color: #555;
+}
+
+.header-class{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.days-grid{
+  display: grid;
+}
+
+.modalconfirm {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalconfirm.show {
+  display: flex;
+}
+
+.modal-content {
+  background: var(--color-stone);
+  border-radius: 12px;
+  padding: 24px 30px;
+  text-align: center;
+  width: 360px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  animation: fadeIn 0.3s ease;
+}
+
+
+
+.modal-button {
+  margin-top: 15px;
+  padding: 8px 16px;
+  border: none;
+  background: var(--color-gold);
+  color: rgb(0, 0, 0);
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.modal-button:hover {
+  background: var(--color-gold);
+}
+
+@keyframes fadeIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.loading-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1100;
+}
+
+.loading-modal {
+  background: #fff;
+  padding: 25px 35px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.spinner {
+  border: 5px solid #eee;
+  border-top: 5px solid var(--color-gold);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 15px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-modal p {
+  margin: 0;
+  font-size: 1rem;
+  color: #444;
+}
+

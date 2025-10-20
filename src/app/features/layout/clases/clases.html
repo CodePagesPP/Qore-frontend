@@ -48,26 +48,39 @@
         <div class="classes-list">
           <div *ngFor="let clase of getClassesForDay(day)" class="class-card">
             <div (click)="openEdit(clase)">
-              <div class="class-title">{{ clase.name }}</div>
+              <div class="header-class">
+                <div class="class-title">{{ clase.name }}</div>
+                <div class="comment" *ngIf="clase.estado === 'DICTADA' && clase.comentario">
+                  <button class="icon-btn" (click)="openComentario(clase); $event.stopPropagation()">
+                    <i class="fa-solid fa-comment-dots"></i>
+                  </button>
+                </div>
+              </div>
               <div class="class-instructor">{{ getInstructorName(clase.instructorId) }}</div> 
+              <div class="class-instructor">{{ clase.estado }}</div> 
               <div class="class-details">
                 <span>{{ clase.startTime }} -</span>
                 <span>{{ clase.endTime }}</span>
               </div>
             </div>
             
+
             <div class="class-occupancy">
-              <div (click)="openClients(clase)">
-                <i class="fa-solid fa-user-group"></i>
-                <span [class.full]="(clase.clientIds?.length || 0) >= clase.capacity">
-                  {{ clase.clientIds?.length || 0 }}/{{ clase.capacity }}
-                </span>
-              </div>
+                <div 
+                  (click)="clase.estado !== 'DICTADA' && openClients(clase)" 
+                  [class.disabled]="clase.estado === 'DICTADA'"
+                  [title]="clase.estado === 'DICTADA' ? 'Clase dictada, no se pueden modificar los clientes' : ''"
+                >
+                  <i class="fa-solid fa-user-group"></i>
+                  <span [class.full]="(clase.clientIds?.length || 0) >= clase.capacity">
+                    {{ clase.clientIds?.length || 0 }}/{{ clase.capacity }}
+                  </span>
+                </div>
               <div (click)="openAttendance(clase)">
                 <i class="fa-solid fa-clipboard-check"></i> <!-- ícono de asistencia -->
               </div>
-              <div (click)="deleteClase(clase.id)">
-                <i class="fa-solid fa-trash"></i>
+              <div *ngIf="clase.estado !== 'DICTADA'" (click)="deleteClase(clase.id)">
+                  <i class="fa-solid fa-trash"></i>
               </div>
             </div>
           </div>
@@ -154,7 +167,8 @@
           </label>
 
           <div *ngIf="form.repeat" class="repeat-days">
-            <span>Días de la semana</span>
+            <label for=""><span>Días de la semana</span></label>
+            
             <div class="days-grid">
               <label *ngFor="let d of daysOfWeek" class="day-check">
                 <input
@@ -263,5 +277,41 @@
   <div class="modal-actions">
     <button class="btn-primary" (click)="saveAttendance()">Guardar</button>
     <button class="btn-secondary" (click)="closeAttendanceModal()">Cancelar</button>
+  </div>
+</div>
+
+
+<div class="modalconfirm" [class.show]="messageModal">
+  <div class="modal-content" [ngClass]="messageType">
+    <h3>{{ messageTitle }}</h3>
+    <p>{{ messageText }}</p>
+    <button class="modal-button" (click)="closeMessageModal()">Cerrar</button>
+  </div>
+</div>
+
+<div class="backdrop" *ngIf="showComentarioModal" (click)="closeAttendanceModal()"></div>
+<div class="modal" *ngIf="showComentarioModal">
+  <div class="modal-content">
+    <h3>Comentario del instructor</h3>
+    <p>{{ selectedClass?.comentario }}</p>
+    <p class="timestamp">
+      <small>Dejado el {{ selectedClass?.comentarioAt | date:'short' }}</small>
+    </p>
+    <button class="modal-button" (click)="showComentarioModal = false">Cerrar</button>
+  </div>
+</div>
+
+<div class="modalconfirm" [class.show]="messageModal">
+  <div class="modal-content" [ngClass]="messageType">
+    <h3>{{ messageTitle }}</h3>
+    <p>{{ messageText }}</p>
+    <button class="modal-button" (click)="closeMessageModal()">Cerrar</button>
+  </div>
+</div>
+
+<div class="loading-backdrop" *ngIf="isLoading">
+  <div class="loading-modal">
+    <div class="spinner"></div>
+    <p>Procesando, por favor espera...</p>
   </div>
 </div>

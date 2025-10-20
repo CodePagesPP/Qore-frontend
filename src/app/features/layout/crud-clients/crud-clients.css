@@ -290,3 +290,108 @@ input:checked + .slider {
 input:checked + .slider:before {
   transform: translateX(24px);
 }
+
+/* Contenedor general de la sección de disciplinas */
+.form-group {
+  margin-top: 20px;
+}
+
+/* Cada ítem de disciplina (input + label) */
+/* Contenedor de cada checkbox + label */
+.checkbox-item {
+  display: flex;
+  align-items: center;  /* centra verticalmente el checkbox con el label */
+  gap: 8px;             /* espacio entre checkbox y texto */
+  margin-bottom: 6px;   /* espacio entre filas */
+}
+
+/* Contenedor label + checkbox */
+.custom-checkbox {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-left: 28px; /* espacio para el check */
+  cursor: pointer;
+  user-select: none;
+  font-family: 'Mont';
+  font-size: 14px;
+  color: #333;
+}
+
+/* Oculta el input real */
+.custom-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Caja personalizada */
+.custom-checkbox .checkmark {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 18px;
+  width: 18px;
+  background-color: #fff;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Hover */
+.custom-checkbox:hover .checkmark {
+  border-color: #09b83d;
+}
+
+/* Cuando está checked */
+.custom-checkbox input:checked ~ .checkmark {
+  background-color: var(--color-gold); /* fondo del check */
+  border-color: var(--color-gold);
+}
+
+/* Palomita */
+.custom-checkbox .checkmark::after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.custom-checkbox input:checked ~ .checkmark::after {
+  display: block;
+  left: 5px;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid white; /* color de la palomita */
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.modal-content.confirmation {
+  text-align: center;
+  padding: 2rem;
+  border-radius: 12px;
+}
+
+.modal-content.confirmation.success {
+
+  color: #2e7d32;
+}
+
+.modal-content.confirmation.error {
+
+  color: #c62828;
+}
+
+.modal-content.confirmation h2 {
+  margin-bottom: 1.2rem;
+}
+
+
+
+
+.modal-action-confirm .btn-primary{
+  background-color: var(--color-gold);
+  align-items: center;
+}

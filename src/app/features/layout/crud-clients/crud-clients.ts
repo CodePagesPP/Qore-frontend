@@ -34,6 +34,12 @@ export class CrudClients implements OnInit{
     disciplinesIds: []   
   };
 
+isConfirmationOpen: boolean = false;
+confirmationMessage: string = '';
+confirmationType: 'success' | 'error' = 'success';
+
+
+
   constructor(
    private adminService: AdminService,
    private clientService: ClientService,
@@ -45,6 +51,17 @@ export class CrudClients implements OnInit{
    this.loadClients();
    this.loadDisciplines();
  }
+
+ toggleDiscipline(id: number, event: any): void {
+  if (event.target.checked) {
+    if (!this.formData.disciplinesIds.includes(id)) {
+      this.formData.disciplinesIds.push(id);
+    }
+  } else {
+    this.formData.disciplinesIds = this.formData.disciplinesIds.filter((d: number) => d !== id);
+  }
+}
+
 
 downloadClientsExcel() {
   this.excelService.downloadClientsExcel().subscribe((blob: Blob) => {
@@ -104,7 +121,7 @@ loadDisciplines() {
 
 openEditModal(client: Client): void {
   this.editingClient = client;
-  this.formData = { ...client, disciplineIds: client.disciplines?.map(d => d.id) || [] };
+  this.formData = { ...client, disciplinesIds: client.disciplines?.map(d => d.id) || [] };
   this.isModalOpen = true;
 }
 
@@ -123,27 +140,60 @@ openEditModal(client: Client): void {
     this.isModalViewOpen = false;
   }
 
-  onSubmit(): void {
-    if (this.editingClient) {
-      
-      this.clientService.updateClient(this.editingClient.dni, this.formData).subscribe({
-        next: () => {
-          this.loadClients();
-          this.closeModal();
-        },
-        error: (err) => console.error('Error actualizando cliente', err)
-      });
-    } else {
-    
-      this.clientService.registerClient(this.formData as RegisterRequest).subscribe({
-        next: () => {
-          this.loadClients();
-          this.closeModal();
-        },
-        error: (err) => console.error('Error registrando cliente', err)
-      });
-    }
+onSubmit(): void {
+  const payload = {
+    ...this.formData,
+    disciplineIds: this.formData.disciplinesIds
+  };
+
+  if (this.editingClient) {
+    this.clientService.updateClient(this.editingClient.dni, payload).subscribe({
+      next: () => {
+        this.loadClients();
+        this.closeModal();
+        this.showConfirmation('Cliente actualizado correctamente', 'success');
+      },
+      error: (err) => this.handleHttpError(err, 'actualizar')
+    });
+  } else {
+    this.clientService.registerClient(payload as RegisterRequest).subscribe({
+      next: () => {
+        this.loadClients();
+        this.closeModal();
+        this.showConfirmation('Cliente registrado correctamente', 'success');
+      },
+      error: (err) => this.handleHttpError(err, 'registrar')
+    });
   }
+}
+
+
+private handleHttpError(err: any, action: string): void {
+  let msg = 'Error inesperado al ' + action + ' el cliente';
+
+  if (err.error?.message) {
+    msg = err.error.message; 
+  } else if (err.message) {
+    msg = err.message;
+  }
+
+  this.showConfirmation(msg, 'error');
+}
+
+
+
+showConfirmation(message: string, type: 'success' | 'error' = 'success'): void {
+  this.confirmationMessage = message;
+  this.confirmationType = type;
+  this.isConfirmationOpen = true;
+}
+
+closeConfirmation(): void {
+  this.isConfirmationOpen = false;
+}
+
+
+
 
   deleteClient(id: string): void {
     if (confirm('¿Seguro que deseas eliminar este cliente?')) {

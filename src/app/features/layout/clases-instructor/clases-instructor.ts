@@ -7,7 +7,7 @@ import { ClassSession, Room} from '../../../core/models/class.model';
 import { ClassSessionService } from '../../../core/services/class-session.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { WorkersService } from '../../../core/services/workers.service';
-import { Discipline, Instructor } from '../../../core/models/auth.model';
+import { Client, Discipline, Instructor } from '../../../core/models/auth.model';
 import { InstructorService } from '../../../core/services/instructor.service';
 import { addDays, format, startOfWeek, subDays } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -32,6 +32,13 @@ showModal = false;
   selectedInstructorId: number | null = null;
 currentDate: Date = new Date();
   filteredClases: ClassSession[] = [];
+showClientsModal = false;
+clients: Client[] = [];
+errorMessage: string = '';
+showErrorModal: boolean = false;
+isLoading: boolean = false;
+showSuccessModal: boolean = false;
+
 
 
   constructor(
@@ -56,7 +63,9 @@ currentDate: Date = new Date();
 
   openModal(classSession: ClassSession) {
   this.selectedClass = classSession;
-  this.comentario = classSession.comentario || '';
+ 
+  this.comentario = classSession.comentario ? classSession.comentario:  '';
+  
   this.showModal = true;
 }
 
@@ -147,28 +156,63 @@ currentDate: Date = new Date();
 saveComentario() {
   if (!this.selectedClass) return;
 
+  this.isLoading = true; // Mostrar modal de carga
+
   this.instructorService.updateComentario(this.selectedClass.id!, this.comentario)
-  .subscribe({
-    next: (updated) => {
-      this.selectedClass!.comentario = updated.comentario;
-      this.showModal = false;
-    },
-    error: (err) => console.error('Error guardando comentario', err)
-  });
+    .subscribe({
+      next: (updated) => {
+        // Actualiza localmente
+        this.selectedClass!.comentario = updated.comentario;
+
+        const index = this.clases.findIndex(c => c.id === this.selectedClass!.id);
+        if (index !== -1) {
+          this.clases[index].comentario = updated.comentario;
+        }
+
+        // Oculta el modal de comentario y el loader
+        this.isLoading = false;
+        this.showModal = false;
+
+        // Muestra el modal de éxito
+        this.showSuccessModal = true;
+      },
+      error: (err) => {
+        console.error('Error guardando comentario', err);
+
+        this.isLoading = false;
+        this.showModal = false;
+
+        if (typeof err.error === 'string') {
+          this.errorMessage = err.error;
+        } else {
+          this.errorMessage = 'Ocurrió un error al guardar el comentario.';
+        }
+
+        this.showErrorModal = true;
+      }
+    });
 }
 
 
 
+
+
+
   loadClases() {
- this.classService.getByInstructor(this.currentInstructorId)
-      .subscribe({
-        next: (data) => {
-          this.clases = data;
-          
-        },
-        error: (err) => console.error('Error al cargar clases', err)
-      });
-  }
+  this.classService.getByInstructor(this.currentInstructorId)
+    .subscribe({
+      next: (data) => {
+        // Transformar las horas al formato HH:mm
+        this.clases = data.map(c => ({
+          ...c,
+          startTime: c.startTime ? c.startTime.substring(0, 5) : '',
+          endTime: c.endTime ? c.endTime.substring(0, 5) : ''
+        }));
+      },
+      error: (err) => console.error('Error al cargar clases', err)
+    });
+}
+
 
 
 
@@ -195,6 +239,25 @@ getRoomName(id: number): string {
   return room ? room.name : id.toString();
 }
 
+openClientsModal(clase: ClassSession) {
+  this.selectedClass = clase;
+  this.classService.getClientsByClass(clase.id!).subscribe({
+    next: (data) => {
+      this.clients = data;
+    
+      this.showClientsModal = true;
+    },
+    error: (err) => {
+      console.error('Error al cargar clientes', err);
+      this.clients = [];
+      this.showClientsModal = true; // igual abrimos el modal vacío
+    }
+  });
+}
 
+closeClientsModal() {
+  this.showClientsModal = false;
+  this.clients = [];
+}
 
 }
