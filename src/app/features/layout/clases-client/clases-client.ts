@@ -40,6 +40,7 @@ export class ClasesClient {
 messageTitle = '';
 messageText = '';
 messageType: 'success' | 'error' = 'success';
+loading: boolean = false;
 
 
   constructor(
@@ -146,37 +147,37 @@ confirmJoin() {
 
   const clientId = this.currentClientId;
 
-  // Evitar que el usuario se vuelva a unir si ya está inscrito
   if (this.selectedClass.clientIds?.includes(clientId)) {
     this.openMessageModal('Aviso', 'Ya estás inscrito en esta clase.', 'error');
     this.confirmJoinModal = false;
     return;
   }
 
-  // Evitar unirse si la clase está llena
   if ((this.selectedClass.clientIds?.length || 0) >= this.selectedClass.capacity) {
     this.openMessageModal('Error', 'La clase ya alcanzó su capacidad máxima', 'error');
     this.confirmJoinModal = false;
     return;
   }
 
+  this.confirmJoinModal = false;
+  this.loading = true; // 🔹 mostrar modal de carga
+
   this.classService.joinClass(this.selectedClass.id!, clientId).subscribe({
     next: (res: any) => {
-      // marcar como inscrito en UI
       this.selectedClass!.joined = true;
       this.selectedClass!.clientIds = [...(this.selectedClass!.clientIds || []), clientId];
 
-      this.confirmJoinModal = false;
+      this.loading = false; // 🔹 ocultar modal de carga
       this.openMessageModal('Éxito', 'Te has inscrito correctamente en la clase.', 'success');
     },
     error: (err) => {
-      // Si el backend manda 400 con mensaje
+      this.loading = false; // 🔹 ocultar modal de carga
       const msg = err.error?.message || 'Error al unirse a la clase';
       this.openMessageModal('Error', msg, 'error');
-      this.confirmJoinModal = false;
     },
   });
 }
+
 
 
   closeSuccessModal() {

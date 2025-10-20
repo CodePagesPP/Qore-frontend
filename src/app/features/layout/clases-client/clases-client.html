@@ -104,3 +104,12 @@
     <button class="modal-button" (click)="closeMessageModal()">Cerrar</button>
   </div>
 </div>
+
+<!-- Modal de carga profesional -->
+<div class="modal-loading" *ngIf="loading">
+  <div class="modal-loading-content">
+    <div class="spinner"></div>
+    <p>Procesando tu inscripción... 🧘‍♀️</p>
+  </div>
+</div>
+
