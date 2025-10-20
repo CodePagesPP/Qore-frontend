@@ -2,14 +2,20 @@
     <main>
         <h1>Dashboard</h1>
         <div *ngIf="!clientPlanInfo?.trialCompleted" class="alert alert-warning">
-            Aún no has completado tu clase de prueba. Una vez la completes podrás adquirir un plan.
-            </div>
-
-            <div *ngIf="clientPlanInfo?.trialCompleted">
-            <button class="comprarButton" (click)="openModal()">
-                <i class="fa fa-cart-plus" aria-hidden="true"></i> Comprar plan
-            </button>
+        Aún no has completado tu clase de prueba. Una vez la completes podrás adquirir un plan.
         </div>
+
+        <div *ngIf="clientPlanInfo?.trialCompleted">
+        <button 
+            class="comprarButton" 
+            [disabled]="!clientPlanInfo?.canPurchasePlan"
+            (click)="openModal()"
+            [title]="!clientPlanInfo?.canPurchasePlan ? 'Aún tienes clases pendientes o el plan está vigente' : 'Comprar nuevo plan'"
+        >
+            <i class="fa fa-cart-plus" aria-hidden="true"></i> Comprar plan
+        </button>
+        </div>
+
 
         <div class="insights">
             <div class="sales">

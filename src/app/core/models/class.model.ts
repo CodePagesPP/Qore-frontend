@@ -11,6 +11,7 @@ export interface ClassSession {
   estado: string;  
   repeat: boolean;
   comentario?: string;
+  comentarioAt: string;
   repeatUntil?: string | null;        // YYYY-MM-DD
   repeatDays: string[];          // MONDAY, TUESDAY… (DayOfWeek)
   repeatInterval?: number| null;
@@ -55,6 +56,7 @@ export interface ClientPlanInfo {
   classesTaken: number;
   classesRemaining: number;
   trialCompleted: boolean;
+  canPurchasePlan: boolean;
 }
 
 export interface ClientClassDTO {

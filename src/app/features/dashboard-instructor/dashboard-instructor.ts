@@ -60,14 +60,19 @@ getRoomName(id: number): string {
 loadPendingToday(instructorid: number): void {
   this.classSessionService.getPendingTodayInstructor(instructorid)
     .subscribe({
-      
-      next: (data) =>{
-        console.log('clases pendientes', data);
-        this.pendingClassesToday = data;
-      } ,
-      
+      next: (data) => {
+        
+
+       
+        this.pendingClassesToday = data.map(c => ({
+          ...c,
+          startTime: c.startTime ? c.startTime.substring(0, 5) : '',
+          endTime: c.endTime ? c.endTime.substring(0, 5) : ''
+        }));
+      },
       error: (err) => console.error('Error al cargar clases pendientes del día', err)
     });
 }
+
 
 }

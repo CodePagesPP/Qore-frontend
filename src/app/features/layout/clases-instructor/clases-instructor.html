@@ -39,14 +39,16 @@
             <div class="class-title">{{ clase.name }}</div>
             <div class="class-instructor">{{ getInstructorName(clase.instructorId) }}</div> 
             <div class="class-details">
-              <span>{{ clase.startTime }}</span>
-              <span>{{ clase.endTime }}</span>
+              <span>{{ clase.startTime }}</span>-<span>{{ clase.endTime }}</span>
+             
             </div>
             <div>
               <span>{{clase.estado}}</span>
             </div>
             <div class="class-occupancy">
-              <i class="fa-solid fa-user-group"></i>
+              <button class="icon-btn" (click)="openClientsModal(clase)">
+                <i class="fa-solid fa-user-group"></i>
+              </button>
               <span 
                 [class.full]="(clase.clientIds?.length || 0) === clase.capacity"
                 [class.almost-full]="
@@ -73,8 +75,60 @@
     <h3>Agregar comentario a {{ selectedClass?.name }}</h3>
     <textarea [(ngModel)]="comentario" rows="4"></textarea>
     <div class="actions">
-      <button (click)="saveComentario()">Guardar</button>
-      <button (click)="showModal=false">Cancelar</button>
+      <button (click)="saveComentario()" class="modal-button-confirm">Guardar</button>
+      <button (click)="showModal=false" class="modal-button">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" *ngIf="showClientsModal">
+  <div class="modal-content">
+    <h3>Clientes inscritos en {{ selectedClass?.name }}</h3>
+
+    <ul *ngIf="clients.length > 0; else noClients">
+      <li *ngFor="let client of clients">
+        {{ client.name }} {{ client.lastName }} - {{ client.email }} - {{ client.phoneNumber}}
+      </li>
+    </ul>
+
+    <ng-template #noClients>
+      <p>No hay clientes inscritos en esta clase.</p>
+    </ng-template>
+
+    <div class="actions">
+      <button class="modal-button" (click)="closeClientsModal()">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" *ngIf="showErrorModal">
+  <div class="modal-content">
+    <h3 style="color:#d9534f;">Error</h3>
+    <p>{{ errorMessage }}</p>
+    <div class="actions">
+      <button class="modal-button" (click)="showErrorModal = false">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal de carga -->
+<div class="modal" *ngIf="isLoading">
+  <div class="modal-content loading-modal">
+    <div class="spinner"></div>
+    <p>Guardando comentario...</p>
+  </div>
+</div>
+
+<!-- Modal de éxito -->
+<div class="modal" *ngIf="showSuccessModal">
+  <div class="modal-content success-modal">
+    <h3 style="color: #4CAF50;">¡Comentario guardado!</h3>
+    <p>El comentario se guardó correctamente y se envió la notificación al equipo.</p>
+    <div class="actions">
+      <button class="modal-button" (click)="showSuccessModal = false">Cerrar</button>
     </div>
   </div>
 </div>

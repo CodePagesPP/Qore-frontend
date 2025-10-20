@@ -56,6 +56,15 @@ showAttendanceModal = false;
 attendanceMap: { [clientId: number]: string } = {};
 currentClients: Client[] = [];
 
+messageModal: boolean = false;
+messageTitle: string = '';
+messageText: string = '';
+messageType: string = '';
+showComentarioModal: boolean = false;
+selectedClass: ClassSession | null = null;
+isLoading = false;
+
+
   constructor(
     private classService: ClassSessionService,
     private workerService: WorkersService,
@@ -69,6 +78,15 @@ currentClients: Client[] = [];
     this.generateWeek();
   }
 
+
+  openComentario(clase: ClassSession) {
+  this.selectedClass = clase;
+  this.showComentarioModal = true;
+}
+
+closeComentarioModal() {
+  this.showComentarioModal = false;
+}
 
 openAttendance(c: ClassSession) {
   this.currentClass = c;
@@ -165,24 +183,30 @@ saveAttendance() {
       endTime: '',
       repeat: false,
       repeatUntil: null,      // YYYY-MM-DD
-
-  repeatDays: [],    // MONDAY, TUESDAY… (DayOfWeek)
-  repeatInterval: 1,
+      comentarioAt:'',
+    repeatDays: [],    // MONDAY, TUESDAY… (DayOfWeek)
+      repeatInterval: 1,
 
       estado: '',
       clientIds: []
     };
   }
 
-  loadClases() {
-    this.classService.getAll().subscribe({
-      next: (data) => {
-        this.clases = data;
-        this.filteredClases = data; // Inicialmente, las clases filtradas son todas las clases
-      },
-      error: (err) => console.error('Error al cargar clases', err)
-    });
-  }
+loadClases() {
+  this.classService.getAll().subscribe({
+    next: (data) => {
+      this.clases = data.map(c => ({
+        ...c,
+        startTime: c.startTime ? c.startTime.substring(0,5) : '',
+        endTime: c.endTime ? c.endTime.substring(0,5) : ''
+      }));
+      this.filteredClases = this.clases;
+    },
+    error: (err) => console.error('Error al cargar clases', err)
+  });
+}
+
+
 
   applyFilters() {
     // 1. Empezamos con la lista completa de clases
@@ -260,6 +284,7 @@ onToggleRepeatDay(event: any, value: string) {
     this.openClassModal();
   }
   openEdit(c: ClassSession) {
+  if (c.estado === 'DICTADA') return; 
   this.editing = true;
   
   this.form = { 
@@ -277,20 +302,42 @@ onToggleRepeatDay(event: any, value: string) {
     this.showClassModal = false;
     document.body.style.overflow = ''; 
   }
-  saveClass() {
-    const payload: ClassSession = { ...this.form };
-    if (this.editing && payload.id) {
-      this.classService.update(payload.id, payload).subscribe(() => {
+saveClass() {
+  const payload: ClassSession = { ...this.form };
+  this.isLoading = true; // Mostrar el modal de carga
+
+  if (this.editing && payload.id) {
+    this.classService.update(payload.id, payload).subscribe({
+      next: () => {
+        this.isLoading = false; // Ocultar el loader
         this.closeClassModal();
         this.loadClases();
-      });
-    } else {
-      this.classService.create(payload).subscribe(() => {
+        this.showMessageModal('Clase actualizada', 'La clase fue actualizada correctamente.', 'success');
+      },
+      error: (err) => {
+        this.isLoading = false; // Ocultar el loader incluso si hay error
+        const msg = err?.error?.message || 'Error al actualizar la clase.';
+        this.showMessageModal('Error al actualizar', msg, 'error');
+      }
+    });
+  } else {
+    this.classService.create(payload).subscribe({
+      next: () => {
+        this.isLoading = false;
         this.closeClassModal();
         this.loadClases();
-      });
-    }
+        this.showMessageModal('Clase creada', 'La clase fue creada correctamente.', 'success');
+      },
+      error: (err) => {
+        this.isLoading = false;
+        const msg = err?.error?.message || 'Error al crear la clase.';
+        this.showMessageModal('Error al crear', msg, 'error');
+      }
+    });
   }
+}
+
+
 
   deleteClase(id?: number) {
     if (!id) return;
@@ -346,28 +393,74 @@ openClients(c: ClassSession) {
       this.selectedClientIds.add(id);
     }
   }
-  saveClients() {
-    if (!this.currentClass) return;
-    const classId = this.currentClass.id!;
-    const selected = Array.from(this.selectedClientIds);
 
-    
-    const ops = selected
-      .filter(id => !(this.currentClass!.clientIds ?? []).includes(id))
-      .map(id => this.classService.addClientToClass(classId, id));
+saveClients() {
+  if (!this.currentClass) return;
+  const classId = this.currentClass.id!;
+  const selected = Array.from(this.selectedClientIds);
+  const original = this.currentClass.clientIds ?? [];
 
-    if (ops.length === 0) { this.closeClientsModal(); return; }
+  // Clientes nuevos que se deben agregar
+  const toAdd = selected.filter(id => !original.includes(id));
+  // Clientes que se deben quitar
+  const toRemove = original.filter(id => !selected.includes(id));
 
-    let done = 0;
-    ops.forEach(obs => obs.subscribe({
-      next: () => { done++; if (done === ops.length) this.finishClients(); },
-      error: () => { done++; if (done === ops.length) this.finishClients(); }
-    }));
+  // Construimos todas las operaciones (add y remove)
+  const ops = [
+    ...toAdd.map(id => this.classService.addClientToClass(classId, id)),
+    ...toRemove.map(id => this.classService.removeClientFromClass(classId, id))
+  ];
+
+  if (ops.length === 0) { 
+    this.closeClientsModal(); 
+    return; 
   }
-  private finishClients() {
-    this.closeClientsModal();
-    this.loadClases();
-  }
+
+  let done = 0;
+
+  ops.forEach(obs => obs.subscribe({
+    next: () => { 
+      done++; 
+      if (done === ops.length) this.finishClients(); 
+    },
+    error: (err) => {
+      console.error('Error al actualizar clientes:', err);
+
+      this.messageTitle = "Error al actualizar clase";
+      this.messageText = err.error || "Ocurrió un error al intentar actualizar los clientes de la clase.";
+      this.messageType = "error";
+      this.messageModal = true;
+
+      done++; 
+      if (done === ops.length) this.finishClients(); 
+    }
+  }));
+}
+
+showMessageModal(title: string, text: string, type: 'success' | 'error' = 'success'): void {
+  this.messageTitle = title;
+  this.messageText = text;
+  this.messageType = type;
+  this.messageModal = true;
+}
+
+
+closeMessageModal() {
+  this.messageModal = false;
+}
+
+  
+
+private finishClients() {
+  this.closeClientsModal();
+  this.loadClases();
+
+  this.messageTitle = "Actualización exitosa";
+  this.messageText = "Los clientes fueron actualizados correctamente.";
+  this.messageType = "success";
+  this.messageModal = true;
+}
+
 
  
 }

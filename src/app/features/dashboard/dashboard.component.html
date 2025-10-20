@@ -58,7 +58,7 @@
                                 <th>Teléfono</th>
                                 <th>Sesiones</th>
                                 <th>Fecha de vencimiento</th>
-                                <th></th>
+                               
                             </tr>
                         </thead>
                         <tbody>
@@ -68,11 +68,11 @@
                                 <td>{{ client.phoneNumber }}</td>
                                 <td class="warning">{{ client.classesTaken }}/{{ client.totalClasses }}</td>
                                 <td class="warning">{{client.subscriptionEnd}}</td>
-                                <td class="primary" id="detalle">Detalle</td>
+                               
                             </tr>
                             
                         </tbody>
-                        <pagination-controls style="color: blue;" id="ending" (pageChange)="pE = $event"></pagination-controls>
+                        <pagination-controls id="ending" (pageChange)="pE = $event"></pagination-controls>
                     </table>
                 </div>
                 <a routerLink="/clients">Mostrar todos</a>
