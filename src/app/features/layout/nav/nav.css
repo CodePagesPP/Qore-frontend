@@ -237,12 +237,13 @@ main {
 @media (max-width: 768px) {
   .container {
     grid-template-columns: 1fr; /* todo en una columna en celular */
+    margin: auto;
   }
 
   aside {
     position: fixed;
     left: -100%;
-    background: white;
+    background: var(--color-stone);
     width: 18rem;
     z-index: 3;
     height: 100vh;
@@ -251,6 +252,7 @@ main {
 
   aside.active {
     left: 0; /* cuando abras el menú */
+    z-index: 100;
   }
 
   main {
@@ -272,4 +274,78 @@ main {
     justify-content: space-between;
     gap: 10px;
     align-items: center;
+}
+
+
+@media (max-width: 768px) {
+  .right .top button {
+    display: block; /* ahora sí aparece el botón del menú */
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: black;
+    font-size: 2rem;
+  }
+
+  .right {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10;
+  }
+
+  aside .close {
+    display: block;
+    cursor: pointer;
+    color: black;
+    padding: 1rem;
+  }
+
+  
+}
+
+
+
+/* ---- MODO RESPONSIVE ---- */
+@media (max-width: 768px) {
+    .right .top{
+        position: fixed;
+        top: 0;
+        left: 0;
+        align-items: center;
+        padding: 0 0.8rem;
+        height: 4.6rem;
+        background: white;
+        justify-content: space-between;
+        width: 100%;
+        margin: 0;
+        z-index: 2;
+        box-shadow: 0 1rem 1rem rgba(5,5,5,0.719);
+    }
+
+  .right .top button {
+    display: block;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: black;
+    font-size: 2rem;
+    z-index: 110;
+  }
+
+  aside {
+    width: 230px;
+  }
+
+  /* overlay semitransparente cuando el menú está activo */
+  aside.active::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 230px;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.3);
+    z-index: 99;
+  }
 }

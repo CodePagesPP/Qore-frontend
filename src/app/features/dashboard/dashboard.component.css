@@ -508,7 +508,7 @@ main .recent-orders a {
   .container{
     grid-template-columns: 1fr; /* dashboard a una columna y aside chiquito */
     max-width: 450px;
-    display: flex;
+    display: grid;
     margin: 0 0 ;
   }
 

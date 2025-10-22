@@ -234,6 +234,7 @@ main {
     .container {
         width: 100%;
         grid-template-columns: 1fr;
+        margin: auto;
     }   
 
     aside .sidebar span {
@@ -245,24 +246,33 @@ main {
         margin-top: .9rem;
     }
 
-    aside {
-        position: fixed;
-        left: -100%;
-        background: white;
-        width: 18rem;
-        z-index: 3;
-        box-shadow: 1rem 3rem 4rem rgba(245, 245, 245, 0.267);
-        height: 100vh;
-        padding-right: var(--card-pading);
-        display: none;
-        animation: showMenu 400ms ease forwards;
-    }
+   aside {
+    position: fixed;
+    left: -100%;
+    background: var(--color-stone);
+    width: 18rem;
+    z-index: 3;
+    box-shadow: 1rem 3rem 4rem rgba(245, 245, 245, 0.267);
+    height: 100vh;
+    padding-right: var(--card-pading);
+    transition: left 0.4s ease;
+}
 
-    @keyframes showMenu {
-        to{
-            left: 0;
-        }
-    }
+
+aside.active {
+    left: 0;
+}
+aside.active::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 18rem;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.3);
+  z-index: 2;
+}
+
 
     aside .logo h1{
         display: inline;
@@ -299,7 +309,7 @@ main {
     }
 
     main{
-        margin-top: 8rem;
+        margin-top: 6rem;
         padding: 0 1rem;
     }
 
@@ -361,4 +371,47 @@ main {
     justify-content: space-between;
     gap: 10px;
     align-items: center;
+}
+
+/* ---- MODO RESPONSIVE ---- */
+@media (max-width: 768px) {
+    .right .top{
+        position: fixed;
+        top: 0;
+        left: 0;
+        align-items: center;
+        padding: 0 0.8rem;
+        height: 4.6rem;
+        background: white;
+        width: 100%;
+        margin: 0;
+        z-index: 2;
+        box-shadow: 0 1rem 1rem rgba(5,5,5,0.719);
+    }
+
+  .right .top button {
+    display: block;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: black;
+    font-size: 2rem;
+    z-index: 110;
+  }
+
+  aside {
+    width: 230px;
+  }
+
+  /* overlay semitransparente cuando el menú está activo */
+  aside.active::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 230px;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.3);
+    z-index: 99;
+  }
 }

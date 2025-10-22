@@ -12,13 +12,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   styleUrl: './nav.css'
 })
 export class Nav {
-   @ViewChild('sideMenu', { static: false }) sideMenu!: ElementRef;
-  @ViewChild('menuBtn', { static: false }) menuBtn!: ElementRef;
-  @ViewChild('closeBtn', { static: false }) closeBtn!: ElementRef;
   user: User | null = null;
   showTestWarning: boolean = false; 
   authorities: string[] = [];
   showConfig = false;
+  menuOpen = false;
 
   toggleConfig() {
     this.showConfig = !this.showConfig;
@@ -34,6 +32,12 @@ export class Nav {
     this.getUserInfo();
     this.authorities = this.authService.getAuthorities();
   }
+
+
+
+  toggleMenu() {
+  this.menuOpen = !this.menuOpen;
+}
 
   hasRole(role: string): boolean {
     return this.authorities.includes(role);
@@ -58,23 +62,7 @@ export class Nav {
     
   }
 
-  private menuClickHandler = () => {
-    this.sideMenu.nativeElement.style.display = 'block';
-  };
 
-  private closeClickHandler = () => {
-    this.sideMenu.nativeElement.style.display = 'none';
-  };
-
-  ngAfterViewInit() {
-    this.menuBtn?.nativeElement.addEventListener('click', this.menuClickHandler);
-    this.closeBtn?.nativeElement.addEventListener('click', this.closeClickHandler);
-  }
-
-  ngOnDestroy() {
-    this.menuBtn?.nativeElement.removeEventListener('click', this.menuClickHandler);
-    this.closeBtn?.nativeElement.removeEventListener('click', this.closeClickHandler);
-  }
 
   activeOption: string = '';
   setActive(option: string) {

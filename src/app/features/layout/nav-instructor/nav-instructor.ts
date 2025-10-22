@@ -11,13 +11,12 @@ import { CommonModule } from '@angular/common';
   styleUrl: './nav-instructor.css'
 })
 export class NavInstructor {
-  @ViewChild('sideMenu', { static: false }) sideMenu!: ElementRef;
-  @ViewChild('menuBtn', { static: false }) menuBtn!: ElementRef;
-  @ViewChild('closeBtn', { static: false }) closeBtn!: ElementRef;
+
   user: User | null = null;
   showTestWarning: boolean = false; 
   authorities: string[] = [];
   showConfig = false;
+   menuOpen = false;
 
   toggleConfig() {
     this.showConfig = !this.showConfig;
@@ -38,6 +37,10 @@ export class NavInstructor {
     return this.authorities.includes(role);
   }
 
+   toggleMenu() {
+  this.menuOpen = !this.menuOpen;
+}
+
   getUserInfo(): void {
 
     this.authService.getUserInfo().subscribe({
@@ -57,23 +60,7 @@ export class NavInstructor {
     
   }
 
-  private menuClickHandler = () => {
-    this.sideMenu.nativeElement.style.display = 'block';
-  };
 
-  private closeClickHandler = () => {
-    this.sideMenu.nativeElement.style.display = 'none';
-  };
-
-  ngAfterViewInit() {
-    this.menuBtn?.nativeElement.addEventListener('click', this.menuClickHandler);
-    this.closeBtn?.nativeElement.addEventListener('click', this.closeClickHandler);
-  }
-
-  ngOnDestroy() {
-    this.menuBtn?.nativeElement.removeEventListener('click', this.menuClickHandler);
-    this.closeBtn?.nativeElement.removeEventListener('click', this.closeClickHandler);
-  }
 
   activeOption: string = '';
   setActive(option: string) {
