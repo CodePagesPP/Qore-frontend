@@ -32,7 +32,7 @@ export class DashboardClient implements  OnInit{
         this.currentClientId = profile.id;
         this.clientService.getClientPlanInfo(profile.id).subscribe(planInfo => {
         this.clientPlanInfo = planInfo;
-        console.log(this.clientPlanInfo)
+     
       });
       },
       error: (err) => console.error('Error al obtener perfil', err),

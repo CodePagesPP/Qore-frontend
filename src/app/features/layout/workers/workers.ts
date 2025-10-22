@@ -119,13 +119,13 @@ export class Workers implements OnInit {
 
   request$.subscribe({
     next: (res) => {
-      console.log('Trabajador registrado con éxito:', res);
+      
       this.error = null;
       this.closeModal();
       this.loadPersonal();
     },
     error: (err) => {
-      console.log('Error recibido:', err.error.message);
+      
       let errorMessage = err.error.message;
 
       // "Traducimos" el error de la base de datos
@@ -158,7 +158,7 @@ export class Workers implements OnInit {
         : [],
   } as workerUpdateRequest;
 
-  console.log('Payload para actualizar:', payload);
+  
 
   let request$: Observable<any>;
 
@@ -179,7 +179,7 @@ export class Workers implements OnInit {
 
   request$.subscribe({
     next: (res) => {
-      console.log('Trabajador actualizado con éxito:', res);
+      
       this.error = null;
       this.closeModal();
       this.loadPersonal();

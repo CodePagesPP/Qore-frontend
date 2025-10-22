@@ -37,11 +37,11 @@ export class RegisterComponent {
   onSubmit(): void {
     this.authService.register(this.credentials).subscribe({
       next: (res) => {
-        alert('cliente registrado');
+        
         this.router.navigate(['/login']); 
       },
       error: (err) => {
-        console.log('Error recibido:', err.error.message);
+        
         this.error = err.error.message;
         this.cdRef.detectChanges();
       }

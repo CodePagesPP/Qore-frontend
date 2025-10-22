@@ -424,7 +424,7 @@ saveClients() {
       if (done === ops.length) this.finishClients(); 
     },
     error: (err) => {
-      console.error('Error al actualizar clientes:', err);
+      
 
       this.messageTitle = "Error al actualizar clase";
       this.messageText = err.error || "Ocurrió un error al intentar actualizar los clientes de la clase.";

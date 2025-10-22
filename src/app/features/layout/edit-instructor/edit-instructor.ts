@@ -39,7 +39,7 @@ formData: Partial<Instructor> = {};
   }
 
   onSubmit(): void {
-    console.log('DNI:', this.formData.dni, 'formData:', this.formData);
+  
   if (!this.formData.dni) {
     alert('No se pudo obtener el DNI del usuario');
     return;

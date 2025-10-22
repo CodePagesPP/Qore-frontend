@@ -177,7 +177,7 @@ saveComentario() {
         this.showSuccessModal = true;
       },
       error: (err) => {
-        console.error('Error guardando comentario', err);
+       
 
         this.isLoading = false;
         this.showModal = false;
@@ -248,7 +248,7 @@ openClientsModal(clase: ClassSession) {
       this.showClientsModal = true;
     },
     error: (err) => {
-      console.error('Error al cargar clientes', err);
+      
       this.clients = [];
       this.showClientsModal = true; // igual abrimos el modal vacío
     }
