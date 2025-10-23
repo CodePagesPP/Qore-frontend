@@ -256,7 +256,7 @@
 .about-text h5 {
   color: var(--color-gold);
   font-family: 'MontBold';
-  text-align: center;
+  text-align: left;
   font-size: 40px;
   margin-bottom: 10px;
 }
@@ -274,6 +274,7 @@
   line-height: 1.7;
   font-size: 17px;
   margin-bottom: 30px;
+  text-align: justify;
 }
 
 .about-buttons {
@@ -366,7 +367,7 @@
   font-family: 'MontBold';
   font-size: 40px;
   margin-bottom: 10px;
-  text-align: center;
+  text-align: left;
 }
 
 .mission-text h2 {
@@ -382,6 +383,7 @@
   line-height: 1.7;
   font-size: 17px;
   margin-bottom: 30px;
+  text-align: justify;
 }
 
 .mission-buttons {

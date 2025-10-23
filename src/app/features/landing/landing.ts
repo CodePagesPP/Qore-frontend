@@ -43,19 +43,39 @@ export class Landing {
   plans: PlanResponse[] = [];
   testimonials = [
     {
-      text: "Both the coordinators and the aids are professional and caring. They help me navigate my daily needs and give me what I need to live my life to the fullest.",
-      name: "Chris Hemsworth",
-      role: "Cliente | 1 año practicando pilates"
+      text: "Me siento feliz en las clases, súper personalizada y sobretodo la instructora cuenta con el conocimiento de cada movimiento en el cuerpo de cada persona.",
+      name: "Cliente",
+      role: ""
     },
     {
-      text: "This program changed my life! The trainers and resources gave me confidence and motivation to keep improving every day.",
-      name: "Emily Johnson",
-      role: "Manager | Health Co."
+      text: "Mi experiencia con pilates ha sido muy positiva. Me ha ayudado a conocer mejor mi cuerpo, mejorar mi postura y reducir el estrés. Es un momento que dedico solo para mí, donde conecto mente y cuerpo.",
+      name: "Cliente",
+      role: ""
     },
     {
-      text: "Amazing support and excellent guidance! I feel more productive, healthier, and happier since I joined their programs.",
-      name: "Robert Smith",
-      role: "CEO | FitLife Inc."
+      text: "Nati es una instructora muy atenta, nos mantiene motivada y siempre realiza ejercicios muy variados. Tiene mucha paciencia y ha sabido adaptar los ejercicios a mi lesión de muñeca. Muy feliz con las clases.",
+      name: "Cliente",
+      role: ""
+    },
+    {
+      text: "Las clases de pilates me encantan. Me siento más fuerte, relajada y motivada después de cada sesión. El ambiente es muy acogedor, Nati y Mara son muy profesionales y amables.",
+      name: "Cliente",
+      role: ""
+    },
+    {
+      text: "Amo el ambiente relajado y sereno. La atención de Nati, súper amable y personalizada. Siempre salgo sintiéndome con energía y en calma.",
+      name: "Cliente",
+      role: ""
+    },
+    {
+      text: "El mejor studio boutique de pilates en Trujillo.",
+      name: "Cliente",
+      role: ""
+    },
+    {
+      text: "Es totalmente reconfortante, física y emocionalmente.",
+      name: "Cliente",
+      role: ""
     }
   ];
 
