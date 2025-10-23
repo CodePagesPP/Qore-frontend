@@ -799,3 +799,51 @@ smart-radio-button {
   from { opacity: 0; transform: scale(0.95); }
   to { opacity: 1; transform: scale(1); }
 }
+
+.week-navigation {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.calendar-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #333;
+  transition: color 0.2s;
+}
+
+.calendar-btn:hover {
+  color: var(--color-gold);
+}
+
+.calendar-popup {
+  position: absolute;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.calendar-popup input[type="date"] {
+  font-size: 14px;
+  padding: 5px;
+}
+
+.close-calendar {
+  align-self: flex-end;
+  font-size: 12px;
+  color: #555;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}

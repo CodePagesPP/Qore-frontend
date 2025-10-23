@@ -38,7 +38,8 @@ errorMessage: string = '';
 showErrorModal: boolean = false;
 isLoading: boolean = false;
 showSuccessModal: boolean = false;
-
+showCalendar = false;
+selectedDate: string = '';
 
 
   constructor(
@@ -60,6 +61,21 @@ showSuccessModal: boolean = false;
     this.loadCatalogs();
     this.generateWeek();
   }
+
+    toggleCalendar() {
+  this.showCalendar = !this.showCalendar;
+}
+
+
+goToSelectedDate() {
+  if (!this.selectedDate) return;
+
+  // Convertimos el string "YYYY-MM-DD" a Date
+  this.currentDate = new Date(this.selectedDate + 'T00:00:00');
+
+  this.generateWeek();
+  this.showCalendar = false;
+}
 
   openModal(classSession: ClassSession) {
   this.selectedClass = classSession;

@@ -12,6 +12,15 @@
         <button class="nav-arrow" (click)="previousWeek()">&lt;</button>
         <h4>{{ getWeekTitle() }}</h4>
         <button class="nav-arrow" (click)="nextWeek()">&gt;</button>
+
+        <button class="calendar-btn" (click)="toggleCalendar()">
+          <i class="fa-solid fa-calendar-days"></i>
+        </button>
+
+        <div class="calendar-popup" *ngIf="showCalendar">
+          <input type="date" [(ngModel)]="selectedDate" (change)="goToSelectedDate()" />
+          <button class="close-calendar" (click)="toggleCalendar()">Cerrar</button>
+        </div>
       </div>
       <div class="filters">
         <input 

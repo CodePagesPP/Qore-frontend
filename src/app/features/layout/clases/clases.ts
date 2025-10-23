@@ -63,7 +63,8 @@ messageType: string = '';
 showComentarioModal: boolean = false;
 selectedClass: ClassSession | null = null;
 isLoading = false;
-
+showCalendar = false;
+selectedDate: string = '';
 
   constructor(
     private classService: ClassSessionService,
@@ -78,6 +79,20 @@ isLoading = false;
     this.generateWeek();
   }
 
+  toggleCalendar() {
+  this.showCalendar = !this.showCalendar;
+}
+
+
+goToSelectedDate() {
+  if (!this.selectedDate) return;
+
+  // Convertimos el string "YYYY-MM-DD" a Date
+  this.currentDate = new Date(this.selectedDate + 'T00:00:00');
+
+  this.generateWeek();
+  this.showCalendar = false;
+}
 
   openComentario(clase: ClassSession) {
   this.selectedClass = clase;
