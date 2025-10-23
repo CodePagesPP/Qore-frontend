@@ -220,10 +220,9 @@ main {
         display: none;
     }
 
-    aside .logo img{
-        height: 70px;
-        width: 70px;
-        margin-left: 1.5rem;
+aside .logo img{
+        width: 140px;
+        margin-top: .9rem;
     }
     
 

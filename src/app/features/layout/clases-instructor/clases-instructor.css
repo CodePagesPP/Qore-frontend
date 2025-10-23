@@ -698,3 +698,14 @@ textarea {
 .success-modal h3 {
   margin-bottom: 10px;
 }
+
+@media (max-width: 768px) {
+  .modal {
+    display: block;
+    justify-content: center;
+  }
+
+  .modal-content {
+    max-width: 400px;
+  }
+}
