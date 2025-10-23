@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "node dist/qore-frontend/server/server.mjs",
-    "build": "ng build --configuration production",
+    "build": "node set-env.js && ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:qore-frontend": "node dist/qore-frontend/server/server.mjs"
