@@ -174,3 +174,10 @@ button {
   flex-direction: row;
   max-width: 20%;
 }
+
+@media (max-width: 768px) {
+  .roles-container {
+    max-width: 400px;
+    overflow-x: auto;
+  }
+}

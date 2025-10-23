@@ -389,10 +389,17 @@ input:checked + .slider:before {
   margin-bottom: 1.2rem;
 }
 
-
-
-
 .modal-action-confirm .btn-primary{
   background-color: var(--color-gold);
   align-items: center;
+}
+
+@media (max-width: 768px) {
+  .clients-table-container {
+    max-width: 380px;
+  }
+
+  .search-container input {
+    width: 80%;
+  }
 }

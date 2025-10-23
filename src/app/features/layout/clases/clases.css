@@ -576,6 +576,11 @@ smart-radio-button {
   .week-grid {
     grid-template-columns: 1fr; /* Una sola columna, un día debajo de otro */
   }
+
+  .modal {
+    width: 300px;
+    margin-top: 30px;
+  }
 }
 
 /* Tabla de asistencia */

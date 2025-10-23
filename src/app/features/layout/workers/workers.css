@@ -379,3 +379,26 @@ select {
   display: flex;
   justify-content: space-between;
 }
+
+@media (max-width: 768px) {
+  .cards-container {
+    max-width: 400px;
+  }
+
+  .role-card {
+    max-width: 400px;
+    overflow-x: auto;
+  }
+
+  .clients-table {
+    max-width: 400px;
+  }
+
+  .modal {
+    width: 400px;
+  }
+
+  .modal-backdrop {
+    align-items: flex-start;
+  }
+}
