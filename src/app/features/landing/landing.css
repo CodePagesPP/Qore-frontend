@@ -145,6 +145,7 @@
     flex-direction: column;
     text-align: center;
     justify-self: center;
+    margin-top: 15%;
   }
 
   .text-content {
@@ -312,6 +313,14 @@
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto auto;
   }
+
+  .about-text h5 {
+  color: var(--color-gold);
+  font-family: 'MontBold';
+  text-align: center;
+  font-size: 40px;
+  margin-bottom: 10px;
+}
 }
 
 
@@ -454,6 +463,14 @@
     width: 100%;
     text-align: center;
   }
+
+  .mission-text h5 {
+  color: var(--color-gold);
+  font-family: 'MontBold';
+  font-size: 40px;
+  margin-bottom: 10px;
+  text-align: center;
+}
 }
 
 .text-valores {
@@ -1338,6 +1355,10 @@
 
   .hero-content h1 {
     margin-top: 0;
+  }
+
+  .faq-item {
+    max-width: 330px;
   }
 }
 
