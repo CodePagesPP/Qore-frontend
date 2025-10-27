@@ -6,10 +6,11 @@ import { ClientService } from '../../../core/services/client.service';
 import { FormsModule } from '@angular/forms';
 import { ExcelService } from '../../../core/services/excel.service';
 import { DisciplineService } from '../../../core/services/discipline.service';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-crud-clients',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NgxPaginationModule],
   templateUrl: './crud-clients.html',
   styleUrl: './crud-clients.css'
 })
@@ -37,6 +38,7 @@ export class CrudClients implements OnInit{
 isConfirmationOpen: boolean = false;
 confirmationMessage: string = '';
 confirmationType: 'success' | 'error' = 'success';
+pE: number = 1; 
 
 
 

@@ -23,7 +23,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let client of paginatedClients">
+      <tr *ngFor="let client of paginatedClients | paginate: {id: 'ending', itemsPerPage: 5, currentPage: pE }">
         <td>{{ client.name }} {{ client.lastName }}</td>
         <td>{{ client.dni }}</td>
         <td>{{ client.email }}</td>
@@ -45,6 +45,7 @@
         </td>
       </tr>
     </tbody>
+    <pagination-controls id="ending" (pageChange)="pE = $event"></pagination-controls>
   </table>
   <div class="pagination" *ngIf="totalPages > 1">
     <button 
