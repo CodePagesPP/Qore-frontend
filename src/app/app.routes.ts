@@ -105,7 +105,10 @@ export const routes: Routes = [
         canActivate: [roleGuard],
         data: { roles: ['CLIENT_ACCESS']}
       },
-      {
+      
+    ]
+  },
+  {
         path: 'payment-success',
         loadComponent: () => import('./features/payments/payment-success/payment-success').then(m => m.PaymentSuccess),
         canActivate: [roleGuard],
@@ -122,9 +125,7 @@ export const routes: Routes = [
         loadComponent: () => import('./features/payments/payment-failure/payment-failure').then(m => m.PaymentFailure),
         canActivate: [roleGuard],
         data: { roles: ['CLIENT_ACCESS']}
-      }
-    ]
-  },
+      },
 //RUTAS INSTRUCTOR
   {
     path: 'i',
