@@ -246,16 +246,19 @@ searchTerm: string = '';
 
 filteredClients() {
   if (!this.searchTerm || this.searchTerm.trim() === '') {
-    return this.clients;
+    return this.clients; 
   }
 
   const term = this.searchTerm.toLowerCase().trim();
 
   return this.clients.filter(c =>
-    c.name.toLowerCase().includes(term) ||
-    c.lastName.toLowerCase().includes(term) || // <-- Agregado
-    (c.name + ' ' + c.lastName).toLowerCase().includes(term) || // <-- Busca por nombre completo
-    c.dni.includes(term) // El DNI no necesita toLowerCase si son solo números
+    
+    (c.name && c.name.toLowerCase().includes(term)) ||
+    
+   
+    (c.lastName && c.lastName.toLowerCase().includes(term)) ||
+    
+    (c.dni && c.dni.includes(term))
   );
 }
 
