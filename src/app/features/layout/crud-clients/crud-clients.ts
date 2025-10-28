@@ -67,6 +67,7 @@ pE: number = 1;
 
 downloadClientsExcel() {
   this.excelService.downloadClientsExcel().subscribe((blob: Blob) => {
+    console.log(blob)
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
