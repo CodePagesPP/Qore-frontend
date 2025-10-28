@@ -104,6 +104,24 @@ export const routes: Routes = [
         loadComponent: () => import('./features/layout/clases-client/clases-client').then(m => m.ClasesClient),
         canActivate: [roleGuard],
         data: { roles: ['CLIENT_ACCESS']}
+      },
+      {
+        path: 'payment-success',
+        loadComponent: () => import('./features/payments/payment-success/payment-success').then(m => m.PaymentSuccess),
+        canActivate: [roleGuard],
+        data: { roles: ['CLIENT_ACCESS']}
+      },
+      {
+        path: 'payment-pending',
+        loadComponent: () => import('./features/payments/payment-pending/payment-pending').then(m => m.PaymentPending),
+        canActivate: [roleGuard],
+        data: { roles: ['CLIENT_ACCESS']}
+      },
+      {
+        path: 'payment-failure',
+        loadComponent: () => import('./features/payments/payment-failure/payment-failure').then(m => m.PaymentFailure),
+        canActivate: [roleGuard],
+        data: { roles: ['CLIENT_ACCESS']}
       }
     ]
   },
@@ -153,21 +171,7 @@ export const routes: Routes = [
     loadComponent: () => import('./features/auth/reset-password/reset-password').then(m => m.ResetPassword),
     canActivate: [authenticatedGuard]
   },
-  {
-    path: 'payment-success',
-    loadComponent: () => import('./features/payments/payment-success/payment-success').then(m => m.PaymentSuccess),
-    canActivate: [authenticatedGuard]
-  },
-  {
-    path: 'payment-pending',
-    loadComponent: () => import('./features/payments/payment-pending/payment-pending').then(m => m.PaymentPending),
-    canActivate: [authenticatedGuard]
-  },
-  {
-    path: 'payment-failure',
-    loadComponent: () => import('./features/payments/payment-failure/payment-failure').then(m => m.PaymentFailure),
-    canActivate: [authenticatedGuard]
-  },
+ 
   {
     path: 'register',
     loadComponent: () => import('./features/auth/register/register.component').then(m => m.RegisterComponent),
