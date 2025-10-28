@@ -244,34 +244,23 @@ closeConfirmation(): void {
 
 searchTerm: string = '';
 
-  filteredClients() {
+filteredClients() {
   if (!this.searchTerm || this.searchTerm.trim() === '') {
     return this.clients;
   }
 
+  const term = this.searchTerm.toLowerCase().trim();
+
   return this.clients.filter(c =>
-    c.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-    c.dni.includes(this.searchTerm)
+    c.name.toLowerCase().includes(term) ||
+    c.lastName.toLowerCase().includes(term) || // <-- Agregado
+    (c.name + ' ' + c.lastName).toLowerCase().includes(term) || // <-- Busca por nombre completo
+    c.dni.includes(term) // El DNI no necesita toLowerCase si son solo números
   );
 }
 
 onSearchChange() {
-  this.currentPage = 1; // reinicia siempre a la primera página
+  this.pE = 1; // reinicia siempre a la primera página
 }
 
-  // Parámetros de paginación
-  currentPage: number = 1;
-  itemsPerPage: number = 10; // clientes por página
-
-  get paginatedClients() {
-  const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-  const endIndex = startIndex + this.itemsPerPage;
-
-  return this.filteredClients().slice(startIndex, endIndex);
-}
-
-
-  get totalPages() {
-    return Math.ceil(this.filteredClients().length / this.itemsPerPage);
-  }
 }
