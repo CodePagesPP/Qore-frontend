@@ -403,3 +403,13 @@ input:checked + .slider:before {
     width: 80%;
   }
 }
+
+::ng-deep pagination-controls .ngx-pagination li a {
+  color: var(--color-gold) !important;
+}
+
+::ng-deep pagination-controls .ngx-pagination li.current {
+  background-color: var(--color-ivory) !important;
+  color: white !important;
+  border-radius: 4px;
+}

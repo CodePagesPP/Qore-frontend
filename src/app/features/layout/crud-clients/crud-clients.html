@@ -23,7 +23,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let client of paginatedClients | paginate: {id: 'ending', itemsPerPage: 5, currentPage: pE }">
+      <tr *ngFor="let client of paginatedClients | paginate: {id: 'ending', itemsPerPage: 10, currentPage: pE }">
         <td>{{ client.name }} {{ client.lastName }}</td>
         <td>{{ client.dni }}</td>
         <td>{{ client.email }}</td>
