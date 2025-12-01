@@ -1,11 +1,11 @@
 @font-face {
     font-family: 'Mont';
-    src: url(/font/Mont-Regular.ttf);
+    src: url(/font/Montserrat-Regular.ttf);
 }
 
 @font-face {
     font-family: 'MontBold';
-    src: url(/font/Mont-Bold.ttf);
+    src: url(/font/Montserrat-Bold.ttf);
 }
 
 :root {
