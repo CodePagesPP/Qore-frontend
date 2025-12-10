@@ -177,12 +177,15 @@ saveAttendance() {
   
     // Coloca esta función dentro de la clase ClasesClient
   getClassesForDay(day: Date): ClassSession[] {
-    return this.filteredClases.filter(clase => {
-      // Si startDate es un string "YYYY-MM-DD", le añadimos T00:00:00
-      // para que se interprete en la zona horaria del navegador (local).
+    const dayClasses = this.filteredClases.filter(clase => {
+    
       const claseDate = new Date(clase.startDate + 'T00:00:00'); 
-      
       return claseDate.toDateString() === day.toDateString();
+    });
+
+    
+    return dayClasses.sort((a, b) => {
+      return a.startTime.localeCompare(b.startTime);
     });
   }
 
