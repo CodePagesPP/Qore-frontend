@@ -11,6 +11,7 @@ import { Client, Discipline, Instructor } from '../../../core/models/auth.model'
 import { InstructorService } from '../../../core/services/instructor.service';
 import { addDays, format, startOfWeek, subDays } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { forkJoin } from 'rxjs';
 @Component({
   selector: 'app-clases-instructor',
   imports: [CommonModule, FormsModule, CalendarModule, RadioButtonModule],
@@ -144,16 +145,19 @@ goToSelectedDate() {
     }
 
     generateWeek() {
-        // Obtenemos el Lunes de la semana de 'currentDate'
-        // { weekStartsOn: 1 } le dice que la semana empieza el Lunes
-        const monday = startOfWeek(this.currentDate, { weekStartsOn: 1 });
+    const monday = startOfWeek(this.currentDate, { weekStartsOn: 1 });
+    this.weekDays = [];
+    for (let i = 0; i < 7; i++) {
+      this.weekDays.push(addDays(monday, i));
+    }
     
-        this.weekDays = [];
-        for (let i = 0; i < 7; i++) {
-          // Añadimos cada día de la semana a partir del Lunes
-          this.weekDays.push(addDays(monday, i));
-        }
-      }
+    // Cada vez que cambiamos de semana, recargamos los datos
+    this.loadClases();
+  }
+
+  trackByFn(index: number, item: ClassSession): number {
+    return item.id!;
+  }
 
 
         getWeekTitle(): string {
@@ -210,34 +214,46 @@ saveComentario() {
 }
 
 
-
-
-
-
   loadClases() {
-  this.classService.getByInstructor(this.currentInstructorId)
-    .subscribe({
-      next: (data) => {
-        // Transformar las horas al formato HH:mm
-        this.clases = data.map(c => ({
-          ...c,
-          startTime: c.startTime ? c.startTime.substring(0, 5) : '',
-          endTime: c.endTime ? c.endTime.substring(0, 5) : ''
-        }));
-      },
-      error: (err) => console.error('Error al cargar clases', err)
-    });
-}
+    if (!this.currentInstructorId) return;
 
+    
+    const start = startOfWeek(this.currentDate, { weekStartsOn: 1 });
+    const end = addDays(start, 6);
+    
+    
+    const startStr = format(start, 'yyyy-MM-dd');
+    const endStr = format(end, 'yyyy-MM-dd');
 
-
+    this.classService.getByInstructor(this.currentInstructorId, startStr, endStr)
+      .subscribe({
+        next: (data) => {
+          this.clases = data.map(c => ({
+            ...c,
+            
+            startTime: c.startTime ? c.startTime.substring(0, 5) : '',
+            endTime: c.endTime ? c.endTime.substring(0, 5) : ''
+          }));
+          this.applyFilters(); 
+        },
+        error: (err) => console.error('Error al cargar clases', err)
+      });
+  }
 
 
   loadCatalogs() {
-    
-    this.classService.getRooms().subscribe(rs => this.rooms = rs);
-    this.workerService.getDisciplines().subscribe(ds => this.disciplines = ds);
-    this.workerService.getInstructors().subscribe(is => this.instructors = is);
+    forkJoin({
+      rooms: this.classService.getRooms(),
+      disciplines: this.workerService.getDisciplines(),
+      instructors: this.workerService.getInstructors()
+    }).subscribe({
+      next: (res) => {
+        this.rooms = res.rooms;
+        this.disciplines = res.disciplines;
+        this.instructors = res.instructors;
+      },
+      error: (err) => console.error('Error cargando catálogos', err)
+    });
   }
 
   getDisciplineName(id: number): string {

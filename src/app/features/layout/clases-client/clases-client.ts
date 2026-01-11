@@ -4,11 +4,11 @@ import { Discipline, Instructor } from '../../../core/models/auth.model';
 import { ClassSessionService } from '../../../core/services/class-session.service';
 import { WorkersService } from '../../../core/services/workers.service';
 import { AuthService } from '../../../core/services/auth.service';
-import {CalendarModule } from 'smart-webcomponents-angular/calendar';
+import { CalendarModule } from 'smart-webcomponents-angular/calendar';
 import { RadioButtonModule } from 'smart-webcomponents-angular/radiobutton';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { addDays, format, startOfWeek, subDays } from 'date-fns';
+import { addDays, endOfWeek, format, startOfWeek, subDays } from 'date-fns';
 import { es } from 'date-fns/locale';
 
 @Component({
@@ -37,18 +37,18 @@ export class ClasesClient {
   confirmJoinModal = false;
   successModal = false;
   messageModal = false;
-messageTitle = '';
-messageText = '';
-messageType: 'success' | 'error' = 'success';
-loading: boolean = false;
-showCalendar = false;
-selectedDate: string = '';
+  messageTitle = '';
+  messageText = '';
+  messageType: 'success' | 'error' = 'success';
+  loading: boolean = false;
+  showCalendar = false;
+  selectedDate: string = '';
 
   constructor(
     private classService: ClassSessionService,
     private workerService: WorkersService,
     private authService: AuthService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.authService.getUserInfo().subscribe({
@@ -63,42 +63,43 @@ selectedDate: string = '';
     this.generateWeek();
   }
 
-    toggleCalendar() {
-  this.showCalendar = !this.showCalendar;
-}
+  toggleCalendar() {
+    this.showCalendar = !this.showCalendar;
+  }
 
 
-goToSelectedDate() {
-  if (!this.selectedDate) return;
+  goToSelectedDate() {
+    if (!this.selectedDate) return;
 
-  // Convertimos el string "YYYY-MM-DD" a Date
-  this.currentDate = new Date(this.selectedDate + 'T00:00:00');
+    // Convertimos el string "YYYY-MM-DD" a Date
+    this.currentDate = new Date(this.selectedDate + 'T00:00:00');
 
-  this.generateWeek();
-  this.showCalendar = false;
-}
+    this.generateWeek();
+    this.showCalendar = false;
+  }
 
   openMessageModal(title: string, text: string, type: 'success' | 'error' = 'success') {
-  this.messageTitle = title;
-  this.messageText = text;
-  this.messageType = type;
-  this.messageModal = true;
-}
+    this.messageTitle = title;
+    this.messageText = text;
+    this.messageType = type;
+    this.messageModal = true;
+  }
 
-closeMessageModal() {
-  this.messageModal = false;
-}
+  closeMessageModal() {
+    this.messageModal = false;
+  }
 
 
   generateWeek() {
-    // Obtenemos el Lunes de la semana de 'currentDate'
-    // { weekStartsOn: 1 } le dice que la semana empieza el Lunes
     const monday = startOfWeek(this.currentDate, { weekStartsOn: 1 });
-
     this.weekDays = [];
     for (let i = 0; i < 7; i++) {
-      // Añadimos cada día de la semana a partir del Lunes
       this.weekDays.push(addDays(monday, i));
+    }
+
+
+    if (this.currentClientId) {
+      this.loadClases();
     }
   }
 
@@ -127,16 +128,21 @@ closeMessageModal() {
     )}`;
   }
 
-  // Coloca esta función dentro de la clase ClasesClient
+
   getClassesForDay(day: Date): ClassSession[] {
-    // Filtra el array principal de clases
-    return this.clases.filter((clase) => {
-      // Compara si la fecha de la clase (sin la hora) es igual a la del día que se está renderizando
-      const parts = clase.startDate.split('-');
-      const claseDate = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
-      return claseDate.toDateString() === day.toDateString();
-    });
-  }
+  
+  const dayClasses = this.filteredClases.filter((clase) => {
+    const parts = clase.startDate.split('-');
+    const claseDate = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+    
+    return claseDate.toDateString() === day.toDateString();
+  });
+
+  
+  return dayClasses.sort((a, b) => {
+    return a.startTime.localeCompare(b.startTime);
+  });
+}
 
   openModal(classSession: ClassSession) {
     this.selectedClass = classSession;
@@ -155,44 +161,44 @@ closeMessageModal() {
     this.selectedClass = undefined;
   }
 
-confirmJoin() {
-  if (!this.selectedClass || this.selectedClass.id === undefined) {
-    this.openMessageModal('Error', 'Clase inválida', 'error');
-    return;
-  }
+  confirmJoin() {
+    if (!this.selectedClass || this.selectedClass.id === undefined) {
+      this.openMessageModal('Error', 'Clase inválida', 'error');
+      return;
+    }
 
-  const clientId = this.currentClientId;
+    const clientId = this.currentClientId;
 
-  if (this.selectedClass.clientIds?.includes(clientId)) {
-    this.openMessageModal('Aviso', 'Ya estás inscrito en esta clase.', 'error');
+    if (this.selectedClass.clientIds?.includes(clientId)) {
+      this.openMessageModal('Aviso', 'Ya estás inscrito en esta clase.', 'error');
+      this.confirmJoinModal = false;
+      return;
+    }
+
+    if ((this.selectedClass.clientIds?.length || 0) >= this.selectedClass.capacity) {
+      this.openMessageModal('Error', 'La clase ya alcanzó su capacidad máxima', 'error');
+      this.confirmJoinModal = false;
+      return;
+    }
+
     this.confirmJoinModal = false;
-    return;
+    this.loading = true; // 🔹 mostrar modal de carga
+
+    this.classService.joinClass(this.selectedClass.id!, clientId).subscribe({
+      next: (res: any) => {
+        this.selectedClass!.joined = true;
+        this.selectedClass!.clientIds = [...(this.selectedClass!.clientIds || []), clientId];
+
+        this.loading = false; // 🔹 ocultar modal de carga
+        this.openMessageModal('Éxito', 'Te has inscrito correctamente en la clase.', 'success');
+      },
+      error: (err) => {
+        this.loading = false; // 🔹 ocultar modal de carga
+        const msg = err.error?.message || 'Error al unirse a la clase';
+        this.openMessageModal('Error', msg, 'error');
+      },
+    });
   }
-
-  if ((this.selectedClass.clientIds?.length || 0) >= this.selectedClass.capacity) {
-    this.openMessageModal('Error', 'La clase ya alcanzó su capacidad máxima', 'error');
-    this.confirmJoinModal = false;
-    return;
-  }
-
-  this.confirmJoinModal = false;
-  this.loading = true; // 🔹 mostrar modal de carga
-
-  this.classService.joinClass(this.selectedClass.id!, clientId).subscribe({
-    next: (res: any) => {
-      this.selectedClass!.joined = true;
-      this.selectedClass!.clientIds = [...(this.selectedClass!.clientIds || []), clientId];
-
-      this.loading = false; // 🔹 ocultar modal de carga
-      this.openMessageModal('Éxito', 'Te has inscrito correctamente en la clase.', 'success');
-    },
-    error: (err) => {
-      this.loading = false; // 🔹 ocultar modal de carga
-      const msg = err.error?.message || 'Error al unirse a la clase';
-      this.openMessageModal('Error', msg, 'error');
-    },
-  });
-}
 
 
 
@@ -200,20 +206,31 @@ confirmJoin() {
     this.successModal = false;
   }
 
-loadClases() {
-  this.classService.getClientByDiscipline(this.currentClientId).subscribe({
-    next: (data) => {
-      this.clases = data.map(clase => ({
-        ...clase,
-        joined: clase.clientIds?.includes(this.currentClientId),
-        startTime: clase.startTime ? clase.startTime.substring(0,5) : '',
-        endTime: clase.endTime ? clase.endTime.substring(0,5) : ''
-      }));
-      this.filteredClases = [...this.clases];
-    },
-    error: (err) => console.error('Error al cargar clases', err)
-  });
-}
+  loadClases() {
+
+    const start = startOfWeek(this.currentDate, { weekStartsOn: 1 });
+    const end = endOfWeek(this.currentDate, { weekStartsOn: 1 });
+
+    const startStr = format(start, 'yyyy-MM-dd');
+    const endStr = format(end, 'yyyy-MM-dd');
+
+    // 2. Llamamos al servicio con las fechas
+    this.classService.getClientByDiscipline(this.currentClientId, startStr, endStr).subscribe({
+      next: (data) => {
+        this.clases = data.map(clase => ({
+          ...clase,
+
+          joined: clase.clientIds?.includes(this.currentClientId),
+          startTime: clase.startTime ? clase.startTime.substring(0, 5) : '',
+          endTime: clase.endTime ? clase.endTime.substring(0, 5) : ''
+        }));
+
+
+        this.applyFilters();
+      },
+      error: (err) => console.error('Error al cargar clases', err)
+    });
+  }
 
 
   applyFilters() {
@@ -246,7 +263,7 @@ loadClases() {
     this.searchText = '';
     this.selectedDisciplineId = null;
     this.selectedInstructorId = null;
-    
+
     // Aplicamos los filtros para que se muestren todas las clases de nuevo
     this.applyFilters();
   }

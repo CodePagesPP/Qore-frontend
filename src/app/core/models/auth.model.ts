@@ -1,3 +1,5 @@
+import { PlanResponse } from "./plan.model";
+
 export interface AuthRequest {
   email: string;
   password: string;
@@ -128,6 +130,9 @@ export interface Client{
   createdAt: Date;
   updatedAt: Date;
   disciplines: Discipline[];
+  plan?: PlanResponse;         
+  subscriptionStart?: string;  
+  subscriptionEnd?: string;    
 }
 
 export interface Instructor{

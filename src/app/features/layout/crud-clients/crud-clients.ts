@@ -7,6 +7,8 @@ import { FormsModule } from '@angular/forms';
 import { ExcelService } from '../../../core/services/excel.service';
 import { DisciplineService } from '../../../core/services/discipline.service';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { PlanResponse } from '../../../core/models/plan.model';
+import { PlanService } from '../../../core/services/plan.service';
 
 @Component({
   selector: 'app-crud-clients',
@@ -39,19 +41,29 @@ isConfirmationOpen: boolean = false;
 confirmationMessage: string = '';
 confirmationType: 'success' | 'error' = 'success';
 pE: number = 1; 
+itemsPerPage: number = 10;
+  totalItems: number = 0;
 
-
+  activeTab: string = 'general';
+availablePlans: PlanResponse[] = [];
+clientHistory: any[] = [];
+selectedPlanId: number | null = null;
+paymentMethods: string[] = ['EFECTIVO', 'YAPE/PLIN', 'TARJETA', 'TRANSFERENCIA'];
+selectedPaymentMethod: string | null = null;
+searchTimeout: any;
 
   constructor(
    private adminService: AdminService,
    private clientService: ClientService,
    private excelService: ExcelService,
-   private disciplineService: DisciplineService
+   private disciplineService: DisciplineService,
+   private planService: PlanService
  ) {}
  
  ngOnInit() {
    this.loadClients();
    this.loadDisciplines();
+   this.planService.getAllPlans().subscribe(plans => this.availablePlans = plans);
  }
 
  toggleDiscipline(id: number, event: any): void {
@@ -88,21 +100,26 @@ loadDisciplines() {
  
  
   loadClients() {
-   this.adminService.getAllActiveClients().subscribe(
-     data => {
-       this.clients = data;
-       
-    
-       this.clients.forEach(client => {
-         if (client.id !== undefined) {
-         } else {
-           console.error('El ID del cliente es undefined:', client);
-         }
-       });
-     },
-     error => console.error(error)
-   );
- }
+  const pageForBackend = this.pE - 1;
+  
+  
+  this.adminService.getAllActiveClients(pageForBackend, this.itemsPerPage, this.searchTerm)
+    .subscribe({
+      next: (data: any) => {
+        this.clients = data.content;       
+        this.totalItems = data.totalElements; 
+      },
+      error: (err) => console.error(err)
+    });
+}
+
+
+  onPageChange(event: number) {
+    this.pE = event;
+    this.loadClients(); 
+  }
+
+  
 
  updateTrialStatus(client: any) {
   this.clientService.updateTrialStatus(client.id, client.trialCompleted).subscribe({
@@ -126,6 +143,48 @@ openEditModal(client: Client): void {
   this.editingClient = client;
   this.formData = { ...client, disciplinesIds: client.disciplines?.map(d => d.id) || [] };
   this.isModalOpen = true;
+  
+  
+  this.activeTab = 'general'; 
+  
+  
+  if (client.id) {
+     this.loadHistory(client.id);
+  }
+}
+
+loadHistory(clientId: number) {
+    this.clientService.getClientHistory(clientId).subscribe(data => this.clientHistory = data);
+}
+
+switchTab(tab: string) {
+    this.activeTab = tab;
+}
+
+
+assignPlan() {
+   
+    if (!this.selectedPlanId || !this.editingClient?.id || !this.selectedPaymentMethod) return;
+
+    if(confirm(`¿Asignar plan con pago vía ${this.selectedPaymentMethod}?`)) {
+        this.clientService.assignPlanToClient(
+            this.editingClient.id, 
+            this.selectedPlanId, 
+            this.selectedPaymentMethod 
+        ).subscribe({
+            next: () => {
+                alert('Plan asignado correctamente');
+                this.loadClients();
+                this.loadHistory(this.editingClient!.id!);
+                this.selectedPlanId = null;
+                this.selectedPaymentMethod = null; 
+            },
+            error: (err) => {
+                const msg = err.error?.message || 'Error al asignar el plan';
+                alert( msg);
+            }
+        });
+    }
 }
 
 
@@ -264,7 +323,16 @@ filteredClients() {
 }
 
 onSearchChange() {
-  this.pE = 1; // reinicia siempre a la primera página
+   
+    if (this.searchTimeout) {
+        clearTimeout(this.searchTimeout);
+    }
+
+    
+    this.searchTimeout = setTimeout(() => {
+        this.pE = 1; 
+        this.loadClients();
+    }, 500);
 }
 
 }

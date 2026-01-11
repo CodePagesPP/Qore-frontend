@@ -55,7 +55,7 @@
           {{ day | date:'E d/M' | uppercase }} 
         </div>
         <div class="classes-list">
-          <div *ngFor="let clase of getClassesForDay(day)" class="class-card">
+          <div *ngFor="let clase of classesByDay[getDateKey(day)]; trackBy: trackByClaseId" class="class-card">
             <div (click)="openEdit(clase)">
               <div class="header-class">
                 <div class="class-title">{{ clase.name }}</div>

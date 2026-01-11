@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { ClassSession, Room } from '../models/class.model';
 import { Observable } from 'rxjs';
 import { Client } from '../models/auth.model';
@@ -21,6 +21,15 @@ export class ClassSessionService {
 
   getAll(): Observable<ClassSession[]> {
     return this.http.get<ClassSession[]>(`${this.classApiUrl}/getAll`,{ headers: this.getAuthHeaders() });
+  }
+
+  getByDateRange(start: string, end: string): Observable<ClassSession[]> {
+    const params = new HttpParams()
+      .set('start', start)
+      .set('end', end);
+
+    
+    return this.http.get<ClassSession[]>(`${this.classApiUrl}/range`, { params, headers: this.getAuthHeaders() });
   }
 
   getRooms(): Observable<Room[]> {
@@ -58,13 +67,21 @@ export class ClassSessionService {
 }
 
 
-getByInstructor(instructorId: number): Observable<ClassSession[]> {
-    return this.http.get<ClassSession[]>(`${this.classApiUrl}/instructor/${instructorId}`, { headers: this.getAuthHeaders() });
+getByInstructor(instructorId: number, start: string, end: string): Observable<ClassSession[]> {
+  
+  return this.http.get<ClassSession[]>(
+    `${this.classApiUrl}/instructor/${instructorId}?start=${start}&end=${end}`, 
+    { headers: this.getAuthHeaders() }
+  );
 }
 
-getClientByDiscipline(ClientId: number): Observable<ClassSession[]> {
-    return this.http.get<ClassSession[]>(`${this.classApiUrl}/client/${ClientId}`, { headers: this.getAuthHeaders() });
-  }
+getClientByDiscipline(clientId: number, start: string, end: string): Observable<ClassSession[]> {
+    
+    return this.http.get<ClassSession[]>(
+        `${this.classApiUrl}/client/${clientId}?start=${start}&end=${end}`, 
+        { headers: this.getAuthHeaders() }
+    );
+}
 
   getPendingTodayInstructor(instructorId: number): Observable<ClassSession[]> {
   return this.http.get<ClassSession[]>(

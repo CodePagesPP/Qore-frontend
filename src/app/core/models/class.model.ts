@@ -18,6 +18,7 @@ export interface ClassSession {
   clientIds?: number[];
 
   joined?: boolean;
+  currentCount?: number;
 }
 export interface AttendanceDTO {
   clientId: number;

@@ -23,7 +23,12 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let client of filteredClients() | paginate: {id: 'ending', itemsPerPage: 10, currentPage: pE }">
+      <tr *ngFor="let client of clients | paginate: {
+      id: 'ending', 
+      itemsPerPage: itemsPerPage, 
+      currentPage: pE, 
+      totalItems: totalItems 
+    }">
         <td>{{ client.name }} {{ client.lastName }}</td>
         <td>{{ client.dni }}</td>
         <td>{{ client.email }}</td>
@@ -45,135 +50,209 @@
         </td>
       </tr>
     </tbody>
-    <pagination-controls id="ending" (pageChange)="pE = $event"></pagination-controls>
+    <pagination-controls 
+    id="ending" 
+    (pageChange)="onPageChange($event)"
+    previousLabel="Anterior"
+    nextLabel="Siguiente">
+</pagination-controls>
   </table>
 </div>
 
-    <div class="modal" [class.show]="isModalOpen">
-    <div class="modal-content">
+   <div class="modal" [class.show]="isModalOpen">
+  <div class="modal-content">
 
-      <h2 *ngIf="!editingClient">Registrar Cliente</h2>
-      <h2 *ngIf="editingClient">Editar Cliente</h2>
+    <h2 *ngIf="!editingClient">Registrar Cliente</h2>
+    <h2 *ngIf="editingClient">Editar Cliente</h2>
 
+    <div class="tabs-nav" *ngIf="editingClient">
+      <button 
+        [class.active]="activeTab === 'general'" 
+        (click)="switchTab('general')"
+        type="button">
+        Datos Generales
+      </button>
+      <button 
+        [class.active]="activeTab === 'plan'" 
+        (click)="switchTab('plan')"
+        type="button">
+        Plan e Historial
+      </button>
+    </div>
+
+    <div *ngIf="!editingClient || activeTab === 'general'">
       <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
         <div class="user-info">
-      <div>
-        <label>Nombre*</label>
-        <input type="text" [(ngModel)]="formData.name" name="name" required>
-      </div>
+          <div>
+            <label>Nombre*</label>
+            <input type="text" [(ngModel)]="formData.name" name="name" required>
+          </div>
 
-      <div>
-        <label>Apellido*</label>
-        <input type="text" [(ngModel)]="formData.lastName" name="lastName" required>
-      </div>
+          <div>
+            <label>Apellido*</label>
+            <input type="text" [(ngModel)]="formData.lastName" name="lastName" required>
+          </div>
 
-      <div>
-        <label>Email*</label>
-        <input
-        type="email"
-        [(ngModel)]="formData.email"
-        name="email"
-        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
-        #emailInput="ngModel"
-        required>
-        <p class="error" *ngIf="emailInput.invalid && emailInput.touched">
-          <span *ngIf="emailInput.errors?.['pattern']">Formato de correo inválido</span>
-        </p>
-      </div>
+          <div>
+            <label>Email*</label>
+            <input type="email" [(ngModel)]="formData.email" name="email"
+              pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" #emailInput="ngModel" required>
+            <p class="error" *ngIf="emailInput.invalid && emailInput.touched">
+              <span *ngIf="emailInput.errors?.['pattern']">Formato de correo inválido</span>
+            </p>
+          </div>
 
-      <div>
-        <label>DNI*</label>
-        <input type="tel"
-        required
-        name="dni"
-        [(ngModel)]="formData.dni"
-        pattern="[0-9]{8}"
-        (keypress)="allowOnlyNumbers($event)"
-        #dni="ngModel">
-        <div class="error" *ngIf="dni.invalid && dni.touched">El DNI debe tener exactamente 8 dígitos</div>
-        <div *ngIf="dniError">{{ dniError }}</div>
-      </div>
-      
-      <div>
-        <label>Fecha de nacimiento*</label>
-        <input class="dateInput"
-        type="date"
-        name="birthday"
-        required
-        [(ngModel)]="formData.birthday"
-        (ngModelChange)="validateBirthday()">
-        <div class="error" *ngIf="birthdayError">{{ birthdayError }}</div>
-      </div>
+          <div>
+            <label>DNI*</label>
+            <input type="tel" required name="dni" [(ngModel)]="formData.dni" pattern="[0-9]{8}"
+              (keypress)="allowOnlyNumbers($event)" #dni="ngModel">
+            <div class="error" *ngIf="dni.invalid && dni.touched">El DNI debe tener exactamente 8 dígitos</div>
+            <div *ngIf="dniError">{{ dniError }}</div>
+          </div>
 
-      <div *ngIf="!editingClient">
-        <label>Contraseña*</label>
-        <input type="password" [(ngModel)]="formData.password" name="password" required>
-      </div>
+          <div>
+            <label>Fecha de nacimiento*</label>
+            <input class="dateInput" type="date" name="birthday" required [(ngModel)]="formData.birthday"
+              (ngModelChange)="validateBirthday()">
+            <div class="error" *ngIf="birthdayError">{{ birthdayError }}</div>
+          </div>
 
-     <div class="form-group" *ngIf="editingClient">
-      <label>Disciplinas*</label>
+          <div *ngIf="!editingClient">
+            <label>Contraseña*</label>
+            <input type="password" [(ngModel)]="formData.password" name="password" required>
+          </div>
 
-      <label *ngFor="let d of allDisciplines" class="checkbox-item custom-checkbox">
-        <input 
-          type="checkbox"
-          [value]="d.id"
-          [checked]="formData.disciplinesIds?.includes(d.id)"
-          (change)="toggleDiscipline(d.id!, $event)"
-        />
-        <span class="checkmark"></span>
-        {{ d.name }}
-      </label>
-    </div>
+          <div class="form-group" *ngIf="editingClient">
+            <label>Disciplinas*</label>
+            <label *ngFor="let d of allDisciplines" class="checkbox-item custom-checkbox">
+              <input type="checkbox" [value]="d.id" [checked]="formData.disciplinesIds?.includes(d.id)"
+                (change)="toggleDiscipline(d.id!, $event)" />
+              <span class="checkmark"></span>
+              {{ d.name }}
+            </label>
+          </div>
 
+          <div>
+            <label>Telefono*</label>
+            <input required name="phoneNumber" type="tel" [(ngModel)]="formData.phoneNumber" pattern="[0-9]{9}"
+              (keypress)="allowOnlyNumbers($event)" #phoneNumber="ngModel">
+            <div class="error" *ngIf="phoneNumber.invalid && phoneNumber.touched">El numero telefonico debe tener exactamente 9 dígitos</div>
+          </div>
 
+          <div>
+            <label>Sexo*</label>
+            <select id="sex_select" [(ngModel)]="formData.sex" name="sex" required>
+              <option value="" disabled selected>Selecciona tu sexo</option>
+              <option value="Femenino">Femenino</option>
+              <option value="Masculino">Masculino</option>
+            </select>
+          </div>
 
+          <div>
+            <label>País</label>
+            <input type="text" [(ngModel)]="formData.country" name="country">
+          </div>
 
-      <div>
-        <label>Telefono*</label>
-        <input
-        required
-        name="phoneNumber" 
-        type="tel" 
-        [(ngModel)]="formData.phoneNumber" 
-        pattern="[0-9]{9}"
-        (keypress)="allowOnlyNumbers($event)"
-        #phoneNumber="ngModel">
-        <div class="error" *ngIf="phoneNumber.invalid && phoneNumber.touched">El numero telefonico debe tener exactamente 9 dígitos</div>
-      </div>
+          <div>
+            <label>Ciudad</label>
+            <input type="text" [(ngModel)]="formData.city" name="city">
+          </div>
 
-      <div>
-        <label>Sexo*</label>
-        <select id="sex_select" [(ngModel)]="formData.sex" name="sex" required>
-          <option value="" disabled selected>Selecciona tu sexo</option>
-          <option value="Femenino">Femenino</option>
-          <option value="Masculino">Masculino</option>
-        </select>
-      </div>
-
-      <div>
-        <label>País</label>
-        <input type="text" [(ngModel)]="formData.country" name="country">
-      </div>
-
-      <div>
-        <label>Ciudad</label>
-        <input type="text" [(ngModel)]="formData.city" name="city">
-      </div>
-
-      <div>
-        <label>Dirección</label>
-        <input type="text" [(ngModel)]="formData.address" name="address">
-      </div>
+          <div>
+            <label>Dirección</label>
+            <input type="text" [(ngModel)]="formData.address" name="address">
+          </div>
         </div>
-        
+
         <div class="modal-actions">
-          <button type="submit" class="btn-primary" [disabled]="registerForm.invalid">{{ editingClient ? 'Actualizar' : 'Registrar' }}</button>
+          <button type="submit" class="btn-primary" [disabled]="registerForm.invalid">
+            {{ editingClient ? 'Actualizar' : 'Registrar' }}
+          </button>
           <button type="button" class="btn-secondary" (click)="closeModal()">Cancelar</button>
         </div>
-        
       </form>
     </div>
+
+    <div *ngIf="editingClient && activeTab === 'plan'" class="tab-plan-container">
+      
+      <div class="current-plan-section">
+        <h3>Plan Actual: <span style="color: green;">{{ editingClient!.plan?.name || 'Sin Plan' }}</span></h3>
+        <p *ngIf="editingClient!.plan">
+            Vence: {{ editingClient!.subscriptionEnd | date:'dd/MM/yyyy' }}
+        </p>
+
+        <div class="assign-box" style="background: #f9f9f9; padding: 15px; border-radius: 8px; margin-top: 10px;">
+            <label style="display:block; margin-bottom: 5px; font-weight: bold;">Asignar Plan Manualmente:</label>
+            <div style="display: flex; gap: 10px;">
+                <select [(ngModel)]="selectedPlanId" style="flex: 1;">
+                    <option [ngValue]="null">Seleccionar Plan...</option>
+                    <option *ngFor="let p of availablePlans" [ngValue]="p.id">
+                        {{ p.name }} ({{ p.duration }} días) - S/{{ p.price }}
+                    </option>
+                </select>
+                <select [(ngModel)]="selectedPaymentMethod" style="flex: 1; min-width: 120px;">
+                    <option [ngValue]="null">Método de Pago...</option>
+                    <option *ngFor="let method of paymentMethods" [value]="method">
+                        {{ method }}
+                    </option>
+                </select>
+                <button class="btn-primary" (click)="assignPlan()" [disabled]="!selectedPlanId">
+                    Asignar
+                </button>
+            </div>
+            <small style="color: #666; display: block; margin-top: 5px;">
+              ⚠️ Al asignar, se activará hoy y la fecha fin se calculará automáticamente.
+            </small>
+        </div>
+      </div>
+
+      <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+
+      <div class="history-section">
+  <h3>Historial de Planes</h3>
+    <div style="overflow-x: auto;">
+      <table class="clients-table" style="width: 100%; font-size: 0.9em;">
+        <thead>
+            <tr>
+                <th>Plan</th>
+                <th>Inicio</th>
+                <th>Fin</th>
+                <th>Pago</th> <th>Asignado el</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let h of clientHistory">
+                <td>{{ h.planName }}</td>
+                <td>{{ h.startDate | date:'dd/MM/yy' }}</td>
+                <td>{{ h.endDate | date:'dd/MM/yy' }}</td>
+                
+                <td>
+                    <span [ngClass]="{
+                        'badge-mp': h.paymentMethod === 'MERCADO_PAGO',
+                        'badge-cash': h.paymentMethod === 'EFECTIVO',
+                        'badge-wallet': h.paymentMethod === 'YAPE/PLIN'
+                    }">
+                        {{ h.paymentMethod || 'N/A' }}
+                    </span>
+                </td>
+
+                <td>{{ h.assignedAt | date:'short' }}</td>
+            </tr>
+            <tr *ngIf="clientHistory.length === 0">
+                <td colspan="5" style="text-align: center; padding: 10px;">No hay historial disponible.</td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
+
+      <div class="modal-actions">
+         <button type="button" class="btn-secondary" (click)="closeModal()">Cerrar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 
     <div class="modal" [class.show]="isModalViewOpen">
     <div class="modal-content">

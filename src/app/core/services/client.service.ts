@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Client, ClientRegisterNewDTO, ClientSubscriptionEndedDTO, RegisterRequest } from '../models/auth.model';
 import { map, Observable } from 'rxjs';
 import { ClientClassDTO, ClientEndingSoon, ClientPlanInfo } from '../models/class.model';
@@ -26,6 +26,26 @@ export class ClientService {
   updateClient(dni: string, dto: Partial<RegisterRequest>): Observable<Client> {
     return this.http.patch<Client>(`${this.clientUrl}/client/${dni}`, dto, { headers: this.getAuthHeaders() });
   }
+
+  assignPlanToClient(clientId: number, planId: number, paymentMethod: string): Observable<void> {
+  
+    const params = new HttpParams().set('paymentMethod', paymentMethod);
+    
+    return this.http.post<void>(
+        `${this.clientUrl}/${clientId}/assign-plan/${planId}`, 
+        {}, 
+        {   
+            headers: this.getAuthHeaders(), 
+            params: params 
+        }
+    );
+  }
+
+getClientHistory(clientId: number): Observable<any[]> {
+  return this.http.get<any[]>(`${this.clientUrl}/${clientId}/history`, { headers: this.getAuthHeaders() });
+}
+
+
 
   deleteClient(dni: string): Observable<void> {
     return this.http.delete<void>(`${this.clientUrl}/client/${dni}`, { headers: this.getAuthHeaders() });

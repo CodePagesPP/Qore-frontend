@@ -416,3 +416,86 @@ input:checked + .slider:before {
   color: white !important;
   border-radius: 4px;
 }
+
+
+.tabs-nav {
+  display: flex;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #eee;
+}
+
+.tabs-nav button {
+  background: none;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #666;
+  border-bottom: 3px solid transparent;
+}
+
+.tabs-nav button.active {
+  color: #007bff; /* Tu color primario */
+  border-bottom: 3px solid #007bff;
+}
+
+.tab-plan-container {
+    padding: 10px;
+}
+
+.highlight {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.assign-box {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+.assign-controls {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 0.9em;
+}
+
+.history-table th, .history-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.history-table th {
+    background-color: #f2f2f2;
+}
+
+.badge-mp {
+    background-color: #009ee3;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.85em;
+}
+.badge-cash {
+    background-color: #28a745;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.85em;
+}
+.badge-wallet {
+    background-color: #6f42c1;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.85em;
+}

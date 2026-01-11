@@ -44,7 +44,7 @@
           {{ day | date:'E d/M' | uppercase }} 
         </div>
         <div class="classes-list">
-          <div *ngFor="let clase of getClassesForDay(day)" class="class-card" >
+          <div *ngFor="let clase of getClassesForDay(day); trackBy: trackByFn" class="class-card" >
             <div class="class-title">{{ clase.name }}</div>
             <div class="class-instructor">{{ getInstructorName(clase.instructorId) }}</div> 
             <div class="class-details">
@@ -59,13 +59,12 @@
                 <i class="fa-solid fa-user-group"></i>
               </button>
               <span 
-                [class.full]="(clase.clientIds?.length || 0) === clase.capacity"
-                [class.almost-full]="
-                  (clase.clientIds?.length || 0) >= clase.capacity * 0.8 &&
-                  (clase.clientIds?.length || 0) < clase.capacity
-                "
-              >
-                {{ clase.clientIds?.length || 0 }}/{{ clase.capacity }}
+                  [class.full]="(clase.currentCount || 0) === clase.capacity"
+                  [class.almost-full]="
+                      (clase.currentCount || 0) >= clase.capacity * 0.8 &&
+                      (clase.currentCount || 0) < clase.capacity
+                  ">
+                  {{ clase.currentCount || 0 }}/{{ clase.capacity }}
               </span>
 
               <button class="icon-btn" *ngIf="clase.estado === 'DICTADA'" (click)="openModal(clase)">
