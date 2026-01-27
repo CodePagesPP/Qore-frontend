@@ -12,7 +12,7 @@ export class ClientService {
   private clientUrl = `${environment.apiUrl}/client`;
   private adminUrl = `${environment.apiUrl}/admin`;
   private tokenKey = 'token'
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem(this.tokenKey);
@@ -27,23 +27,25 @@ export class ClientService {
     return this.http.patch<Client>(`${this.clientUrl}/client/${dni}`, dto, { headers: this.getAuthHeaders() });
   }
 
-  assignPlanToClient(clientId: number, planId: number, paymentMethod: string): Observable<void> {
-  
-    const params = new HttpParams().set('paymentMethod', paymentMethod);
-    
+  assignPlanToClient(clientId: number, planId: number, paymentMethod: string, discount: number): Observable<void> {
+
+    let params = new HttpParams()
+      .set('paymentMethod', paymentMethod)
+      .set('discount', discount.toString());
+
     return this.http.post<void>(
-        `${this.clientUrl}/${clientId}/assign-plan/${planId}`, 
-        {}, 
-        {   
-            headers: this.getAuthHeaders(), 
-            params: params 
-        }
+      `${this.clientUrl}/${clientId}/assign-plan/${planId}`,
+      {},
+      {
+        headers: this.getAuthHeaders(),
+        params: params
+      }
     );
   }
 
-getClientHistory(clientId: number): Observable<any[]> {
-  return this.http.get<any[]>(`${this.clientUrl}/${clientId}/history`, { headers: this.getAuthHeaders() });
-}
+  getClientHistory(clientId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.clientUrl}/${clientId}/history`, { headers: this.getAuthHeaders() });
+  }
 
 
 
@@ -84,24 +86,32 @@ getClientHistory(clientId: number): Observable<any[]> {
   }
 
   getClientPlanInfo(id: number): Observable<ClientPlanInfo> {
-  return this.http.get<ClientPlanInfo>(`${this.clientUrl}/${id}/plan-info`, { headers: this.getAuthHeaders() });
-}
+    return this.http.get<ClientPlanInfo>(`${this.clientUrl}/${id}/plan-info`, { headers: this.getAuthHeaders() });
+  }
 
-getMyClasses(): Observable<ClientClassDTO[]> {
-  return this.http.get<ClientClassDTO[]>(`${this.clientUrl}/classes`, { headers: this.getAuthHeaders() });
-}
+  getMyClasses(): Observable<ClientClassDTO[]> {
+    return this.http.get<ClientClassDTO[]>(`${this.clientUrl}/classes`, { headers: this.getAuthHeaders() });
+  }
 
   getClientById(id: string): Observable<Client> {
-  return this.http.get<Client>(`${this.clientUrl}/client/${id}`, { headers: this.getAuthHeaders() });
-}
+    return this.http.get<Client>(`${this.clientUrl}/client/${id}`, { headers: this.getAuthHeaders() });
+  }
 
-updateTrialStatus(clientId: number, completed: boolean) {
-  return this.http.put(
-    `${this.clientUrl}/${clientId}/trial?completed=${completed}`,
-    {}, 
-    { headers: this.getAuthHeaders() }
-  );
-}
+  updateTrialStatus(clientId: number, completed: boolean) {
+    return this.http.put(
+      `${this.clientUrl}/${clientId}/trial?completed=${completed}`,
+      {},
+      { headers: this.getAuthHeaders() }
+    );
+  }
 
+
+  getClientClassesHistoryRange(clientId: number, startDate: string, endDate: string | null): Observable<any[]> {
+    let url = `${this.clientUrl}/${clientId}/classes-history?startDate=${startDate}`;
+    if (endDate) {
+      url += `&endDate=${endDate}`;
+    }
+    return this.http.get<any[]>(url, { headers: this.getAuthHeaders() });
+  }
 
 }

@@ -499,3 +499,29 @@ input:checked + .slider:before {
     border-radius: 4px;
     font-size: 0.85em;
 }
+
+/* Estilo base para el select */
+.attendance-select {
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: white;
+}
+
+/* Colores dinámicos */
+.status-presente {
+    color: #28a745;       /* Verde */
+    border-color: #28a745;
+}
+
+.status-ausente {
+    color: #dc3545;       /* Rojo */
+    border-color: #dc3545;
+}
+
+.status-pendiente {
+    color: #6c757d;       /* Gris */
+    border-color: #6c757d;
+}

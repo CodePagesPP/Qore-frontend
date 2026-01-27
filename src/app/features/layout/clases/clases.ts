@@ -106,6 +106,7 @@ export class Clases {
 
   openAttendance(c: ClassSession) {
     this.currentClass = c;
+    this.showAttendanceModal = true;
 
     this.classService.getClientsByClass(c.id!).subscribe(clients => {
       this.attendanceService.getByClass(c.id!).subscribe(attendances => {
@@ -113,14 +114,15 @@ export class Clases {
         this.attendanceMap = {};
 
         clients.forEach(cli => {
-          const found = attendances.find(a => a.clientId === cli.id);
-          this.attendanceMap[cli.id] = found ? found.status : '';
+          // Usamos '==' por si los IDs vienen como string/number
+          const found = attendances.find(a => a.clientId == cli.id);
+          
+          // ✅ Si no hay registro en BD, visualmente es PENDIENTE
+          this.attendanceMap[cli.id] = found ? found.status : 'PENDIENTE';
         });
-
-        this.showAttendanceModal = true;
       });
     });
-  }
+}
 
 
 
